@@ -45,6 +45,7 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-        FingerprintAuth.isAvailable(function(){alert('FingerprintAuth success')},function(msg){alert('FingerprintAuth fail : '+msg)});
+
+        FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)});
     }
 };
