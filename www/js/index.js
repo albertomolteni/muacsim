@@ -44,8 +44,8 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        if (id == 'deviceready') location.assign('./MUACSIM/tplanner/MyDuties/');
 
-        FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)});
+     //   FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)});
     }
 };

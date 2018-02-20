@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/MUACSIM/tplanner/css/bootstrap.min.css">
+<link rel="stylesheet" href="/MUACSIM/tplanner/css/font-awesome.min.css">
+<script src="/MUACSIM/tplanner/lib/jquery-3.1.1.min.js"></script>
+<script src="/MUACSIM/tplanner/lib/tether.min.js"></script>
+<script src="/MUACSIM/tplanner/lib/bootstrap.min.js"></script>
+<script src="/MUACSIM/tplanner/lib/phonegap.js"></script>
+<script>window.rosterPublished=1525122000000;</script>
+</head>
+<body>
+<div style="border-bottom:2px solid navy;text-align:right;padding:0.4em 1em;"><img src="/MUACSIM/tplanner/img/eurocontrol_logo.png" style="height:3vw;" /></div>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand" href="#">&nbsp;</a>
+	
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="/MUACSIM/tplanner/MyDuties/">My duties</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
+
+<style>
+
+#dutyCalendarTemplate {
+	display: none;
+}
+
+.calendar-row {
+	border-bottom: 1px solid #aaa;
+	padding: 0.8rem 0;
+}
+
+.calendar-row div {
+	text-align: center;
+}
+
+.month-start-banner {
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin: 1rem -15px;
+	height: 10rem;
+}
+
+.dutyBar {
+	width: 100%;
+	height: 2rem;
+	margin-top: 1.4rem;
+	background: #fea;
+	border: 1px solid #fa8;
+}
+
+.swapInProgress {
+	background: repeating-linear-gradient(45deg,transparent,transparent 10px,#fea 10px,#fea 20px);
+}
+
+.dutyBarText {
+	position: absolute;
+	white-space: nowrap;
+	z-index: 999;
+	top: 1.6rem;
+}
+
+
+#swapCardTemplate {
+	display: none;
+}
+@keyframes border-pulsate {
+	0%   { border-color: rgba(  0,   0,   0, .125); }
+	50%  { border-color: rgba(255,   0,   0, .990); }
+	100% { border-color: rgba(  0,   0,   0, .125); }
+}
+.swap-card {
+	margin: 0 -15px 30px -15px;
+	animation: border-pulsate 2s infinite;
+}
+.swap-card .col-sm-3 {
+	text-align: center;
+	font-size: 4em;
+}
+
+.fc-bg .fc-sat,
+.fc-bg .fc-sun {
+	background: #ebebeb;
+}
+
+#viewSelector {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background: white;
+	width: 100vw;
+	z-index: 9999;
+}
+#viewSelector .btn-secondary {
+	width: 50%;
+	border-radius: 0;
+	border-bottom: 0;
+}
+
+</style>
+
+<div class="row" style="margin:0;">
+	<div id="viewSelector">
+		<div class="btn-group" role="group" style="width:100%;">
+			<button type="button" class="btn btn-secondary" style="border-left: 0;">List</button>
+			<button type="button" class="btn btn-secondary" style="border-right:0;">Calendar</button>
+		</div>
+	</div>
+	<div id="calendar1"></div>
+	<div id="calendarContainer" class="col-sm-12">
+		<div id="swapCardTemplate" class="card swap-card">
+			<div class="row">
+				<div class="col-sm-3"><i class="fa fa-refresh"></i></div>
+				<div class="col-sm-9"><div class="card-block"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
+			</div>
+		</div>
+		<div id="dutyCalendarTemplate" class="row calendar-row">
+			<div class="col-sm-3">
+				<div style="font-size:0.8rem;">STR1</div>
+				<div style="font-size:1.8rem;">STR2</div>
+				<div style="font-size:0.8rem;">STR3</div>
+			</div>
+			<div class="col-sm-3" style="padding:0;"></div>
+			<div class="col-sm-3" style="padding:0;"></div>
+			<div class="col-sm-3" style="padding:0;"></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="dutyModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header"><h5 class="modal-title"></h5></div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" style="position:absolute;left:15px;">Swap duty</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="swapModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header"><h5 class="modal-title"></h5></div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" style="position:absolute;left:15px;">Decline</button>
+				<button type="button" class="btn btn-success">Accept</button>
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/MUACSIM/tplanner/lib/fullcalendar/fullcalendar.css">
+<script src="/MUACSIM/tplanner/lib/moment.min.js"></script>
+<script src="/MUACSIM/tplanner/lib/fullcalendar/fullcalendar.js"></script>
+<script src="/MUACSIM/tplanner/modules/MyDuties/js/MyDuties.js"></script>
+</div></div></body></html>
