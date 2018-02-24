@@ -13,7 +13,7 @@ function updateLocalCache()
 	var postParams = null;
 	while (d < rpdo) {
 		postParams = {day:d.toISOString().substring(0,10)};
-		cacheDutyDetails(postParams);
+	//	cacheDutyDetails(postParams);
 		d.setDate(d.getDate() + 1);
 	}
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
@@ -42,7 +42,7 @@ $.vPOST = function(URI,data,callback)
 		data = {authAppUserID:7,authAppAccessLevel:'manager'};
 	}
 	
-	$.post("http://127.0.0.1"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
+	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
 	
 	if (navigator.onLine) {
 		var lclm = window.localStorage.getItem("localCacheLastModified");
