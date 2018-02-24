@@ -13,7 +13,7 @@ function updateLocalCache()
 	var postParams = null;
 	while (d < rpdo) {
 		postParams = {day:d.toISOString().substring(0,10)};
-	//	cacheDutyDetails(postParams);
+		cacheDutyDetails(postParams);
 		d.setDate(d.getDate() + 1);
 	}
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){

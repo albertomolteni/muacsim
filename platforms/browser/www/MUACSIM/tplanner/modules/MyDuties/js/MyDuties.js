@@ -93,7 +93,7 @@ $(document).ready(function(){
 			showDutyDetails($(this).parent().parent().attr("data"),$(this).attr("data-tfrom"),$(this).attr("data-tto"),$(this).parent().parent().find(".swapInProgress").length);
 		});
 		
-		$.post("/MUACSIM/tplanner/modules/MyDuties/server/readOngoingSwaps.php",null,function(resp){
+		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readOngoingSwaps.php",null,function(resp){
 			var response = $.parseJSON(resp);
 			var swapCardTemplate = $("#swapCardTemplate").html();
 			response.out.map(function(swap){
