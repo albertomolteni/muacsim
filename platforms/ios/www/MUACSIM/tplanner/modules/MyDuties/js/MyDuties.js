@@ -59,7 +59,7 @@ $(document).ready(function(){
 		d.setDate(d.getDate() + 1);
 		if (d > rpdo) break;
 		
-		if (d.getDate() == 1) $("#calendarContainer").append('<div class="month-start-banner" style="background-image:url(/MUACSIM/tplanner/img/maastricht_monthly_'+(d.getMonth()+1)+'.jpg);"></div>');
+		if (d.getDate() == 1) $("#calendarContainer").append('<div class="month-start-banner" style="background-image:url(../../../img/maastricht_monthly_'+(d.getMonth()+1)+'.jpg);"></div>');
 		
 		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay() ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
 	}

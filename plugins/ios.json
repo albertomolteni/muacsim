@@ -49,6 +49,9 @@
     "cordova-plugin-touch-id": {
       "FACEID_USAGE_DESCRIPTION": " ",
       "PACKAGE_NAME": "org.eurocontrol.muacsim"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "org.eurocontrol.muacsim"
     }
   },
   "dependent_plugins": {

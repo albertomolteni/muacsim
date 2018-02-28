@@ -407,7 +407,8 @@ module.exports.metadata =
   "cordova-plugin-network-information": "1.3.4",
   "cordova-plugin-vibration": "2.1.6",
   "cordova-plugin-android-fingerprint-auth": "1.4.3",
-  "cordova-plugin-touch-id": "3.3.1"
+  "cordova-plugin-touch-id": "3.3.1",
+  "cordova-plugin-whitelist": "1.3.3"
 };
 // BOTTOM OF METADATA
 });
