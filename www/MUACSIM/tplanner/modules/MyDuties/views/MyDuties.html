@@ -11,7 +11,7 @@
 <script src="../../../lib/tether.min.js"></script>
 <script src="../../../lib/bootstrap.min.js"></script>
 <script src="../../../lib/pg.js"></script>
-<script>window.rosterPublished=1525122000000;</script>
+<script>window.rosterPublished=1530392400000;</script>
 </head>
 <body>
 <div style="border-bottom:2px solid navy;text-align:right;padding:0.4em 1em;"><img src="../../../img/eurocontrol_logo.png" style="height:3vw;" /></div>
@@ -24,6 +24,7 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../MyDuties/views/MyDuties.html">My duties</a></li>
+			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="pilotSummaryTrigger">Pilot hours</a></li>
 		</ul>
 	</div>
 </nav>
@@ -67,10 +68,18 @@
 .dutyBarText {
 	position: absolute;
 	white-space: nowrap;
-	z-index: 999;
+	z-index: 998;
 	top: 1.6rem;
 }
 
+
+hr {
+	border-top: 1px solid black;
+}
+
+.swapping {
+	background: repeating-linear-gradient(45deg,#eee,#eee 20px,#ddd 20px,#ddd 40px) !important;
+}
 
 #swapCardTemplate {
 	display: none;
@@ -100,7 +109,7 @@
 	left: 0;
 	background: white;
 	width: 100vw;
-	z-index: 9999;
+	z-index: 999;
 }
 #viewSelector .btn-secondary {
 	width: 50%;
@@ -122,7 +131,7 @@
 		<div id="swapCardTemplate" class="card swap-card">
 			<div class="row">
 				<div class="col-sm-3"><i class="fa fa-refresh"></i></div>
-				<div class="col-sm-9"><div class="card-block"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
+				<div class="col-sm-9" style="padding:0;"><div class="card-block" style="padding:1.4rem 0;"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
 			</div>
 		</div>
 		<div id="dutyCalendarTemplate" class="row calendar-row">
@@ -165,4 +174,30 @@
 <script src="../../../lib/moment.min.js"></script>
 <script src="../../../lib/fullcalendar/fullcalendar.js"></script>
 <script src="../../../modules/MyDuties/js/MyDuties.js"></script>
+<div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header"><h5 class="modal-title">Summary of pilot hours</h5></div>
+			<div class="modal-body"><table style="width:100%;"><thead><tr><th></th><th>Hours</th><th>Points</th><th>Miles</th></tr></thead><tbody></tbody></table></div>
+			<div class="modal-footer"><button type="button" class="btn" data-dismiss="modal">Close</button></div>
+		</div>
+	</div>
+</div>
+<script>
+$("#pilotSummaryTrigger").on("click",function(){
+	$("#pilotSummaryModal").modal("show");
+	$.post("../../../modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
+		var response = $.parseJSON(resp);
+		var i = 0;
+		$("#pilotSummaryModal table tbody").html('');
+		response.map(function(u){
+			var evenings = 0;
+			if (u.shiftCounts.match(/7:(\d+)/)) evenings += u.shiftCounts.match(/7:(\d+)/)[1]/1;
+			if (u.shiftCounts.match(/9:(\d+)/)) evenings += u.shiftCounts.match(/9:(\d+)/)[1]/1;
+			$("#pilotSummaryModal table tbody").append('<tr'+(i%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+evenings*17.5).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
+			i++;
+		});
+	});
+});
+</script>
 </div></div></body></html>

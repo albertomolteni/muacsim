@@ -1,7 +1,70 @@
-function showDutyDetails(ds,dutyFrom,dutyTo,swapInProgress)
+function readSwapPartnerDuties(inputGroupIndex,partner,partnerID)
 {
-	var d = new Date(ds);
-	$("#dutyModal .modal-title").html(d.toDateString());
+	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readSwapPartnerDuties.php",{partnerID:partnerID,day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
+		var responseP = $.parseJSON(resp);
+		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",      {                    day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
+			var responseS = $.parseJSON(resp);
+			$(".partner-view[data="+inputGroupIndex+"]").remove();
+			$(".input-group.date").eq(inputGroupIndex).after('<div data="'+inputGroupIndex+'" class="row partner-view" style="margin-top:15px;"><div class="col-sm-5"></div><div class="col-sm-2" style="padding:0;"></div><div class="col-sm-5"></div></div>');
+			responseS.map(function(duty){
+				var decimalTime1 = duty['dt_from'].substring(14,16)/60 + duty['dt_from'].substring(11,13)/1;
+				var decimalTime2 = duty['dt_to'  ].substring(14,16)/60 + duty['dt_to'  ].substring(11,13)/1;
+				var prevEnd = $(".partner-view[data="+inputGroupIndex+"] .col-sm-5:first div").length ? $(".partner-view[data="+inputGroupIndex+"] .col-sm-5:first div").attr("data-endTime") : 8;
+				$(".partner-view[data="+inputGroupIndex+"] .col-sm-5").eq(0).append('<div class="swappable" data-eID="'+duty.simeventID+'" data-seuID="'+duty.simevent_userID+'" data-startTime="'+decimalTime1+'" data-endTime="'+decimalTime2+'" style="background:'+duty.bgcolor+';border:3px solid transparent;border-radius:6px;padding:1em;height:'+(30*(decimalTime2-decimalTime1))+'px;margin-top:'+(30*(decimalTime1-prevEnd))+'px;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+'</div>');
+			});
+			responseP.map(function(duty){
+				var decimalTime1 = duty['dt_from'].substring(14,16)/60 + duty['dt_from'].substring(11,13)/1;
+				var decimalTime2 = duty['dt_to'  ].substring(14,16)/60 + duty['dt_to'  ].substring(11,13)/1;
+				var prevEnd = $(".partner-view[data="+inputGroupIndex+"] .col-sm-5:last  div").length ? $(".partner-view[data="+inputGroupIndex+"] .col-sm-5:last  div").attr("data-endTime") : 8;
+				$(".partner-view[data="+inputGroupIndex+"] .col-sm-5").eq(1).append('<div class="swappable" data-eID="'+duty.simeventID+'" data-seuID="'+duty.simevent_userID+'" data-startTime="'+decimalTime1+'" data-endTime="'+decimalTime2+'" style="background:'+duty.bgcolor+';border:3px solid transparent;border-radius:6px;padding:1em;height:'+(30*(decimalTime2-decimalTime1))+'px;margin-top:'+(30*(decimalTime1-prevEnd))+'px;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+'</div>');
+			});
+			$(".partner-view[data="+inputGroupIndex+"]").append('<div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>Me</h5></div><div class="col-sm-1"></div><div class="col-sm-1"></div><div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>'+partner+'</h5></div>');
+			var minMT = 999999;
+			$(".partner-view[data="+inputGroupIndex+"] .swappable:first-child").each(function(){
+				if ($(this).css("margin-top").replace(/px/,'')/1 < minMT) minMT = $(this).css("margin-top").replace(/px/,'')/1;
+			});
+			if (minMT < 999999) $(".partner-view[data="+inputGroupIndex+"]").css("margin-top",15-minMT);
+			$(".partner-view[data="+inputGroupIndex+"] .swappable").on("click",function(){
+					var ad = $(this).parent().prevAll(".col-sm-5").length ? "left" : "right";
+					var mt = $(this).position().top + $(this).css("margin-top").replace(/px/,'')/1 + $(this).height()*0.5 - 12;
+					$(this).parent().parent().find(".col-sm-2").append('<div data-relatedEID="'+$(this).attr("data-eID")+'" style="width:100%;position:absolute;text-align:center;margin-top:'+mt+'px;font-size:30px;"><i class="fa fa-long-arrow-'+ad+'"></i></div>');
+					$(this).css("border","3px dashed "+$(this).css("background-color"));
+					$(this).addClass("swapping");
+			});
+			setTimeout(function(){$("body").trigger("dutyDetailsReady"+inputGroupIndex)},200);
+		});
+	});
+}
+
+function friendlyDate(d)
+{
+	var w = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+	var m = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+	var s = w[d.getDay()] + ' ' + d.getDate();
+	switch (d.getDate()) {
+		case  1:
+		case 21:
+			s = s.concat('<sup>st</sup> ');
+			break;
+		case  2:
+		case 22:
+			s = s.concat('<sup>nd</sup> ');
+			break;
+		case  3:
+		case 23:
+			s = s.concat('<sup>rd</sup> ');
+			break;
+		default:
+			s = s.concat('<sup>th</sup> ');
+			break;
+	}
+	s = s.concat(m[d.getMonth()]) + ' ' + d.getFullYear();
+	return s;
+}
+
+function showDutyDetails(ds,swapInProgress)
+{
+	$("#dutyModal .modal-title").html(friendlyDate(new Date(ds)));
 	$("#dutyModal .modal-body" ).html('');
 	
 	$("#dutyModal .btn-warning").show();
@@ -15,36 +78,51 @@ function showDutyDetails(ds,dutyFrom,dutyTo,swapInProgress)
 		response.map(function(duty){
 			$("#dutyModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 		});
+		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
 		if (swapInProgress) $("#dutyModal .modal-body").append('<div class="card card-inverse" style="background:#666;color:white;"><div class="card-block">Swap request pending</div></div>');
 	});
 	
 	$("#dutyModal .btn-warning").unbind().on("click",function(){
-		location.assign('/MUACSIM/tplanner/MyDuties/Swap?date='+ds.substring(8,10)+'-'+ds.substring(5,7)+'-'+ds.substring(0,4)+'&from='+dutyFrom+'&to='+dutyTo);
+		location.assign('/MUACSIM/tplanner/MyDuties/Swap?date='+ds.substring(8,10)+'-'+ds.substring(5,7)+'-'+ds.substring(0,4));
 	});
 }
 
-function showSwapDetails(ds,dutyswapID,requester,doubleswap,comments)
+function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 {
-	var d = new Date(ds);
-	$("#swapModal .modal-title").html('Swap - ' + d.toDateString());
-	$("#swapModal .modal-body" ).html('');
-	
+	$("#swapModal .modal-title").html('Swapping duties with '+requester);
+	$("#swapModal .modal-body" ).html('<form></form>');
 	$("#swapModal").modal("show");
 	
-	$.post("/MUACSIM/tplanner/modules/MyDuties/server/swapDetails.php",{dutyswapID:dutyswapID},function(resp){
-		var response = $.parseJSON(resp);
-		
-		response.map(function(duty){
-			$("#swapModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'</div>');
+	var swapping = $.parseJSON(atob(json));
+	var days = [];
+	swapping.map(function(swap){if(days.indexOf(swap.day)<0)days.push(swap.day)});
+	
+	days_done = 0;
+	days.map(function(day){
+		var i = $("#swapModal .modal-body form input").length;
+		$("#swapModal .modal-body form").append('<div class="form-group"><div class="input-group date"><input type="text" class="form-control" value="'+day+'"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></div><hr>');
+		$("body").unbind("dutyDetailsReady"+i).on("dutyDetailsReady"+i,function(event){
+			swapping.map(function(swap){
+				if (swap.day == $("#swapModal .modal-body form input").eq(event.type.substring(16,17)).val()) $(".swappable[data-seuID="+swap.simevent_userID+"]").trigger("click");
+			});
+			$(".partner-view[data="+event.type.substring(16,17)+"] .swappable").unbind();
+			days_done++;
+			if (days_done == days.length) $(".input-group").each(function(){
+				$(this).replaceWith('<div style="text-align:center;font-size:20px;">'+friendlyDate(new Date($(this).find("input").val().substring(6,10)/1,$(this).find("input").val().substring(3,5)-1,$(this).find("input").val().substring(0,2)/1,8,0,0))+'</div>');
+			});
 		});
-		
-		if (doubleswap) $("#swapModal .modal-body").append('<p style="font-weight:bold;">This is a double swap - '+requester+' is proposing to take your '+doubleswap+'.</p>');
-		if (comments)   $("#swapModal .modal-body").append('<p>'+requester+' says: '+atob(comments)+'</p>');
+		readSwapPartnerDuties(i,requester,requesterID);
 	});
 	
-	$("#swapModal .btn-danger" ).unbind().on("click",function(){$.post("/MUACSIM/tplanner/modules/MyDuties/server/swapAcceptDecline.php",{dutyswapID:dutyswapID,status:'DECLINED'},function(){location.reload()})});
-	$("#swapModal .btn-success").unbind().on("click",function(){$.post("/MUACSIM/tplanner/modules/MyDuties/server/swapAcceptDecline.php",{dutyswapID:dutyswapID,status:'AGREED'  },function(){location.reload()})});
+	if (comments) {
+		$("#swapModal .modal-body").append('<p>'+requester+' says: '+atob(comments)+'</p>');
+	} else {
+		$("hr").last().remove();
+	}
+	
+	$("#swapModal .btn-danger" ).unbind().on("click",function(){$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/swapAcceptDecline.php",{dutyswapID:dutyswapID,status:'DECLINED'},function(){location.reload()})});
+	$("#swapModal .btn-success").unbind().on("click",function(){$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/swapAcceptDecline.php",{dutyswapID:dutyswapID,status:'AGREED'  },function(){location.reload()})});
 }
 
 $(document).ready(function(){
@@ -85,27 +163,31 @@ $(document).ready(function(){
 			var textDIVwidth = 0;
 			$targets.find(".dutyBar").each(function(){textDIVwidth += $(this).width()});
 			
-			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div data-tfrom="'+duty.t_from.substring(0,5)+'" data-tto="'+duty.t_to.substring(0,5)+'" class="dutyBarText" style="width:'+textDIVwidth+'px;">'+duty.name+'</div>');
+			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+duty.name+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
 		});
 		
 		$(".dutyBarText").on("click",function(){
-			showDutyDetails($(this).parent().parent().attr("data"),$(this).attr("data-tfrom"),$(this).attr("data-tto"),$(this).parent().parent().find(".swapInProgress").length);
+			showDutyDetails($(this).parent().parent().attr("data"),$(this).parent().parent().find(".swapInProgress").length);
 		});
 		
 		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readOngoingSwaps.php",null,function(resp){
 			var response = $.parseJSON(resp);
 			var swapCardTemplate = $("#swapCardTemplate").html();
 			response.out.map(function(swap){
-				$(".calendar-row[data="+swap.day+"] .dutyBar").addClass("swapInProgress");
+					var days = [];
+					$.parseJSON(swap.json).map(function(swap_e){if(days.indexOf(swap_e.day.replace(/^(\d\d)-(\d\d)-(20\d\d)$/,'$3-$2-$1'))<0)days.push(swap_e.day.replace(/^(\d\d)-(\d\d)-(20\d\d)$/,'$3-$2-$1'))});
+					days.map(function(day){$(".calendar-row[data="+day+"] .dutyBar").addClass("swapInProgress")});
 			});
 			response.in.map(function(swap){
 				if (swap.status == 'REQUESTED') {
-					$("#calendarContainer").prepend('<div data-ds="' + swap.day + '" data-dutyswapID="' + swap.dutyswapID + '" data-requester="' + swap.name + '" data-doubleswap="' + (swap.doubleSwap/1?$(".calendar-row[data="+swap.day+"] .dutyBarText").html():'') + '" data-comments="' + btoa(swap.comments) + '" class="card swap-card">' + swapCardTemplate.replace(/STR1/,swap.name+' wants to swap '+swap.t_from.substring(0,5)+' - '+swap.t_to.substring(0,5)+' on '+swap.day.substring(8)+'-'+swap.day.substring(5,7)+'-'+swap.day.substring(0,4)) + '</div>');
+					var days = [];
+					$.parseJSON(swap.json).map(function(swap_e){if(days.indexOf(swap_e.day.substring(0,5))<0)days.push(swap_e.day.substring(0,5))});
+					$("#calendarContainer").prepend('<div data-dutyswapID="' + swap.dutyswapID + '" data-requester="' + swap.name + '" data-requesterID="' + swap.requesting + '" data-json="' + btoa(swap.json) + '" data-comments="' + btoa(swap.comments) + '" class="card swap-card">' + swapCardTemplate.replace(/STR1/,swap.name+' wants to swap on '+days.join(', ').replace(/, (\d\d-\d\d)$/,' and $1')));
 				}
 			});
 			$(".swap-card").on("click",function(){
-				showSwapDetails($(this).attr("data-ds"),$(this).attr("data-dutyswapID"),$(this).attr("data-requester"),$(this).attr("data-doubleswap"),$(this).attr("data-comments"));
+				showSwapDetails($(this).attr("data-dutyswapID"),$(this).attr("data-requester"),$(this).attr("data-requesterID"),$(this).attr("data-json"),$(this).attr("data-comments"));
 			});
 		});
 		
@@ -139,7 +221,7 @@ $(document).ready(function(){
 		$("#calendar1").fullCalendar({
 			events              : ev2,
 			selectable          : false,
-			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,calEvent.t_from.substring(0,5),calEvent.t_to.substring(0,5),$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
+			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
 			viewRender          : function(){setTimeout(function(){if(window.innerWidth<768)$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',

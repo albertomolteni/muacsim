@@ -50,7 +50,7 @@ $.vPOST = function(URI,data,callback)
 			window.localStorage.setItem("localCacheLastModified",0);
 			setTimeout(updateLocalCache,5000);
 		} else {
-			if (lclm>0 && Date.now()-lclm>43200000) {
+			if (lclm>0 && Date.now()-lclm>21600000) {
 				setTimeout(updateLocalCache,5000);
 			}
 		}
