@@ -126,7 +126,7 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 }
 
 $(document).ready(function(){
-	rpdo  = new Date(window.rosterPublished);
+	rpdo  = new Date(window.localStorage.getItem("rosterPublished"));
 	var d = new Date();
 	d.setHours(4);
 	d.setDate(d.getDate() - 1);
