@@ -148,7 +148,7 @@ $(document).ready(function(){
 		});
 		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveSwap.php",{swapWith:$("#swapWith").val(),json:JSON.stringify(swapping),comments:btoa($("#swapComments").val())},function(){
 			$(".btn-success").parent().parent().parent().html('<div style="font-size:2em;font-weight:bold;text-align:center;padding-top:4em;">Swap request saved successfully</div>');
-			setTimeout(function(){location.assign('./MyDuties/')},3000);
+			setTimeout(function(){location.assign('./MyDuties.html')},3000);
 		});
 	});
 });
