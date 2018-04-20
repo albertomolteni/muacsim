@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta http-equiv="Content-Security-Policy" content="data: 'unsafe-inline'; connect-src * 'unsafe-inline';" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<script src="../../../lib/jquery-3.1.1.min.js"></script>
+<script src="../../../lib/tether.min.js"></script>
+<script src="../../../lib/bootstrap.min.js"></script>
+<script src="../../../lib/pg.js"></script>
+<script src="http://albertomolteni.altervista.org/config.js"></script>
+</head>
+<body>
+<div style="border-bottom:2px solid navy;text-align:right;padding:0.4em 1em;"><img src="../../../img/eurocontrol_logo.png" style="height:3vw;" /></div>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand" href="#">&nbsp;</a>
+	
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../MyDuties/views/MyDuties.html">My duties</a></li>
+			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="pilotSummaryTrigger">Pilot hours</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
+
+<script>pquals='[{"userID":"9","self":"","quals":"Pilot,Hybrid HANN,Hybrid DECO"},{"userID":"10","self":"","quals":"Hybrid HANN,Pilot"},{"userID":"11","self":"","quals":"Hybrid DECO,Pilot"},{"userID":"12","self":"","quals":"Hybrid DECO,Pilot"},{"userID":"13","self":"","quals":"Hybrid DECO,Pilot"},{"userID":"14","self":"","quals":"Hybrid HANN,Pilot"},{"userID":"15","self":"","quals":"Hybrid BRU,Pilot"},{"userID":"16","self":"","quals":"Hybrid HANN,Hybrid BRU,Pilot"},{"userID":"17","self":"","quals":"Hybrid BRU,Pilot"},{"userID":"18","self":"","quals":"Hybrid BRU,Pilot"},{"userID":"19","self":"","quals":"Pilot"},{"userID":"20","self":"","quals":"Pilot"},{"userID":"21","self":"","quals":"Pilot"}]'</script><link rel="stylesheet" href="../../../lib/bootstrap-datepicker/bootstrap-datepicker3.min.css">
+<style>
+
+hr {
+	border-top: 1px solid black;
+}
+
+.swapping {
+	background: repeating-linear-gradient(45deg,#eee,#eee 20px,#ddd 20px,#ddd 40px) !important;
+}
+
+@keyframes noswap-flash {
+	0%   { opacity: 0; }
+	50%  { opacity: 1; }
+	100% { opacity: 0; }
+}
+.isExtra div,
+.criticalHybrid div {
+	animation: noswap-flash 1s infinite;
+}
+
+#swapComments {
+	min-height: 20vh;
+}
+
+#submitButton {
+	width: 100%;
+	margin-top: 2rem;
+}
+
+</style>
+
+<div class="row" style="margin:0;">
+	<div class="col-sm-12">
+		<form>
+			<div class="form-group">
+				<label>Swap with colleague:</label>
+				<div class="input-group">
+					<select class="form-control" id="swapWith">
+						<option value="9">Anouska Vaesen</option>
+						<option value="10">Sonja Otte</option>
+						<option value="11">Debby Deuss</option>
+						<option value="12">Bianca Kamoen</option>
+						<option value="13">Rene Leander</option>
+						<option value="14">Kris Motmans</option>
+						<option value="15">Daan Koene</option>
+						<option value="16">Wendy Stevens</option>
+						<option value="17">Frank Opteijnde</option>
+						<option value="18">Ronny Nijssen</option>
+						<option value="19">Saskia Ritzen</option>
+						<option value="20">Kim Haagmans</option>
+						<option value="21">Gaby Gerritsen</option>
+					</select>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<label>Date:</label>
+				<div class="input-group date">
+					<input type="text" class="form-control"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<button type="button" id="moreDatesButton" class="btn" style="width:100%;">more dates</button>
+			</div>
+			<hr>
+			<div class="form-group">
+				<label>Reason for change:</label>
+				<div class="input-group">
+					<textarea id="swapComments" class="form-control"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" id="submitButton" class="btn btn-success" disabled>Request swap</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="../../../lib/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="../../../modules/MyDuties/js/Swap.js"></script>
+<div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header"><h5 class="modal-title">Summary of pilot hours</h5></div>
+			<div class="modal-body"><table style="width:100%;"><thead><tr><th></th><th>Hours</th><th>Points</th><th>Miles</th></tr></thead><tbody></tbody></table></div>
+			<div class="modal-footer"><button type="button" class="btn" data-dismiss="modal">Close</button></div>
+		</div>
+	</div>
+</div>
+<script>
+$("#pilotSummaryTrigger").on("click",function(){
+	$("#pilotSummaryModal").modal("show");
+	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
+		var response = $.parseJSON(resp);
+		var i = 0;
+		$("#pilotSummaryModal table tbody").html('');
+		response.map(function(u){
+			var evenings = 0;
+			if (u.shiftCounts.match(/7:(\d+)/)) evenings += u.shiftCounts.match(/7:(\d+)/)[1]/1;
+			if (u.shiftCounts.match(/9:(\d+)/)) evenings += u.shiftCounts.match(/9:(\d+)/)[1]/1;
+			$("#pilotSummaryModal table tbody").append('<tr'+(i%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+evenings*17.5).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
+			i++;
+		});
+	});
+});
+</script>
+</div></div></body></html>

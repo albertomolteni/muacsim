@@ -186,7 +186,7 @@ hr {
 <script>
 $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
-	$.post("../../../modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
+	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 		var response = $.parseJSON(resp);
 		var i = 0;
 		$("#pilotSummaryModal table tbody").html('');

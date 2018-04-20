@@ -84,7 +84,7 @@ function showDutyDetails(ds,swapInProgress)
 	});
 	
 	$("#dutyModal .btn-warning").unbind().on("click",function(){
-		location.assign('/MUACSIM/tplanner/MyDuties/Swap?date='+ds.substring(8,10)+'-'+ds.substring(5,7)+'-'+ds.substring(0,4));
+		location.assign('./Swap?date='+ds.substring(8,10)+'-'+ds.substring(5,7)+'-'+ds.substring(0,4));
 	});
 }
 
