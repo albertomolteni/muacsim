@@ -36,10 +36,10 @@ function retrieveFromCache(URI,data,callback)
 $.vPOST = function(URI,data,callback)
 {
 	if (data) {
-		data.authAppUserID      = 7;
-		data.authAppAccessLevel = 'manager';
+		data.authAppUserID      = 21;
+		data.authAppAccessLevel = 'pilot';
 	} else {
-		data = {authAppUserID:7,authAppAccessLevel:'manager'};
+		data = {authAppUserID:21,authAppAccessLevel:'pilot'};
 	}
 	
 	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
