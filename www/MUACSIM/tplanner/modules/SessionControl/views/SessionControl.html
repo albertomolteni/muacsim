@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta http-equiv="Content-Security-Policy" content="data: 'unsafe-inline'; connect-src * 'unsafe-inline';" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<script src="../../../lib/jquery-3.1.1.min.js"></script>
+<script src="../../../lib/tether.min.js"></script>
+<script src="../../../lib/bootstrap.min.js"></script>
+<script src="../../../lib/pg.js"></script>
+</head>
+<body>
+<div style="border-bottom:2px solid navy;text-align:right;padding:0.4em 1em;"><img src="../../../img/eurocontrol_logo.png" style="height:3vw;" /></div>
+<div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
+
+<style>
+
+.btn {
+	width: 100%;
+	margin-top: 4rem;
+}
+
+</style>
+<div class="row" style="margin:0;">
+	<div class="col-sm-12 login-option">
+		<p style="text-align:center;margin-top:6rem;">Attempting to log in, please wait ...</p>
+	</div>
+	<div class="col-sm-12 login-option" style="display:none;">
+		<form>
+			<div class="form-group" style="margin-top:6rem;">
+				<label>Username:</label>
+				<div class="input-group">
+					<input type="text" class="form-control" id="username">
+				</div>
+			</div>
+			<div class="form-group" style="margin-top:2rem;">
+				<label>Password:</label>
+				<div class="input-group date">
+					<input type="password" class="form-control" id="passwd">
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn">Login</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script src="../../../modules/SessionControl/js/SessionControl.js"></script>
+</div></div></body></html>
