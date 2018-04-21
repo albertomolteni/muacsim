@@ -36,10 +36,10 @@ function retrieveFromCache(URI,data,callback)
 $.vPOST = function(URI,data,callback)
 {
 	if (data) {
-		data.authAppUserID      = 21;
-		data.authAppAccessLevel = 'pilot';
+		data.authAppUserID      = document.cookie.match(/authAppUserID=(\d+)/)[1]/1;
+		data.authAppAccessLevel = document.cookie.match(/authAppAccessLevel=(\w+)/)[1];
 	} else {
-		data = {authAppUserID:21,authAppAccessLevel:'pilot'};
+		data = {authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]};
 	}
 	
 	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
