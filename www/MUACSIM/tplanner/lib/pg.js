@@ -28,8 +28,10 @@ function retrieveFromCache(URI,data,callback)
 	if (localStorageKey != 'MyDuties/readMyDuties') localStorageKey += '__' + JSON.stringify(data);
 	if (window.localStorage.getItem(localStorageKey)) {
 		callback(window.localStorage.getItem(localStorageKey));
+		return true;
 	} else {
-		alert('retrieveFromCache FAIL\n\n'+localStorageKey);
+		console.log('retrieveFromCache FAIL\n\n'+localStorageKey);
+		return false;
 	}
 }
 
@@ -40,6 +42,12 @@ $.vPOST = function(URI,data,callback)
 		data.authAppAccessLevel = document.cookie.match(/authAppAccessLevel=(\w+)/)[1];
 	} else {
 		data = {authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]};
+	}
+	
+	if (window.localStorage.getItem("localCacheLastModified")) {
+		if (Date.now()-window.localStorage.getItem("localCacheLastModified")<21600000) {
+			if (retrieveFromCache(URI,data,callback)) return true;
+		}
 	}
 	
 	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
