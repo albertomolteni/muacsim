@@ -45,7 +45,5 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         if (id == 'deviceready') location.assign('./MUACSIM/tplanner/modules/MyDuties/views/MyDuties.html');
-
-     //   FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)});
     }
 };

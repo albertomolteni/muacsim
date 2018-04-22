@@ -1,17 +1,19 @@
+fastLogins = {bbrands:"1,manager",amolteni:"7,manager"};
+
 function enableFingerprintAuth()
 {
 	FingerprintAuth.encrypt({clientId:"muacsim"},function(){
-		window.localStorage.setItem("FingerprintAuthData","21,pilot");
-		setCookieAndRedirect();
+		window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+		setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
 	},function(msg){});
 }
 
-function setCookieAndRedirect()
+function setCookieAndRedirect(s)
 {
 	var d = new Date();
-	d.setTime(d.getTime() + 60123);
-	document.cookie = "authAppUserID=21;expires=" + d.toUTCString() + ";path=/";
-	document.cookie = "authAppAccessLevel=pilot;expires=" + d.toUTCString() + ";path=/";
+	d.setTime(d.getTime() + 30123);
+	document.cookie = "authAppUserID="      + s.split(',')[0] + ";expires=" + d.toUTCString() + ";path=/";
+	document.cookie = "authAppAccessLevel=" + s.split(',')[1] + ";expires=" + d.toUTCString() + ";path=/";
 	location.assign('../../MyDuties/views/MyDuties.html');
 }
 
@@ -23,7 +25,7 @@ function readLoginResult()
 				$("#loginButton").prop("disabled",false);
 				alert('Sorry, wrong username or password.');
 			} else {
-				FingerprintAuth.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect()});
+				FingerprintAuth.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 			}
 		} else {
 			setTimeout(readLoginResult,1000);
@@ -32,7 +34,6 @@ function readLoginResult()
 }
 
 $(document).ready(function(){
-		document.addEventListener("deviceready",function(){FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)})},false);
 	$("#username").focus();
 	$("input").on("keyup",function(e){
 		if (e.which == 13) $("#loginButton").trigger("click");
@@ -45,9 +46,9 @@ $(document).ready(function(){
 	});
 	
 	$("#fastLoginModal .btn-success").on("click",function(){enableFingerprintAuth()});
-	$("#fastLoginModal .btn-danger" ).on("click",function(){ setCookieAndRedirect()});
+	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
-		FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect()},function(msg){});
+		FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){});
 	}
 });
