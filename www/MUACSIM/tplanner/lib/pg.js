@@ -7,7 +7,7 @@ function cacheDutyDetails(postParams)
 
 function updateLocalCache()
 {
-	rpdo  = new Date(window.rosterPublished);
+	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
 	var d = new Date();
 	d.setHours(4);
 	var postParams = null;
