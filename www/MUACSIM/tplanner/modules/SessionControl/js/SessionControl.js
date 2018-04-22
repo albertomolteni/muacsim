@@ -32,7 +32,7 @@ function readLoginResult()
 }
 
 $(document).ready(function(){
-		FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)});
+		document.addEventListener("deviceready",function(){FingerprintAuth.isAvailable(function(){FingerprintAuth.encrypt({clientId:"myAppName"},function(o){alert('success!\n\n'+JSON.stringify(o))},function(msg){alert('error : '+msg)})},function(msg){alert('FingerprintAuth fail : '+msg)})},false);
 	$("#username").focus();
 	$("input").on("keyup",function(e){
 		if (e.which == 13) $("#loginButton").trigger("click");
