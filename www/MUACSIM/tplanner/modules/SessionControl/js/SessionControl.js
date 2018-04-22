@@ -49,6 +49,6 @@ $(document).ready(function(){
 	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
-		FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){});
+		document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
 	}
 });
