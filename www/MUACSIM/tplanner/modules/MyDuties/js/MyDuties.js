@@ -44,6 +44,7 @@ function friendlyDate(d)
 	switch (d.getDate()) {
 		case  1:
 		case 21:
+		case 31:
 			s = s.concat('<sup>st</sup> ');
 			break;
 		case  2:
