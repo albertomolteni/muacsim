@@ -143,6 +143,7 @@ $(document).ready(function(){
 		});
 	});
 	$("#submitButton").on("click",function(){
+		$(this).prop("disabled",true);
 		var swapping = [];
 		$(".swapping").each(function(){
 			var swapTo = $("div[data-relatedEID="+$(this).attr("data-eID")+"] .fa-long-arrow-left").length ? 'requesting' : 'target';
