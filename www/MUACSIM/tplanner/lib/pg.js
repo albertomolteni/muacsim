@@ -1,5 +1,9 @@
 function cacheDutyDetails(postParams)
 {
+	ulc__d1.setDate(ulc__d1.getDate() + 1);
+	console.log(ulc__d1.toISOString().substring(0,10));
+	cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
+	return false;
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",postParams,function(resp){
 		window.localStorage.setItem("MyDuties/dutyDetails__"+JSON.stringify(postParams),resp);
 		ulc__d1.setDate(ulc__d1.getDate() + 1);
