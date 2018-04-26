@@ -1,10 +1,10 @@
-function cacheDutyDetails()
+function cacheNextDutyDetails()
 {
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",{day:ulc__d1.toISOString().substring(0,10)},function(resp){
 		window.localStorage.setItem("MyDuties/dutyDetails__"+JSON.stringify({day:ulc__d1.toISOString().substring(0,10)}),resp);
 		ulc__d1.setDate(ulc__d1.getDate() + 1);
 		if (ulc__d1 < ulc__d2) {
-			cacheDutyDetails();
+			cacheNextDutyDetails();
 		} else {
 			$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
 				window.localStorage.setItem("MyDuties/readMyDuties",resp);
@@ -19,7 +19,7 @@ function startLocalCacheUpdate()
 	ulc__d2 = new Date(window.localStorage.getItem("rosterPublished")/1);
 	ulc__d1 = new Date();
 	ulc__d1.setHours(4);
-	cacheDutyDetails();
+	cacheNextDutyDetails();
 }
 
 function retrieveFromCache(URI,data,callback)
@@ -44,13 +44,8 @@ $.vPOST = function(URI,data,callback)
 		data = {authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]};
 	}
 	
-	if (window.localStorage.getItem("localCacheLastModified")) {
-		if (Date.now()-window.localStorage.getItem("localCacheLastModified")<21600000) {
-			if (retrieveFromCache(URI,data,callback)) return true;
-		}
-	}
-	
-	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){retrieveFromCache(URI,data,callback)});
+	if (retrieveFromCache(URI,data,callback)) return true;
+	$.post("http://muacsim.eu"+URI,data,callback).fail(function(){});
 	
 	if (navigator.onLine) {
 		var lclm = window.localStorage.getItem("localCacheLastModified");
