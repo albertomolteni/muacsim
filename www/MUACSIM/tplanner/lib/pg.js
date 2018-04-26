@@ -1,14 +1,10 @@
-function cacheDutyDetails(postParams)
+function cacheDutyDetails()
 {
-	ulc__d1.setDate(ulc__d1.getDate() + 1);
-	console.log(ulc__d1.toISOString().substring(0,10));
-	cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
-	return false;
-	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",postParams,function(resp){
-		window.localStorage.setItem("MyDuties/dutyDetails__"+JSON.stringify(postParams),resp);
+	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",{day:ulc__d1.toISOString().substring(0,10)},function(resp){
+		window.localStorage.setItem("MyDuties/dutyDetails__"+JSON.stringify({day:ulc__d1.toISOString().substring(0,10)}),resp);
 		ulc__d1.setDate(ulc__d1.getDate() + 1);
 		if (ulc__d1 < ulc__d2) {
-			cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
+			cacheDutyDetails();
 		} else {
 			$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
 				window.localStorage.setItem("MyDuties/readMyDuties",resp);
@@ -23,7 +19,7 @@ function startLocalCacheUpdate()
 	ulc__d2 = new Date(window.localStorage.getItem("rosterPublished")/1);
 	ulc__d1 = new Date();
 	ulc__d1.setHours(4);
-	cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
+	cacheDutyDetails();
 }
 
 function retrieveFromCache(URI,data,callback)
