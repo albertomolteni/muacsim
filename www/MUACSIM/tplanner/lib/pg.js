@@ -2,24 +2,24 @@ function cacheDutyDetails(postParams)
 {
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",postParams,function(resp){
 		window.localStorage.setItem("MyDuties/dutyDetails__"+JSON.stringify(postParams),resp);
+		ulc__d1.setDate(ulc__d1.getDate() + 1);
+		if (ulc__d1 < ulc__d2) {
+			cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
+		} else {
+			$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
+				window.localStorage.setItem("MyDuties/readMyDuties",resp);
+				window.localStorage.setItem("localCacheLastModified",Date.now());
+			});
+		}
 	});
 }
 
-function updateLocalCache()
+function startLocalCacheUpdate()
 {
-	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
-	var d = new Date();
-	d.setHours(4);
-	var postParams = null;
-	while (d < rpdo) {
-		postParams = {day:d.toISOString().substring(0,10)};
-		cacheDutyDetails(postParams);
-		d.setDate(d.getDate() + 1);
-	}
-	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
-		window.localStorage.setItem("MyDuties/readMyDuties",resp);
-		window.localStorage.setItem("localCacheLastModified",Date.now());
-	});
+	ulc__d2 = new Date(window.localStorage.getItem("rosterPublished")/1);
+	ulc__d1 = new Date();
+	ulc__d1.setHours(4);
+	cacheDutyDetails({day:ulc__d1.toISOString().substring(0,10)});
 }
 
 function retrieveFromCache(URI,data,callback)
@@ -56,10 +56,10 @@ $.vPOST = function(URI,data,callback)
 		var lclm = window.localStorage.getItem("localCacheLastModified");
 		if (lclm === null) {
 			window.localStorage.setItem("localCacheLastModified",0);
-			setTimeout(updateLocalCache,5000);
+			setTimeout(startLocalCacheUpdate,5000);
 		} else {
 			if (lclm>0 && Date.now()-lclm>21600000) {
-				setTimeout(updateLocalCache,5000);
+				setTimeout(startLocalCacheUpdate,5000);
 			}
 		}
 	}
