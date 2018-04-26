@@ -2,10 +2,17 @@ fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amol
 
 function enableFingerprintAuth()
 {
-	FingerprintAuth.encrypt({clientId:"muacsim"},function(){
-		window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-		setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-	},function(msg){});
+	if (navigator.userAgent.match(/iPhone/)) {
+		touchid.authenticate(function(){
+			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+		},function(){});
+	} else {
+		FingerprintAuth.encrypt({clientId:"muacsim"},function(){
+			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+		},function(msg){});
+	}
 }
 
 function setCookieAndRedirect(s)
@@ -25,7 +32,11 @@ function readLoginResult()
 				$("#loginButton").prop("disabled",false);
 				alert('Sorry, wrong username or password.');
 			} else {
-				FingerprintAuth.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+				if (navigator.userAgent.match(/iPhone/)) {
+					touchid.checkSupport(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+				} else {
+					FingerprintAuth.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+				}
 			}
 		} else {
 			setTimeout(readLoginResult,1000);
@@ -49,6 +60,10 @@ $(document).ready(function(){
 	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
-		document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
+		if (navigator.userAgent.match(/iPhone/)) {
+			document.addEventListener("deviceready",function(){touchid.authenticate(                        function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){},"")},false);
+		} else {
+			document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
+		}
 	}
 });
