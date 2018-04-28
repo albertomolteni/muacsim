@@ -6,7 +6,7 @@ function enableFingerprintAuth()
 		touchid.authenticate(function(){
 			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
 			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-		},function(){});
+		},function(){},"");
 	} else {
 		FingerprintAuth.encrypt({clientId:"muacsim"},function(){
 			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
