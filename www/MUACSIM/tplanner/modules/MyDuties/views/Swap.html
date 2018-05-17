@@ -166,7 +166,7 @@ $("#pilotSummaryTrigger").on("click",function(){
 	});
 });
 
-var sd = new Date(window.rosterPublished);
+var sd = new Date(window.localStorage.getItem("rosterPublished")/1);
 var bd = new Date();
 while (bd.getDay()!=1) bd.setDate(bd.getDate()-1);
 var _html = '';
