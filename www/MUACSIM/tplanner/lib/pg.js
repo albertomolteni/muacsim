@@ -6,9 +6,12 @@ function cacheNextDutyDetails()
 		if (ulc__d1 < ulc__d2) {
 			cacheNextDutyDetails();
 		} else {
-			$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
-				window.localStorage.setItem("MyDuties/readMyDuties",resp);
-				window.localStorage.setItem("localCacheLastModified",Date.now());
+			$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
+				window.localStorage.setItem("ManageUsers/readPilotTotalHours__"+JSON.stringify({authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]}),resp);
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
+					window.localStorage.setItem("MyDuties/readMyDuties__"+JSON.stringify({authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]}),resp);
+					window.localStorage.setItem("localCacheLastModified",Date.now());
+				});
 			});
 		}
 	});
@@ -25,7 +28,7 @@ function startLocalCacheUpdate()
 function retrieveFromCache(URI,data,callback)
 {
 	var localStorageKey  = URI.replace(/^\/MUACSIM\/tplanner\/modules\//,'').replace(/\/server\//,'/').replace(/\.php$/,'');
-	if (localStorageKey != 'MyDuties/readMyDuties') localStorageKey += '__' + JSON.stringify(data);
+	localStorageKey += '__' + JSON.stringify(data);
 	if (window.localStorage.getItem(localStorageKey)) {
 		callback(window.localStorage.getItem(localStorageKey));
 		return true;
