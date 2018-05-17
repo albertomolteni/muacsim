@@ -270,6 +270,7 @@ $("#team_SummaryTrigger").on("click",function(){
 	}
 	
 	$("#team_SummaryModal").modal("show");
+	setTimeout(function(){$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1)},500);
 	
 	if (!$("#carouselLegend").html()) {
 		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
