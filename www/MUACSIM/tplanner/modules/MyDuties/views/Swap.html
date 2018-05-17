@@ -242,6 +242,7 @@ $("#team_SummaryTrigger").on("click",function(){
 					if (ushift.shiftID <  14  &&  ushift.shiftID > 9) $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","red" ).css("font-weight","bold");
 					if (ushift.shiftID == 14)                         $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","blue").css("font-weight","bold");
 				});
+				setTimeout(function(){$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1)},500);
 			});
 		});
 	}
