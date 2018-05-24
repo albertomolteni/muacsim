@@ -3,10 +3,10 @@ fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amol
 function enableFingerprintAuth()
 {
 	if (navigator.userAgent.match(/iPhone/)) {
-		touchid.authenticate(function(){
+		window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){
 			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
 			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-		},function(){},"");
+		},function(msg){});
 	} else {
 		FingerprintAuth.encrypt({clientId:"muacsim"},function(){
 			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
@@ -33,9 +33,9 @@ function readLoginResult()
 				alert('Sorry, wrong username or password.');
 			} else {
 				if (navigator.userAgent.match(/iPhone/)) {
-					touchid.checkSupport(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+					window.plugins.touchid.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 				} else {
-					FingerprintAuth.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+					FingerprintAuth.isAvailable(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 				}
 			}
 		} else {
@@ -61,9 +61,9 @@ $(document).ready(function(){
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
 		if (navigator.userAgent.match(/iPhone/)) {
-			document.addEventListener("deviceready",function(){touchid.authenticate(                        function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){},"")},false);
+			document.addEventListener("deviceready",function(){window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
 		} else {
-			document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
+			document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},                           function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
 		}
 	}
 });
