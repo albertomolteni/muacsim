@@ -134,7 +134,7 @@ $(document).ready(function(){
 	
 	var template = $("#dutyCalendarTemplate").html();
 	
-	for (var i=0 ; i<90 ; i++) {
+	for (var i=0 ; i<140 ; i++) {
 		d.setDate(d.getDate() + 1);
 		if (d > rpdo) break;
 		
