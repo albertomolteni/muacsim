@@ -8,11 +8,9 @@ function enableFingerprintAuth()
 				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
 			},function(msg){});
 	} else {
-		SamsungPass.checkSamsungPassSupport(function(){
-			SamsungPass.startIdentifyWithDialog(function(){
+		SamsungPass.startIdentifyWithDialog(function(){
 				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
 				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-			},function(){});
 		},function(){
 			FingerprintAuth.encrypt({clientId:"muacsim"},function(){
 				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
