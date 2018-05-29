@@ -3,15 +3,22 @@ fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amol
 function enableFingerprintAuth()
 {
 	if (navigator.userAgent.match(/iPhone/)) {
-		window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){
-			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-		},function(msg){});
+			window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+			},function(msg){});
 	} else {
-		FingerprintAuth.encrypt({clientId:"muacsim"},function(){
-			window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-			setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
-		},function(msg){});
+		SamsungPass.checkSamsungPassSupport(function(){
+			SamsungPass.startIdentifyWithDialog(function(){
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+			},function(){});
+		},function(){
+			FingerprintAuth.encrypt({clientId:"muacsim"},function(){
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
+				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+			},function(msg){});
+		});
 	}
 }
 
@@ -61,9 +68,9 @@ $(document).ready(function(){
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
 		if (navigator.userAgent.match(/iPhone/)) {
-			document.addEventListener("deviceready",function(){window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
+			document.addEventListener("deviceready",function(){                                                                                                                                                                       window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})  },false);
 		} else {
-			document.addEventListener("deviceready",function(){FingerprintAuth.encrypt({clientId:"muacsim"},                           function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})},false);
+			document.addEventListener("deviceready",function(){SamsungPass.checkSamsungPassSupport(function(){SamsungPass.startIdentifyWithDialog(function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){})},function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})})},false);
 		}
 	}
 });
