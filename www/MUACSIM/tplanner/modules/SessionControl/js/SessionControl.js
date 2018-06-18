@@ -9,7 +9,7 @@ function enableFingerprintAuth()
 			},function(msg){});
 	} else {
 		SamsungPass.isAvailable(function(){
-			SamsungPass.verifyFingerprint(function(){
+			SamsungPass.verifyFingerprint({lang:"en"},function(){
 				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
 				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
 			},function(){});
@@ -68,9 +68,9 @@ $(document).ready(function(){
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
 		if (navigator.userAgent.match(/iPhone/)) {
-			document.addEventListener("deviceready",function(){                                                                                                                                                     window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})  },false);
+			document.addEventListener("deviceready",function(){                                                                                                                                                                 window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})  },false);
 		} else {
-			document.addEventListener("deviceready",function(){SamsungPass.isAvailable(function(){SamsungPass.verifyFingerprint(function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){})},function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})})},false);
+			document.addEventListener("deviceready",function(){SamsungPass.isAvailable(function(){SamsungPass.verifyFingerprint({lang:"en"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){})},function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})})},false);
 		}
 	}
 });
