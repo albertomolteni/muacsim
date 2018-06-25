@@ -266,8 +266,8 @@ $(document).ready(function(){
 	});
 	
 	document.addEventListener("deviceready",function(){
-		pn = PushNotification.init({"android":{"senderID":"690910508250"},"ios":{"sound":true,"vibration":true,"badge":true},"windows":{}});
-		pn.on("registration",function(data){$("#viewSelector .btn-secondary").eq(1).html(data.registrationId)});
+		pn = PushNotification.init({android:{},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
+		pn.on("registration",function(data){alert(data.registrationId)});
 		pn.on("notification",function(data){alert('notam : '+JSON.stringify(data))});
 		pn.on("error",function(e){alert(e.message)});
 	});
