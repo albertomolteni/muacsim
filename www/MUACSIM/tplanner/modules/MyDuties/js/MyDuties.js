@@ -265,8 +265,10 @@ $(document).ready(function(){
 		});
 	});
 	
-	pn = PushNotification.init({"android":{"senderID":"690910508250"},"ios":{"sound":true,"vibration":true,"badge":true},"windows":{}});
-	pn.on("registration",function(data){$("#viewSelector .btn-secondary").eq(1).html(data.registrationId)});
-	pn.on("notification",function(data){alert('notam : '+JSON.stringify(data))});
-	pn.on("error",function(e){alert(e.message)});
+	document.addEventListener("deviceready",function(){
+		pn = PushNotification.init({"android":{"senderID":"690910508250"},"ios":{"sound":true,"vibration":true,"badge":true},"windows":{}});
+		pn.on("registration",function(data){$("#viewSelector .btn-secondary").eq(1).html(data.registrationId)});
+		pn.on("notification",function(data){alert('notam : '+JSON.stringify(data))});
+		pn.on("error",function(e){alert(e.message)});
+	});
 });
