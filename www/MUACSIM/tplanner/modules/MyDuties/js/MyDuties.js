@@ -266,10 +266,8 @@ $(document).ready(function(){
 	});
 	
 	document.addEventListener("deviceready",function(){
-			alert('deviceready');
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
-			alert(typeof(pn));
-		pn.on("registration",function(data){alert(data.registrationId)});
+		pn.on("registration",function(data){console.log(data.registrationId)});
 		pn.on("notification",function(data){alert('notam : '+JSON.stringify(data))});
 		pn.on("error",function(e){alert(e.message)});
 	});
