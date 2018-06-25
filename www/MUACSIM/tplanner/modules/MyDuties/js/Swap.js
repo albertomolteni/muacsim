@@ -50,7 +50,7 @@ function readSwapPartnerDuties(inputGroupIndex)
 			});
 			$("h5").filter(function(){return $(this).html().replace(/^Sick$/ ,'').length?false:true}).each(function(){$(this).parent().html('<h5>Sick</h5>' )});
 			$("h5").filter(function(){return $(this).html().replace(/^Leave$/,'').length?false:true}).each(function(){$(this).parent().html('<h5>Leave</h5>')});
-			$(".partner-view[data="+inputGroupIndex+"]").append('<div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>Me</h5></div><div class="col-sm-1"></div><div class="col-sm-1"></div><div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>'+$("#swapWith option:selected").html().split(' ')[0]+'</h5></div>');
+			$(".partner-view[data="+inputGroupIndex+"]").append('<div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>Me</h5></div><div class="col-sm-1" style="padding:0;"></div><div class="col-sm-1" style="padding:0;"></div><div class="col-sm-5" style="padding-top:1em;text-align:center;"><h5>'+$("#swapWith option:selected").html().split(' ')[0]+'</h5></div>');
 			$(".partner-view[data="+inputGroupIndex+"] .isExtra"       ).append('<div style="background:#c00;color:white;border-radius:4px;font-size:12px;padding:0 6px;margin-top:0.4em;"><i class="fa fa-exclamation-triangle" style="margin-right:0.4em;"></i>EXTRA</div>');
 			$(".partner-view[data="+inputGroupIndex+"] .criticalHybrid").append('<div style="background:#c00;color:white;border-radius:4px;font-size:12px;padding:0 6px;margin-top:0.4em;"><i class="fa fa-exclamation-triangle" style="margin-right:0.4em;"></i>HYBRID</div>');
 			var minMT = 999999;
