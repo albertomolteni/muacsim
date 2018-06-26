@@ -267,8 +267,12 @@ $(document).ready(function(){
 	
 	document.addEventListener("deviceready",function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
-		pn.on("registration",function(data){console.log(data.registrationId)});
-		pn.on("notification",function(data){alert('notam : '+JSON.stringify(data))});
+		pn.on("registration",function(data){$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php",{gcmID:data.registrationId},function(){})});
+		pn.on("notification",function(data){
+			$("#notamModal .modal-title").html(data.message);
+			$("#notamModal .modal-body" ).html(data.additionalData.notamText);
+			$("#notamModal").modal("show");
+		});
 		pn.on("error",function(e){alert(e.message)});
 	});
 });
