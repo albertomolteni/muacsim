@@ -1,3 +1,12 @@
+function triggerSwapDetails()
+{
+	if ($(".swap-card").length) {
+		$(".swap-card").first().trigger("click");
+	} else {
+		setTimeout(triggerSwapDetails,200);
+	}
+}
+
 function readSwapPartnerDuties(inputGroupIndex,partner,partnerID)
 {
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readSwapPartnerDuties.php",{partnerID:partnerID,day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
@@ -267,11 +276,25 @@ $(document).ready(function(){
 	
 	document.addEventListener("deviceready",function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
-		pn.on("registration",function(data){$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php",{gcmID:data.registrationId},function(){})});
+		pn.on("registration",function(data){
+			if (navigator.userAgent.match(/iPhone/)) {
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId},function(){});
+			} else {
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php", { gcmID:data.registrationId},function(){});
+			}
+		});
 		pn.on("notification",function(data){
-			$("#notamModal .modal-title").html(data.message);
-			$("#notamModal .modal-body" ).html(data.additionalData.notamText);
-			$("#notamModal").modal("show");
+			if (data.additionalData.notamText.split(' ').length-1) {
+				$("#notamModal .modal-title").html(data.message);
+				$("#notamModal .modal-body" ).html(data.additionalData.notamText);
+				$("#notamModal").modal("show");
+			} else {
+				if (data.additionalData.notamText == 'triggerSwapDetails') {
+					triggerSwapDetails();
+				} else {
+					location.assign('../../'+data.additionalData.notamText+'.html');
+				}
+			}
 		});
 		pn.on("error",function(e){alert(e.message)});
 	});
