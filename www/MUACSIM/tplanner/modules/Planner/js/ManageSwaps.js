@@ -79,6 +79,7 @@ function showConfirmationModal(dutyswapID,approve)
 		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/swapApproveDecline.php",{dutyswapID:dutyswapID,status:(approve?'APPROVED':'DECLINED'),comments:btoa($("#confirmationModal textarea").val()),sendSMS:($("#confirmationModal input[type=checkbox]").prop("checked")?1:0)},function(){
 			$("div[data="+dutyswapID+"]").hide();
 			$("#confirmationModal").modal("hide");
+			if (!$(".swap-requesting").length) location.assign('../../MyDuties/views/MyDuties.html');
 		});
 	});
 }
