@@ -2,7 +2,7 @@ fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amol
 
 function enableFingerprintAuth()
 {
-	if (navigator.userAgent.match(/iPhone/)) {
+	if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 			window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){
 				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
 				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
@@ -39,7 +39,7 @@ function readLoginResult()
 				$("#loginButton").prop("disabled",false);
 				alert('Sorry, wrong username or password.');
 			} else {
-				if (navigator.userAgent.match(/iPhone/)) {
+				if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 					window.plugins.touchid.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 				} else {
 					FingerprintAuth.isAvailable(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
@@ -67,7 +67,7 @@ $(document).ready(function(){
 	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
-		if (navigator.userAgent.match(/iPhone/)) {
+		if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 			document.addEventListener("deviceready",function(){                                                                                                                                                                 window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})  },false);
 		} else {
 			document.addEventListener("deviceready",function(){SamsungPass.isAvailable(function(){SamsungPass.verifyFingerprint({lang:"en"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(){})},function(){FingerprintAuth.encrypt({clientId:"muacsim"},function(){setCookieAndRedirect(window.localStorage.getItem("FingerprintAuthData"))},function(msg){})})},false);
