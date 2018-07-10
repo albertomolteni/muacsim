@@ -1,22 +1,22 @@
-fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amolteni:"7,manager",jsaibou:"8,manager",avaesen:"9,pilot",sotte:"10,pilot",ddeuss:"11,pilot",bvdveeke:"12,pilot",aleander:"13,pilot",kmotmans:"14,pilot",dkoene:"15,pilot",wstevens:"16,pilot",feijnde:"17,pilot",rnijssen:"18,pilot",sritzen:"19,pilot",khaagman:"20,pilot",ggerrits:"21,pilot"};
+fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amolteni:"7,manager",jsaibou:"8,manager",avaesen:"9,pilot",sotte:"10,pilot",ddeuss:"11,pilot",bvdveeke:"12,pilot",aleander:"13,pilot",kmotmans:"14,pilot",dkoene:"15,pilot",wstevens:"16,pilot",feijnde:"17,pilot",rnijssen:"18,pilot",sritzen:"19,pilot",khaagman:"20,pilot",ggerrits:"21,pilot",mbeulen:"22,pilot",jwijnhol:"23,pilot",acremers:"24,pilot"};
 
 function enableFingerprintAuth()
 {
 	if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 			window.plugins.touchid.verifyFingerprint('Please scan your fingerprint',function(){
-				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val()]);
+				setCookieAndRedirect(fastLogins[$("#username").val()]);
 			},function(msg){});
 	} else {
 		SamsungPass.isAvailable(function(){
 			SamsungPass.verifyFingerprint({lang:"en"},function(){
-				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val()]);
+				setCookieAndRedirect(fastLogins[$("#username").val()]);
 			},function(){});
 		},function(){
 			FingerprintAuth.encrypt({clientId:"muacsim"},function(){
-				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val().toLowerCase()]);
-				setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()]);
+				window.localStorage.setItem("FingerprintAuthData",fastLogins[$("#username").val()]);
+				setCookieAndRedirect(fastLogins[$("#username").val()]);
 			},function(msg){});
 		});
 	}
@@ -40,9 +40,9 @@ function readLoginResult()
 				alert('Sorry, wrong username or password.');
 			} else {
 				if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-					window.plugins.touchid.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+					window.plugins.touchid.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val()])});
 				} else {
-					FingerprintAuth.isAvailable(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+					FingerprintAuth.isAvailable(       function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val()])});
 				}
 			}
 		} else {
@@ -58,13 +58,14 @@ $(document).ready(function(){
 	});
 	$("#loginButton").on("click",function(){
 		$(this).prop("disabled",true);
+		$("#username").val($("#username").val().toLowerCase().trim());
 		$.post("http://muacsim.eu/MUACSIM/tplanner/modules/SessionControl/server/writeLoginAttempt.php",{username:$("#username").val(),passwd:btoa($("#passwd").val())},function(){
 			readLoginResult();
 		});
 	});
 	
 	$("#fastLoginModal .btn-success").on("click",function(){enableFingerprintAuth()});
-	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val().toLowerCase()])});
+	$("#fastLoginModal .btn-danger" ).on("click",function(){setCookieAndRedirect(fastLogins[$("#username").val()])});
 	
 	if (window.localStorage.getItem("FingerprintAuthData")) {
 		if (navigator.userAgent.match(/i(Phone|Pad)/)) {
