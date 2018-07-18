@@ -53,10 +53,14 @@ $.vPOST = function(URI,data,callback)
 	if (navigator.onLine) {
 		var lclm = window.localStorage.getItem("localCacheLastModified");
 		if (lclm === null) {
-			window.localStorage.setItem("localCacheLastModified",0);
-			setTimeout(startLocalCacheUpdate,5000);
+				window.localStorage.setItem("localCacheLastModified",0);
+				setTimeout(startLocalCacheUpdate,5000);
 		} else {
-			if (lclm>0 && Date.now()-lclm>7200000) {
+			if (lclm>0 && Date.now()-lclm>120000) {
+				window.localStorage.setItem("localCacheLastModified",0);
+				var lsKeys = Object.keys(window.localStorage);
+				var keyi   = lsKeys.length;
+				while (keyi--) if (lsKeys[keyi].substring(0,8) == "MyDuties") window.localStorage.removeItem(lsKeys[keyi]);
 				setTimeout(startLocalCacheUpdate,5000);
 			}
 		}
