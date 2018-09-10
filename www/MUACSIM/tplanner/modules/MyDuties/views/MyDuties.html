@@ -183,7 +183,7 @@ hr {
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.0</p><p>Developed by Alberto Molteni</p></div>
+				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.0</p><p>Developed by<br>Alberto Molteni</p></div>
 			</div>
 			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
 		</div>
@@ -241,10 +241,7 @@ $("#pilotSummaryTrigger").on("click",function(){
 		var i = 0;
 		$("#pilotSummaryModal table tbody").html('');
 		response.map(function(u){
-			var evenings = 0;
-			if (u.shiftCounts.match(/7:(\d+)/)) evenings += u.shiftCounts.match(/7:(\d+)/)[1]/1;
-			if (u.shiftCounts.match(/9:(\d+)/)) evenings += u.shiftCounts.match(/9:(\d+)/)[1]/1;
-			$("#pilotSummaryModal table tbody").append('<tr'+(i%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+evenings*17.5).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
+			$("#pilotSummaryModal table tbody").append('<tr'+(i%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+u.pointsEvening/1).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
 			i++;
 		});
 	});
@@ -266,7 +263,7 @@ while (bd<sd) {
 	_html = _html.concat('</tr>');
 	bd.setDate(bd.getDate()-7);
 	
-	for (var i=0;i<16;i++) {
+	for (var i=0;i<23;i++) {
 		_html = _html.concat('<tr data-userID="'+(i+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
 		for (var j=0;j<7;j++) {
 			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">&nbsp;</td>');
