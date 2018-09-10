@@ -218,7 +218,7 @@ $("#team_SummaryTrigger").on("click",function(){
 			}
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
 				var ushifts = $.parseJSON(resp);
-				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM'];
+				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
 				ushifts.map(function(ushift){
 					var l = '';
 					

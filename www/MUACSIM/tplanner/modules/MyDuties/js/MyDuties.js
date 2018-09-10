@@ -138,6 +138,7 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/)) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
+	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
 	var d = new Date();
 	d.setHours(4);
@@ -162,9 +163,9 @@ $(document).ready(function(){
 		response.map(function(duty){
 			$targets = $(".calendar-row[data="+duty.day+"] .col-sm-3");
 			
-			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'sR'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                              ) $targets.eq(1).append(dutyBar);
-			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon') $targets.eq(2).append(dutyBar);
-			if (duty.name == 'sa'                                                ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon') $targets.eq(3).append(dutyBar);
+			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                              ) $targets.eq(1).append(dutyBar);
+			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon') $targets.eq(2).append(dutyBar);
+			if (duty.name == 'sa'                                                                      ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon') $targets.eq(3).append(dutyBar);
 			
 			$targets.find(".dutyBar").first().css("border-top-left-radius", "6px").css("border-bottom-left-radius", "6px");
 			$targets.find(".dutyBar").last( ).css("border-top-right-radius","6px").css("border-bottom-right-radius","6px");

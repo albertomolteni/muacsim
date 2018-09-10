@@ -60,7 +60,7 @@ $.vPOST = function(URI,data,callback)
 				window.localStorage.setItem("localCacheLastModified",0);
 				var lsKeys = Object.keys(window.localStorage);
 				var keyi   = lsKeys.length;
-				while (keyi--) if (lsKeys[keyi].substring(0,8) == "MyDuties") window.localStorage.removeItem(lsKeys[keyi]);
+				while (keyi--) if (lsKeys[keyi].substring(0,8) == "MyDuties"  ||  lsKeys[keyi].substring(0,31) == "ManageUsers/readPilotTotalHours") window.localStorage.removeItem(lsKeys[keyi]);
 				setTimeout(startLocalCacheUpdate,5000);
 			}
 		}
