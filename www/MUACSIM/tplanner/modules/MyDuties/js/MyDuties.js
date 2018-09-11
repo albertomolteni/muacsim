@@ -75,7 +75,7 @@ function friendlyDate(d)
 function showDutyDetails(ds,swapInProgress)
 {
 	$("#dutyModal .modal-title").html(friendlyDate(new Date(ds)));
-	$("#dutyModal .modal-body" ).html('');
+	$("#dutyModal .modal-body" ).html('<i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="margin:2vh 0 2vh 35vw;"></i>');
 	
 	$("#dutyModal .btn-warning").show();
 	if (swapInProgress || !userIsPilot) $("#dutyModal .btn-warning").hide();
@@ -84,6 +84,7 @@ function showDutyDetails(ds,swapInProgress)
 	
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",{day:ds},function(resp){
 		var response = $.parseJSON(resp);
+		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
 			$("#dutyModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
