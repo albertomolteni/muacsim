@@ -20,7 +20,7 @@ function startLocalCacheUpdate()
 	ulc__d1 = new Date();
 	ulc__d1.setHours(4);
 	ulc__d2 = new Date(ulc__d1.getTime());
-	ulc__d2.setDate(ulc__d2.getDate() + 14);
+	ulc__d2.setDate(ulc__d2.getDate() + 7);
 	cacheNextDutyDetails();
 //	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
 //		window.localStorage.setItem("MyDuties/readMyDuties__"+JSON.stringify({authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]}),resp);
@@ -30,7 +30,7 @@ function startLocalCacheUpdate()
 
 function retrieveFromCache(URI,data,callback)
 {
-	var localStorageKey  = URI.replace(/^\/MUACSIM\/tplanner\/modules\//,'').replace(/\/server\//,'/').replace(/\.php$/,'');
+	var localStorageKey = URI.replace(/^\/MUACSIM\/tplanner\/modules\//,'').replace(/\/server\//,'/').replace(/\.php$/,'');
 	localStorageKey += '__' + JSON.stringify(data);
 	if (window.localStorage.getItem(localStorageKey)) {
 		callback(window.localStorage.getItem(localStorageKey));
