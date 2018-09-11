@@ -16,13 +16,16 @@ function cacheNextDutyDetails()
 
 function startLocalCacheUpdate()
 {
-	ulc__d2 = new Date(window.localStorage.getItem("rosterPublished")/1);
+//	ulc__d2 = new Date(window.localStorage.getItem("rosterPublished")/1);
 	ulc__d1 = new Date();
 	ulc__d1.setHours(4);
-	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
-		window.localStorage.setItem("MyDuties/readMyDuties__"+JSON.stringify({authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]}),resp);
-		cacheNextDutyDetails();
-	});
+	ulc__d2 = new Date(ulc__d1.getTime());
+	ulc__d2.setDate(ulc__d2.getDate() + 14);
+	cacheNextDutyDetails();
+//	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
+//		window.localStorage.setItem("MyDuties/readMyDuties__"+JSON.stringify({authAppUserID:document.cookie.match(/authAppUserID=(\d+)/)[1]/1,authAppAccessLevel:document.cookie.match(/authAppAccessLevel=(\w+)/)[1]}),resp);
+//		cacheNextDutyDetails();
+//	});
 }
 
 function retrieveFromCache(URI,data,callback)

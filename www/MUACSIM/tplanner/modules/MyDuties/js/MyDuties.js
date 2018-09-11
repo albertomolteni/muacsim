@@ -155,6 +155,7 @@ $(document).ready(function(){
 		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay() ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
 	}
 	
+	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.7);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading duties, please wait</div>');
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readMyDuties.php",null,function(resp){
 		var response = $.parseJSON(resp);
 		var dutyBar  = '<div class="dutyBar"></div>';
@@ -254,6 +255,7 @@ $(document).ready(function(){
 			$("#calendar1").show();
 			$("#calendarContainer").hide();
 		});
+		$("#loadingOverlay").remove();
 		setTimeout(function(){
 			if (window.innerWidth < 768) {
 				$(".fc-toolbar h2").css("font-size","1.4rem").css("margin-bottom","0.8rem");
