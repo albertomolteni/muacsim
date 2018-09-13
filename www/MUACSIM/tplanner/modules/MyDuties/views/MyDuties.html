@@ -263,8 +263,8 @@ while (bd<sd) {
 	_html = _html.concat('</tr>');
 	bd.setDate(bd.getDate()-7);
 	
-	for (var i=0;i<23;i++) {
-		_html = _html.concat('<tr data-userID="'+(i+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
+	for (var i=0;i<22;i++) {
+		_html = _html.concat('<tr data-userID="'+(i+Math.floor(i/13)+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
 		for (var j=0;j<7;j++) {
 			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">&nbsp;</td>');
 			bd.setDate(bd.getDate()+1);

@@ -1,4 +1,4 @@
-fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amolteni:"7,manager",jsaibou:"8,manager",avaesen:"9,pilot",sotte:"10,pilot",ddeuss:"11,pilot",bvdveeke:"12,pilot",aleander:"13,pilot",kmotmans:"14,pilot",dkoene:"15,pilot",wstevens:"16,pilot",feijnde:"17,pilot",rnijssen:"18,pilot",sritzen:"19,pilot",khaagman:"20,pilot",ggerrits:"21,pilot",mbeulen:"22,pilot",jwijnhol:"23,pilot",acremers:"24,pilot"};
+fastLogins = {bbrands:"1,manager",jkarlsso:"3,manager",vlaerema:"4,manager",amolteni:"7,manager",jsaibou:"8,manager",avaesen:"9,pilot",sotte:"10,pilot",ddeuss:"11,pilot",bvdveeke:"12,pilot",aleander:"13,pilot",kmotmans:"14,pilot",dkoene:"15,pilot",wstevens:"16,pilot",feijnde:"17,pilot",rnijssen:"18,pilot",sritzen:"19,pilot",khaagman:"20,pilot",ggerrits:"21,pilot",jwijnhol:"23,pilot",acremers:"24,pilot",jadams:"25,pilot",kaalten:"26,pilot",therberi:"27,pilot",rvstaver:"28,pilot",rvdkar:"29,pilot",hwitberg:"30,pilot",mseronlu:"31,pilot"};
 
 function enableFingerprintAuth()
 {
