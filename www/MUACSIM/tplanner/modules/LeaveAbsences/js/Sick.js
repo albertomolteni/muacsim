@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$(".btn-success").on("click",function(){
 		$(this).prop("disabled",true);
 		$.vPOST("/MUACSIM/tplanner/modules/LeaveAbsences/server/reportSick.php",{ertw:$("#date1").val().substring(6,10)+'-'+$("#date1").val().substring(3,5)+'-'+$("#date1").val().substring(0,2),comments:btoa($("#comments").val())},function(){
-			$(".btn-success").parent().parent().parent().html('<div style="font-size:2em;font-weight:bold;text-align:center;padding-top:2em;"><img src="../../../img/getwellsoon.jpg" style="width:100%;"><br><br>The sim team has been notified of your absence.<br>Get well soon!</div>');
+			$(".btn-success").parent().parent().parent().html('<div style="font-size:1.7em;font-weight:bold;text-align:center;padding-top:2em;"><img src="../../../img/getwellsoon.jpg" style="width:100%;"><br><br>The sim team has been notified of your absence.<br>Get well soon!</div>');
 			setTimeout(function(){location.assign('../../MyDuties/views/MyDuties.html')},3000);
 		});
 	});
