@@ -85,6 +85,7 @@ function showConfirmationModal(dutyswapID,approve)
 }
 
 $(document).ready(function(){
+	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading swaps, please wait</div>');
 	$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readAgreedSwaps.php",null,function(resp){
 		var response = $.parseJSON(resp);
 		var template = $("#swapCardTemplate").html();
@@ -127,5 +128,7 @@ $(document).ready(function(){
 		$(".btn-danger" ).on("click",function(){
 			showConfirmationModal($(this).parent().parent().attr("data"),0);
 		});
+		
+		$("#loadingOverlay").remove();
 	});
 });
