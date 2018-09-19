@@ -178,7 +178,18 @@ $(document).ready(function(){
 			var textDIVwidth = 0;
 			$targets.find(".dutyBar").each(function(){textDIVwidth += $(this).width()});
 			
-			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+duty.name+'</div>');
+			var l = '';
+			if (!duty.dutyChange.length) {
+				l = duty.name.replace(/^C$/,'c');
+			} else {
+				if (duty.dutyChange.split(';')[1].length) {
+					l = 'd' + duty.name;
+				} else {
+					l = 'E' + duty.name;
+				}
+			}
+			
+			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
 		});
 		

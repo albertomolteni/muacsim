@@ -110,6 +110,7 @@ $(document).ready(function(){
 					days_done['swap'+swap.dutyswapID]++;
 					if (days_done['swap'+swap.dutyswapID] == days['swap'+swap.dutyswapID].length) $("div[data="+swap.dutyswapID+"] .input-group").each(function(){
 						$(this).replaceWith('<div style="text-align:center;font-size:20px;">'+friendlyDate(new Date($(this).find("input").val().substring(6,10)/1,$(this).find("input").val().substring(3,5)-1,$(this).find("input").val().substring(0,2)/1,8,0,0))+'</div>');
+						if (!$(".input-group").length) $("#loadingOverlay").remove();
 					});
 				});
 				readSwapPartnerDuties(swap.dutyswapID,i,swap.requesting,swap.target);
@@ -129,6 +130,6 @@ $(document).ready(function(){
 			showConfirmationModal($(this).parent().parent().attr("data"),0);
 		});
 		
-		$("#loadingOverlay").remove();
+		if (!response.length) $("#loadingOverlay").remove();
 	});
 });
