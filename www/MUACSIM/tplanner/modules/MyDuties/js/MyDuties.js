@@ -180,7 +180,7 @@ $(document).ready(function(){
 			
 			var l = '';
 			if (!duty.dutyChange.length) {
-				l = duty.name.replace(/^C$/,'c');
+				l = duty.name.replace(/^C(S|P)?$/,'Leave');
 			} else {
 				if (duty.dutyChange.split(';')[1].length) {
 					l = 'd' + duty.name;
@@ -189,7 +189,7 @@ $(document).ready(function(){
 				}
 			}
 			
-			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
+			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText'+(l=='Swing'?' leave':'')+'" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
 		});
 		
