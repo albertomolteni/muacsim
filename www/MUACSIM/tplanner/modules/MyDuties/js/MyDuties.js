@@ -165,9 +165,9 @@ $(document).ready(function(){
 		response.map(function(duty){
 			$targets = $(".calendar-row[data="+duty.day+"] .col-sm-3");
 			
-			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                              ) $targets.eq(1).append(dutyBar);
-			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon') $targets.eq(2).append(dutyBar);
-			if (duty.name == 'sa'                                                                      ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon') $targets.eq(3).append(dutyBar);
+			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                                ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(1).append(dutyBar);
+			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(2).append(dutyBar);
+			if (duty.name == 'sa'                                                                      ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(3).append(dutyBar);
 			
 			$targets.find(".dutyBar").first().css("border-top-left-radius", "6px").css("border-bottom-left-radius", "6px");
 			$targets.find(".dutyBar").last( ).css("border-top-right-radius","6px").css("border-bottom-right-radius","6px");
@@ -189,7 +189,9 @@ $(document).ready(function(){
 				}
 			}
 			
-			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText'+(l=='Swing'?' leave':'')+'" style="width:'+textDIVwidth+'px;">'+l+'</div>');
+			if (l == 'Leave') $targets.find(".dutyBar").addClass("leave");
+			
+			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
 		});
 		

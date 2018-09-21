@@ -34,10 +34,13 @@
 </nav>
 <div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
 
+<link rel="stylesheet" href="/MUACSIM/tplanner/css/checkbox.css">
 <style>
 
-#comments {
-	min-height: 20vh;
+[data-toggle=buttons] .btn input[type=checkbox] {
+	position: absolute;
+	clip: rect(0,0,0,0);
+	pointer-events: none;
 }
 
 .btn-success {
@@ -51,26 +54,52 @@
 	<div class="col-sm-12">
 		<form>
 			<div class="form-group">
-				<label>Expected return to work:</label>
+				<label>Start date:</label>
 				<div class="input-group date">
 					<input type="text" class="form-control" id="date1"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label>Comments:</label>
+				<label>End date:</label>
+				<div class="input-group date">
+					<input type="text" class="form-control" id="date2"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				</div>
+			</div>
+			<div class="form-group" style="margin-bottom:3rem;">
+				<label>Frequency:</label>
 				<div class="input-group">
-					<textarea id="comments" class="form-control"></textarea>
+					<select class="form-control" id="frequency">
+						<option value="0">Non recurring (one-off)</option>
+						<option value="1">Every week</option>
+						<option value="2">Every 14 days</option>
+						<option value="3">Every month (fixed date)</option>
+						<option value="4">Every month (week based)</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<button type="button" class="btn btn-success">Report sick</button>
+				<label style="margin-bottom:2rem;">Desired duties:</label>
+				<div class="row btn-group" data-toggle="buttons" style="margin:0;width:100%;">
+					<div class="col-md-4" style="padding:0 4vw;">
+						<label class="btn" style="padding:0;"><input type="checkbox" /><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i><span style="left:10vw;font-size:1.2em;">Morning</span></label>
+					</div>
+					<div class="col-md-4" style="padding:0 4vw;">
+						<label class="btn" style="padding:0;"><input type="checkbox" /><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i><span style="left:10vw;font-size:1.2em;">Swing</span></label>
+					</div>
+					<div class="col-md-4" style="padding:0 4vw;">
+						<label class="btn" style="padding:0;"><input type="checkbox" /><i class="fa fa-square-o fa-2x"></i><i class="fa fa-check-square-o fa-2x"></i><span style="left:10vw;font-size:1.2em;">Afternoon</span></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-success">Submit request</button>
 			</div>
 		</form>
 	</div>
 </div>
 <link rel="stylesheet" href="../../../lib/bootstrap-datepicker/bootstrap-datepicker3.min.css">
 <script src="../../../lib/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-<script src="../../../modules/LeaveAbsences/js/Sick.js"></script>
+<script src="../../../modules/MyDuties/js/Request.js"></script>
 <div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -83,13 +112,13 @@
 <div class="modal fade" id="team_SummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title">Team roster</h5></div>
-			<div class="modal-body">
-				<div class="row" style="width:100%;">
+			<div class="modal-header" style="padding:10px;"><h5 class="modal-title">Team roster</h5></div>
+			<div class="modal-body"   style="padding:10px;">
+				<div class="row" style="width:105%;">
 					<div class="col-sm-4" style="padding-right:0;">
 						<table style="border-bottom:1px solid #666;border-left:1px solid #666;width:100%;"><tbody id="carouselLegend"></tbody></table>
 					</div>
-					<div class="col-sm-8" style="padding-left:0;">
+					<div class="col-sm-8" style="padding:0;">
 						<div id="teamCarousel" class="carousel slide">
 							<div class="carousel-inner"></div>
 							<a class="carousel-control-prev" href="#teamCarousel" role="button" data-slide="prev">
@@ -136,10 +165,10 @@ while (bd<sd) {
 	_html = _html.concat('</tr>');
 	bd.setDate(bd.getDate()-7);
 	
-	for (var i=0;i<22;i++) {
+	for (var i=0;i<23;i++) {
 		_html = _html.concat('<tr data-userID="'+(i+Math.floor(i/13)+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
 		for (var j=0;j<7;j++) {
-			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">&nbsp;</td>');
+			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">'+(i-22?'&nbsp;':'xiiix')+'</td>');
 			bd.setDate(bd.getDate()+1);
 		}
 		_html = _html.concat('</tr>');
@@ -147,6 +176,7 @@ while (bd<sd) {
 	}
 	
 	$(".carousel-item table tbody").last().append(_html);
+	$(".carousel-item table tbody tr").last().css("visibility","hidden");
 	bd.setDate(bd.getDate()+7);
 }
 
@@ -166,7 +196,7 @@ $("#team_SummaryTrigger").on("click",function(){
 	if (!$("#carouselLegend").html()) {
 		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 			var response = $.parseJSON(resp);
-			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;</td></tr>');
+			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
 				$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
 			}
