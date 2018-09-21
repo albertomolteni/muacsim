@@ -196,7 +196,7 @@ $(document).ready(function(){
 		});
 		
 		$(".dutyBarText").on("click",function(){
-			showDutyDetails($(this).parent().parent().attr("data"),$(this).parent().parent().find(".swapInProgress").length);
+			if (!$(this).prevAll(".dutyBar").hasClass("leave")) showDutyDetails($(this).parent().parent().attr("data"),$(this).parent().parent().find(".swapInProgress").length);
 		});
 		
 		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readOngoingSwaps.php",null,function(resp){
@@ -243,6 +243,7 @@ $(document).ready(function(){
 			a.start     = a.day + 'T' + a.t_from;
 			a.end       = a.day + 'T' + a.t_to;
 			a.color     = '#fea';
+			if (a.name.match(/^C(S|P)?$/)) {a.color='#def';a.className='holiday'}
 			ev2.push(a);
 		});
 		if (window.innerWidth < 768) {} else $(".offset-xl-1").removeClass("col-xl-10").removeClass("offset-xl-1").addClass("col-xl-8").addClass("offset-xl-2");
