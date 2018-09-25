@@ -287,7 +287,7 @@ while (bd<sd) {
 $("#team_SummaryTrigger").on("click",function(){
 	$(".carousel-item").removeClass("active");
 	$(".carousel-item .highlight").removeClass("highlight");
-	if ($(".input-group.date").length) {
+	if ($(".input-group.date").length && $(".input-group.date input").last().val()) {
 		$("td[data-day="+$(".input-group.date input").last().val().replace(/(\d{2})-(\d{2})-(\d{4})/,'$3-$2-$1')+"]").addClass("highlight");
 		$("td[data-day="+$(".input-group.date input").last().val().replace(/(\d{2})-(\d{2})-(\d{4})/,'$3-$2-$1')+"]").first().parent().parent().parent().parent().addClass("active");
 	} else {
