@@ -140,7 +140,7 @@ $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/)) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
 //	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
-	$("img").first().on("click",function(){WifiWizard2.scan().then(function(r){var b=0;r.map(function(w){if(w.SSID=='BYOD')alert(w.BSSID)});alert(b)}).catch(function(e){})});
+	$("img").first().on("click",function(){WifiWizard2.scan().then(function(r){var b=0;r.map(function(w){if(w.SSID=='BYOD')alert(w.BSSID+' -- '+w.level)});alert(b)}).catch(function(e){})});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
 	var d = new Date();
 	d.setHours(4);
