@@ -140,7 +140,7 @@ $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/)) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
 //	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
-	$("img").first().on("click",function(){WifiWizard2.scan().then(function(r){var b=0;r.map(function(w){if(w.BSSID=='38:b1:db:9f:25:1c')b=1});alert(b)}).catch(function(e){})});
+	$("img").first().on("click",function(){WifiWizard2.scan().then(function(r){var b=0;r.map(function(w){if(w.SSID=='BYOD')alert(w.BSSID)});alert(b)}).catch(function(e){})});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
 	var d = new Date();
 	d.setHours(4);
@@ -154,7 +154,7 @@ $(document).ready(function(){
 		
 		if (d.getDate() == 1) $("#calendarContainer").append('<div class="month-start-banner" style="background-image:url(../../../img/maastricht_monthly_'+(d.getMonth()+1)+'.jpg);"></div>');
 		
-		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay() ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
+		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay()%6 ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
 	}
 	
 	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading duties, please wait</div>');
