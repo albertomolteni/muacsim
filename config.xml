@@ -114,4 +114,7 @@
     </plugin>
     <plugin name="wifiwizard2" spec="~3.1.0" />
     <plugin name="cordova-plugin-background-fetch" spec="5.2.1" />
+    <config-file platform="android" parent="/manifest" mode="add">
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    </config-file>
 </widget>
