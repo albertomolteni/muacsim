@@ -113,5 +113,5 @@
         <variable name="SENDER_ID" value="690910508250" />
     </plugin>
     <plugin name="wifiwizard2" spec="~3.1.0" />
-    <plugin name="cordova-plugin-background-fetch" spec="5.1.1" />
+    <plugin name="cordova-plugin-background-fetch" spec="5.2.1" />
 </widget>
