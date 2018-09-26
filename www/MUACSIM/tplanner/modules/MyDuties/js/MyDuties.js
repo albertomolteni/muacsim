@@ -318,5 +318,6 @@ $(document).ready(function(){
 			}
 		});
 		pn.on("error",function(e){alert(e.message)});
+		window.BackgroundFetch.configure(function(){alert(typeof($.post));alert(typeof(WifiWizard2));},function(e){alert(e)});
 	});
 });
