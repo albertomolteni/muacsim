@@ -211,7 +211,7 @@ $("#team_SummaryTrigger").on("click",function(){
 							l = ushift.dutyChange.split(';')[1];
 						} else {
 							if (!ushift.dutyChange.length) {
-								l = shifts[ushift.shiftID-1].replace(/^C$/,'c');
+								l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
 							} else {
 								if (ushift.dutyChange.split(';')[1].length) {
 									l = 'd' + shifts[ushift.shiftID-1];

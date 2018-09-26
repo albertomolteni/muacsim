@@ -139,12 +139,14 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/)) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
-//	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
-	$("img").first().on("click",function(){WifiWizard2.scan().then(function(r){var b=0;r.map(function(w){if(w.SSID=='BYOD')alert(w.BSSID+' -- '+w.level)});alert(b)}).catch(function(e){})});
+	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
 	var d = new Date();
 	d.setHours(4);
 	d.setDate(d.getDate() - 1);
+	
+	knownHolidays_dates  = ['2019-01-01','2019-03-30','2019-04-02','2019-05-10','2019-05-11','2019-05-21','2019-12-25','2019-12-26'];
+	knownHolidays_titles = ['New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas','Boxing Day'];
 	
 	var template = $("#dutyCalendarTemplate").html();
 	
@@ -154,7 +156,7 @@ $(document).ready(function(){
 		
 		if (d.getDate() == 1) $("#calendarContainer").append('<div class="month-start-banner" style="background-image:url(../../../img/maastricht_monthly_'+(d.getMonth()+1)+'.jpg);"></div>');
 		
-		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay()%6 ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
+		$("#calendarContainer").append('<div data="' + d.toISOString().substring(0,10) + '" class="row calendar-row"' + (d.getDay()%6&&knownHolidays_dates.indexOf(d.toISOString().substring(0,10))<0 ? '' : ' style="background:#ddd;"') + '>' + template.replace(/STR1/,d.toDateString().substring(0,3).toUpperCase()).replace(/STR2/,d.getDate()).replace(/STR3/,d.toDateString().substring(4,7).toUpperCase()) + '</div>');
 	}
 	
 	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading duties, please wait</div>');
@@ -224,20 +226,13 @@ $(document).ready(function(){
 			{
 				id             : 9999001,
 				title          : 'Carnaval NL',
-				start          : '2018-02-12',
-				end            : '2018-02-17',
-				color          : '#e2c266',
-				className      : 'holiday'
-			},
-			{
-				id             : 9999002,
-				title          : 'Away Day',
-				start          : '2018-05-25',
-				end            : '2018-05-26',
+				start          : '2019-03-04',
+				end            : '2019-03-09',
 				color          : '#e2c266',
 				className      : 'holiday'
 			}
 		];
+		for (var kh=0 ; kh<knownHolidays_dates.length ; kh++) ev2.push({id:9999002+kh,title:knownHolidays_titles[kh],start:knownHolidays_dates[kh],end:knownHolidays_dates[kh].replace(/\d$/,function(a){return a/1+1}),color:'#e2c266',className:'holiday'});
 		response.map(function(a){
 			a.id        = a.user_shiftID;
 			a.title     = a.name.length>2 ? a.name.substring(0,1) : a.name;
@@ -252,7 +247,7 @@ $(document).ready(function(){
 			events              : ev2,
 			selectable          : false,
 			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
-			viewRender          : function(){setTimeout(function(){if(window.innerWidth<768)$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if(window.innerWidth<768)$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',
 			firstDay            : 1,
@@ -318,6 +313,5 @@ $(document).ready(function(){
 			}
 		});
 		pn.on("error",function(e){alert(e.message)});
-		window.BackgroundFetch.configure(function(){alert(typeof($.post));alert(typeof(WifiWizard2));},function(e){alert(e)});
 	});
 });
