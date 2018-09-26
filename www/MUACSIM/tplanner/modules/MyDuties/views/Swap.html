@@ -183,7 +183,7 @@ while (bd<sd) {
 	
 	_html = '<tr>';
 	for (var j=0;j<7;j++) {
-		_html = _html.concat('<td style="border:1px solid #666;text-align:center;background:#ccc;font-size:10px;">'+bd.toISOString().replace(/\d{4}-(\d{2})-(\d{2}).+/,'$2-<br>$1')+'</td>');
+		_html = _html.concat('<td style="border:1px solid #666;text-align:center;background:#ccc;font-size:10px;">'+bd.toISOString().substring(8,10)+'<br>'+bd.toDateString().substring(4,7).toUpperCase()+'</td>');
 		bd.setDate(bd.getDate()+1);
 	}
 	_html = _html.concat('</tr>');
