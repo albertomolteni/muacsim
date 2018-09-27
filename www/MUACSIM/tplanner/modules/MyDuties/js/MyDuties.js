@@ -145,7 +145,7 @@ $(document).ready(function(){
 	d.setHours(4);
 	d.setDate(d.getDate() - 1);
 	
-	knownHolidays_dates  = ['2019-01-01','2019-03-30','2019-04-02','2019-05-10','2019-05-11','2019-05-21','2019-12-25','2019-12-26'];
+	knownHolidays_dates  = ['2019-01-01','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-25','2019-12-26'];
 	knownHolidays_titles = ['New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas','Boxing Day'];
 	
 	var template = $("#dutyCalendarTemplate").html();
@@ -232,7 +232,7 @@ $(document).ready(function(){
 				className      : 'holiday'
 			}
 		];
-		for (var kh=0 ; kh<knownHolidays_dates.length ; kh++) ev2.push({id:9999002+kh,title:knownHolidays_titles[kh],start:knownHolidays_dates[kh],end:knownHolidays_dates[kh].replace(/\d$/,function(a){return a/1+1}),color:'#e2c266',className:'holiday'});
+		for (var kh=0 ; kh<knownHolidays_dates.length ; kh++) ev2.push({id:9999002+kh,title:knownHolidays_titles[kh],start:knownHolidays_dates[kh],end:knownHolidays_dates[kh].replace(/\d\d$/,function(a){return a/1+1}).replace(/05-32$/,'06-01'),color:'#e2c266',className:'holiday'});
 		response.map(function(a){
 			a.id        = a.user_shiftID;
 			a.title     = a.name.length>2 ? a.name.substring(0,1) : a.name;

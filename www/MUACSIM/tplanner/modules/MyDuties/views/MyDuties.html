@@ -189,7 +189,7 @@ hr {
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.0</p><p>Developed by<br>Alberto Molteni</p></div>
+				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.1</p><p>Developed by<br>Alberto Molteni</p></div>
 			</div>
 			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
 		</div>
@@ -207,7 +207,6 @@ hr {
 <div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title">Summary of pilot hours</h5></div>
 			<div class="modal-body"><table style="width:100%;"><thead><tr><th></th><th>Hours</th><th>Points</th><th>Miles</th></tr></thead><tbody></tbody></table></div>
 			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
 		</div>
@@ -216,8 +215,7 @@ hr {
 <div class="modal fade" id="team_SummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header" style="padding:10px;"><h5 class="modal-title">Team roster</h5></div>
-			<div class="modal-body"   style="padding:10px;">
+			<div class="modal-body" style="padding:10px;">
 				<div class="row" style="width:105%;">
 					<div class="col-sm-4" style="padding-right:0;">
 						<table style="border-bottom:1px solid #666;border-left:1px solid #666;width:100%;"><tbody id="carouselLegend"></tbody></table>
@@ -295,7 +293,7 @@ $("#team_SummaryTrigger").on("click",function(){
 	}
 	
 	$("#team_SummaryModal").modal("show");
-	setTimeout(function(){$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1)},500);
+	setTimeout(function(){$("#team_SummaryModal").scrollTop(90)},400);
 	
 	if (!$("#carouselLegend").html()) {
 		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
