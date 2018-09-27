@@ -31,6 +31,7 @@ function startLocalCacheUpdate()
 function retrieveFromCache(URI,data,callback)
 {
 	var localStorageKey = URI.replace(/^\/MUACSIM\/tplanner\/modules\//,'').replace(/\/server\//,'/').replace(/\.php$/,'');
+	if (localStorageKey == 'MyDuties/readMyDuties') return false;
 	localStorageKey += '__' + JSON.stringify(data);
 	if (window.localStorage.getItem(localStorageKey)) {
 		callback(window.localStorage.getItem(localStorageKey));
