@@ -30,11 +30,13 @@ function userIsQualified(userID,qualification)
 
 function readSwapPartnerDuties(inputGroupIndex)
 {
+	$(".partner-view[data="+inputGroupIndex+"]").remove();
+	$(".input-group.date").eq(inputGroupIndex).after('<div style="text-align:center;padding:8vw;"><i data="'+inputGroupIndex+'" class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></div>');
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readSwapPartnerDuties.php",{partnerID:$("#swapWith").val(),day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
 		var responseP = $.parseJSON(resp);
 		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",      {                               day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
 			var responseS = $.parseJSON(resp);
-			$(".partner-view[data="+inputGroupIndex+"]").remove();
+			$(".fa-spinner[data="+inputGroupIndex+"]").parent().remove();
 			$(".input-group.date").eq(inputGroupIndex).after('<div data="'+inputGroupIndex+'" class="row partner-view" style="margin-top:15px;"><div class="col-sm-5"></div><div class="col-sm-2" style="padding:0;"></div><div class="col-sm-5"></div></div>');
 			responseS.map(function(duty){
 				var decimalTime1 = duty['dt_from'].substring(14,16)/60 + duty['dt_from'].substring(11,13)/1;
@@ -110,7 +112,6 @@ $(document).ready(function(){
 	$(".input-group.date input").val(findGetParameter("date"));
 	$(".input-group.date").last().datepicker({
 		format                : "dd-mm-yyyy",
-		daysOfWeekDisabled    : "0",
 		daysOfWeekHighlighted : "0",
 		startDate             : "today"
 	}).on("input change",function(){
@@ -131,7 +132,6 @@ $(document).ready(function(){
 		$("hr").eq(-2).before('<hr><div class="form-group">'+mdTemplate+'</div>');
 		$(".input-group.date").last().datepicker({
 			format                : "dd-mm-yyyy",
-			daysOfWeekDisabled    : "0",
 			daysOfWeekHighlighted : "0",
 			startDate             : "today"
 		}).on("input change",function(){

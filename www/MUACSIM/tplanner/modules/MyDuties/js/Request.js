@@ -12,14 +12,12 @@ function findGetParameter(parameterName)
 $(document).ready(function(){
 	$(".input-group.date").eq(0).datepicker({
 		format                : "dd-mm-yyyy",
-		daysOfWeekDisabled    : "0",
 		daysOfWeekHighlighted : "0",
 		startDate             : "today"
 	});
 	
 	$(".input-group.date").eq(1).datepicker({
 		format                : "dd-mm-yyyy",
-		daysOfWeekDisabled    : "0",
 		daysOfWeekHighlighted : "0",
 		startDate             : "today",
 		endDate               : "31-12-2019"
