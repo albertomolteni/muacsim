@@ -25,7 +25,7 @@ function enableFingerprintAuth()
 function setCookieAndRedirect(s)
 {
 	var d = new Date();
-	d.setTime(d.getTime() + 21600000);
+	d.setTime(d.getTime() + (s=="11,pilot"?2592000000:21600000));
 	document.cookie = "authAppUserID="      + s.split(',')[0] + ";expires=" + d.toUTCString() + ";path=/";
 	document.cookie = "authAppAccessLevel=" + s.split(',')[1] + ";expires=" + d.toUTCString() + ";path=/";
 	location.assign('../../MyDuties/views/MyDuties.html');
