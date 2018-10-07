@@ -64,7 +64,7 @@ function friendlyDate(sqld)
 
 function showConfirmationModal(dutyswapID,approve)
 {
-	$("#confirmationModal .btn").last().removeClass("btn-success").removeClass("btn-danger");
+	$("#confirmationModal .btn").last().removeClass("btn-success").removeClass("btn-danger").prop("disabled",false);
 	if (approve) $("#confirmationModal .btn").last().addClass("btn-success").html("Approve");
 	else         $("#confirmationModal .btn").last().addClass("btn-danger" ).html("Decline");
 	
@@ -76,10 +76,12 @@ function showConfirmationModal(dutyswapID,approve)
 	$("#confirmationModal").modal("show");
 	
 	$("#confirmationModal .btn").last().unbind().on("click",function(){
+		$(this).prop("disabled",true);
 		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/swapApproveDecline.php",{dutyswapID:dutyswapID,status:(approve?'APPROVED':'DECLINED'),comments:btoa($("#confirmationModal textarea").val()),sendSMS:($("#confirmationModal input[type=checkbox]").prop("checked")?1:0)},function(){
-			$("div[data="+dutyswapID+"]").hide();
+			$("div[data="+dutyswapID+"] button").remove();
+			$("div[data="+dutyswapID+"]").append('<div style="position:absolute;width:100%;padding-top:3em;padding-left:50%;"><img src="../../../img/approved_stamp.png" style="width:20em;margin-left:-10em;"></div>');
 			$("#confirmationModal").modal("hide");
-			if (!$(".swap-requesting").length) location.assign('../../MyDuties/views/MyDuties.html');
+			if (!$("#swapContainer button").length) setTimeout(function(){location.assign('../../MyDuties/views/MyDuties.html')},3000);
 		});
 	});
 }
