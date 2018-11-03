@@ -105,7 +105,6 @@ function readSwapPartnerDuties(inputGroupIndex)
 }
 
 $(document).ready(function(){
-	pquals = pquals.replace(new RegExp('"userID":"'+document.cookie.match(/authAppUserID=(\d+)/)[1]+'","self":""'),'"userID":"'+document.cookie.match(/authAppUserID=(\d+)/)[1]+'","self":"self"');
 	$("#swapWith option[value="+document.cookie.match(/authAppUserID=(\d+)/)[1]+"]").remove();
 	$("#swapWith").prop("selectedIndex",-1);
 	var mdTemplate = $(".form-group").eq(1).html();
