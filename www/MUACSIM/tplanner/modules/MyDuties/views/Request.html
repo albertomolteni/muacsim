@@ -138,6 +138,8 @@ $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
 	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 		var response = $.parseJSON(resp);
+if (response[response.length-1].surname=='Seron Luna') response.splice(13,0,{"userID":"22","surname":"Beulen","minutesWorked":[0,0,0,0,0,0,9660,5910,8520,0,0,5640],"pointsWeekend":null,"pointsEvening":"385.0","miles":26});
+if (response[response.length-1].surname=='Seron Luna') response.splice(22,1);
 		var i = 0;
 		$("#pilotSummaryModal table tbody").html('');
 		response.map(function(u){
@@ -164,7 +166,7 @@ while (bd<sd) {
 	bd.setDate(bd.getDate()-7);
 	
 	for (var i=0;i<23;i++) {
-		_html = _html.concat('<tr data-userID="'+(i+Math.floor(i/13)+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
+		_html = _html.concat('<tr data-userID="'+(i+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
 		for (var j=0;j<7;j++) {
 			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">'+(i-22?'&nbsp;':'xiiix')+'</td>');
 			bd.setDate(bd.getDate()+1);
@@ -194,6 +196,8 @@ $("#team_SummaryTrigger").on("click",function(){
 	if (!$("#carouselLegend").html()) {
 		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 			var response = $.parseJSON(resp);
+if (response[response.length-1].surname=='Seron Luna') response.splice(13,0,{"userID":"22","surname":"Beulen","minutesWorked":[0,0,0,0,0,0,9660,5910,8520,0,0,5640],"pointsWeekend":null,"pointsEvening":"385.0","miles":26});
+if (response[response.length-1].surname=='Seron Luna') response.splice(22,1);
 			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
 				$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
