@@ -192,7 +192,11 @@ $(document).ready(function(){
 				}
 			}
 			
-			if (l == 'Leave') $targets.find(".dutyBar").addClass("leave");
+			if (l == 'Leave') {
+				$targets.find(".dutyBar").addClass("leave");
+			} else {
+				if (duty.notes=='miles:'+duty.cancelledMiles) l = l + ' - cancelled';
+			}
 			
 			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
@@ -280,14 +284,15 @@ $(document).ready(function(){
 			$(this).width(textDIVwidth);
 		});
 	});
-	
+	document.addEventListener("resume",          function(){                                       alert('resumed!')});
+	document.addEventListener("visibilitychange",function(){if(document.visibilityState=='visible')alert('resumed!')});
 	document.addEventListener("deviceready",function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/iPhone/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.4.5'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php", { gcmID:data.registrationId},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php", { gcmID:data.registrationId,appVersion:'1.4.5'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
