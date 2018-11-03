@@ -284,8 +284,8 @@ $(document).ready(function(){
 			$(this).width(textDIVwidth);
 		});
 	});
-	document.addEventListener("resume",          function(){                                       alert('resumed!')});
-	document.addEventListener("visibilitychange",function(){if(document.visibilityState=='visible')alert('resumed!')});
+	document.addEventListener("resume",          function(){                                       if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
+	document.addEventListener("visibilitychange",function(){if(document.visibilityState=="visible")if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
 	document.addEventListener("deviceready",function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
