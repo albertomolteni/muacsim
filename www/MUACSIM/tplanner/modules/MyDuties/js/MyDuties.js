@@ -284,6 +284,7 @@ $(document).ready(function(){
 			$(this).width(textDIVwidth);
 		});
 	});
+	
 	document.addEventListener("resume",          function(){                                       if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
 	document.addEventListener("visibilitychange",function(){if(document.visibilityState=="visible")if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
 	document.addEventListener("deviceready",function(){
@@ -309,5 +310,6 @@ $(document).ready(function(){
 			}
 		});
 		pn.on("error",function(e){alert(e.message)});
+		window.BackgroundFetch.configure(function(){$.vPOST("/MUACSIM/tplanner/ping.php",null,function(){});window.BackgroundFetch.finish()},function(e){},{minimumFetchInterval:15});
 	});
 });
