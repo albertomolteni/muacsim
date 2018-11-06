@@ -310,6 +310,6 @@ $(document).ready(function(){
 			}
 		});
 		pn.on("error",function(e){alert(e.message)});
-		window.BackgroundFetch.configure(function(){$.vPOST("/MUACSIM/tplanner/ping.php",null,function(){});window.BackgroundFetch.finish()},function(e){},{minimumFetchInterval:15});
+		window.BackgroundFetch.configure(function(){$.vPOST("/MUACSIM/tplanner/ping.php",null,function(){window.BackgroundFetch.finish()})},function(e){},{minimumFetchInterval:15});
 	});
 });
