@@ -242,14 +242,22 @@ $(document).ready(function(){
 			events              : ev2,
 			selectable          : false,
 			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
-			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if(window.innerWidth<768)$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if(window.innerWidth<768&&$(".fc-month-button").hasClass("fc-state-active"))$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',
 			firstDay            : 1,
 			header              : {
-									left   : 'title',
-									center : '',
-									right  : 'today prev,next agendaWeek,month'
+									left       : 'title',
+									center     : '',
+									right      : 'today prev,next agendaWeek,month'
+			},
+			views               : {
+									agendaWeek : {
+										minTime         : '08:00:00',
+										maxTime         : '22:00:00',
+										slotDuration    : '02:00:00',
+										slotLabelFormat : 'HH:mm'
+									}
 			}
 		});
 		
@@ -310,6 +318,5 @@ $(document).ready(function(){
 			}
 		});
 		pn.on("error",function(e){alert(e.message)});
-		window.BackgroundFetch.configure(function(){$.vPOST("/MUACSIM/tplanner/ping.php",null,function(){window.BackgroundFetch.finish()})},function(e){},{minimumFetchInterval:15});
 	});
 });
