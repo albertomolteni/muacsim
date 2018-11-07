@@ -255,7 +255,7 @@ $(document).ready(function(){
 									agendaWeek : {
 										minTime         : '08:00:00',
 										maxTime         : '22:00:00',
-										slotDuration    : '02:00:00',
+										slotDuration    : '01:00:00',
 										slotLabelFormat : 'HH:mm'
 									}
 			}
