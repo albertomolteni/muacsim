@@ -274,7 +274,7 @@ $(document).ready(function(){
 			if (window.innerWidth < 768) {
 				$(".fc-toolbar h2").css("font-size","1.4rem").css("margin-bottom","0.8rem");
 				$(".fc-toolbar button").css("font-size","0.9em");
-				$("head").append("<style>.fc-time{display:none}.fc-day-grid-event{text-align:center}</style>");
+				$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}</style>");
 				$("#viewSelector .btn-secondary").eq(0).trigger("click");
 			} else {
 				$("#viewSelector .btn-secondary").eq(1).trigger("click");
