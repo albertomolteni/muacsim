@@ -242,7 +242,7 @@ $(document).ready(function(){
 			events              : ev2,
 			selectable          : false,
 			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
-			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if(window.innerWidth<768&&$(".fc-month-button").hasClass("fc-state-active"))$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if($(".fc-month-button").hasClass("fc-state-active")){$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")}else{$(".fc-scroller").css("height","55vh")}},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',
 			firstDay            : 1,
@@ -274,7 +274,7 @@ $(document).ready(function(){
 			if (window.innerWidth < 768) {
 				$(".fc-toolbar h2").css("font-size","1.4rem").css("margin-bottom","0.8rem");
 				$(".fc-toolbar button").css("font-size","0.9em");
-				$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}</style>");
+				$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}.fc-agenda-view .fc-day-header span{font-size:0.8em}</style>");
 				$("#viewSelector .btn-secondary").eq(0).trigger("click");
 			} else {
 				$("#viewSelector .btn-secondary").eq(1).trigger("click");
