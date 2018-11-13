@@ -112,5 +112,4 @@
     <plugin name="phonegap-plugin-push" spec="1.9.4">
         <variable name="SENDER_ID" value="690910508250" />
     </plugin>
-    <plugin name="cordova-plugin-background-fetch" spec="5.2.1" />
 </widget>
