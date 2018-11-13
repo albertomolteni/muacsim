@@ -298,10 +298,10 @@ $(document).ready(function(){
 	document.addEventListener("deviceready",function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
-			if (navigator.userAgent.match(/iPhone/)) {
+			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.4.5'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveGCM.php", { gcmID:data.registrationId,appVersion:'1.4.5'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.4.5'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
