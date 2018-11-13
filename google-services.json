@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "690910508250",
+    "firebase_url": "https://muacsim.firebaseio.com",
+    "project_id": "muacsim",
+    "storage_bucket": "muacsim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690910508250:android:c4622c3dc937420e",
+        "android_client_info": {
+          "package_name": "org.eurocontrol.muacsim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690910508250-n4loe4jv5395ima1qrct21ks5lbsa27b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYEvOmHNECkmck0Ltp0kFxj-aLZp0gh8U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
