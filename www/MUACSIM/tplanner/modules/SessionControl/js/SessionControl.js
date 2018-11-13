@@ -52,7 +52,6 @@ function readLoginResult()
 }
 
 $(document).ready(function(){
-	SamsungPass = {isAvailable:function(s,f){f()}};
 	$("#username").focus();
 	$("input").on("keyup",function(e){
 		if (e.which == 13) $("#loginButton").trigger("click");
