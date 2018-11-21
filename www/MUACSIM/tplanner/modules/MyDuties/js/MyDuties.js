@@ -99,10 +99,10 @@ function showDutyDetails(ds,swapInProgress)
 	});
 	
 	if (!userIsPilot) {
-		$("#dutyModal .modal-body div").on("contextmenu",function(){
+		$("#dutyModal .modal-body div").on("taphold",function(){
 			var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>$/)[1];
 			var time_now = new Date();
-			time_end = new Date(time_now.getTime());
+			time_end     = new Date();
 			time_end.setHours(  tstr_end.substring(0,2)/1);
 			time_end.setMinutes(tstr_end.substring(3,5)/1);
 					alert(time_end.toISOString());
