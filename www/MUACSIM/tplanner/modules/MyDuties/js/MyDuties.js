@@ -97,6 +97,31 @@ function showDutyDetails(ds,swapInProgress)
 	$("#dutyModal .btn-warning").unbind().on("click",function(){
 		location.assign('./Swap.html?date='+ds.substring(8,10)+'-'+ds.substring(5,7)+'-'+ds.substring(0,4));
 	});
+	
+	if (!userIsPilot) {
+		$("#dutyModal .modal-body div").on("contextmenu",function(){
+			var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>$/)[1];
+			var time_now = new Date();
+			time_end = new Date(time_now.getTime());
+			time_end.setHours(  tstr_end.substring(0,2)/1);
+			time_end.setMinutes(tstr_end.substring(3,5)/1);
+					alert(time_end.toISOString());
+			$(".miles-outer").remove();
+			$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;"><p>What time did this simulation finish?</p><div class="row">\
+								<div class="col-sm-6"><input type="time" class="form-control" value="'+time_now.toISOString().substring(11,16)+'"></div>\
+								<div class="col-sm-4" style="text-align:center;padding-top:8px;"></div>\
+								<div class="col-sm-2" style="padding:0;"><button class="btn btn-success" style="height:100%;">OK</button></div>\
+							</div></div>');
+			$(".miles-outer input").on("change",function(){
+				if ($(this).val().match(/^\d\d:\d\d$/)) {
+					var time_set = new Date(time_end.getTime());
+					time_set.setHours(  $(this).val().substring(0,2)/1);
+					time_set.setMinutes($(this).val().substring(3,5)/1);
+					$(".miles-outer .col-sm-4").html('miles: '+Math.floor((time_end-time_set)/1800000));
+				}
+			});
+		});
+	}
 }
 
 function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
