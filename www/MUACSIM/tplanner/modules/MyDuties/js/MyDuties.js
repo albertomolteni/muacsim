@@ -87,13 +87,14 @@ function showDutyDetails(ds,swapInProgress)
 		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
-			$("#dutyModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
+			$("#dutyModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
 		if (swapInProgress) $("#dutyModal .modal-body").append('<div class="card card-inverse" style="background:#666;color:white;"><div class="card-block">Swap request pending</div></div>');
 		
 		if (!userIsPilot) {
+			$("#dutyModal .modal-body").unbind("click").on("click",function(){$(".miles-outer").remove()});
 			$("#dutyModal .modal-body div").on("dblclick",function(){
 				var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>$/)[1];
 				var time_now = new Date();
@@ -103,10 +104,10 @@ function showDutyDetails(ds,swapInProgress)
 				time_end.setMinutes(tstr_end.substring(3,5)/1);
 				
 				$(".miles-outer").remove();
-				$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;"><p>What time did this simulation finish?</p><div class="row">\
+				$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;" data-eID="'+$(this).attr("data-eID")+'"><p>What time did this simulation finish?</p><div class="row">\
 									<div class="col-sm-5"><input type="time" class="form-control" value="'+time_now.toISOString().substring(11,16)+'"></div>\
 									<div class="col-sm-4" style="text-align:center;padding-top:8px;"></div>\
-									<div class="col-sm-3" style="padding:0;"><button class="btn btn-success" style="height:100%;">OK</button></div>\
+									<div class="col-sm-3" style="padding:0;"><button class="btn btn-secondary" style="background:white;height:100%;">OK</button></div>\
 								</div></div>');
 				
 				$(".miles-outer input").on("change",function(){
@@ -114,9 +115,17 @@ function showDutyDetails(ds,swapInProgress)
 						var time_set = new Date(time_end.getTime());
 						time_set.setHours(  $(this).val().substring(0,2)/1);
 						time_set.setMinutes($(this).val().substring(3,5)/1);
-						$(".miles-outer .col-sm-4").html('miles: '+Math.floor((time_end-time_set)/1800000));
+						miles_to_add = Math.floor((time_end-time_set)/1800000);
+						$(".miles-outer .col-sm-4").html('miles: '+miles_to_add);
 					}
 				}).trigger("change");
+				
+				$(".miles-outer .btn-secondary").on("click",function(){
+					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),miles:miles_to_add},function(){
+						$(".miles-outer").html('Miles added successfully');
+						setTimeout(function(){$(".miles-outer").remove()},2000);
+					});
+				});
 			});
 		}
 	});
