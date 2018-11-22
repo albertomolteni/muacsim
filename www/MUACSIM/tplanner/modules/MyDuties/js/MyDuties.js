@@ -126,6 +126,8 @@ function showDutyDetails(ds,swapInProgress)
 						setTimeout(function(){$(".miles-outer").remove()},2000);
 					});
 				});
+				
+				$(".miles-outer").on("click",function(e){e.stopPropagation()});
 			});
 		}
 	});
