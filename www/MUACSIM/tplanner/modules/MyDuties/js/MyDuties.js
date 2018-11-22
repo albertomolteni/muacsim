@@ -99,13 +99,13 @@ function showDutyDetails(ds,swapInProgress)
 	});
 	
 	if (!userIsPilot) {
-		$("#dutyModal .modal-body div").on("taphold",function(){
+		$("#dutyModal .modal-body div").on("click",function(){
 			var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>$/)[1];
 			var time_now = new Date();
 			time_end     = new Date();
+			time_now.setMinutes(time_now.getMinutes()-time_now.getTimezoneOffset());
 			time_end.setHours(  tstr_end.substring(0,2)/1);
 			time_end.setMinutes(tstr_end.substring(3,5)/1);
-					alert(time_end.toISOString());
 			$(".miles-outer").remove();
 			$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;"><p>What time did this simulation finish?</p><div class="row">\
 								<div class="col-sm-6"><input type="time" class="form-control" value="'+time_now.toISOString().substring(11,16)+'"></div>\
@@ -119,7 +119,7 @@ function showDutyDetails(ds,swapInProgress)
 					time_set.setMinutes($(this).val().substring(3,5)/1);
 					$(".miles-outer .col-sm-4").html('miles: '+Math.floor((time_end-time_set)/1800000));
 				}
-			});
+			}).trigger("change");
 		});
 	}
 }
