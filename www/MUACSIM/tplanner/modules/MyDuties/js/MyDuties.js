@@ -121,6 +121,7 @@ function showDutyDetails(ds,swapInProgress)
 				}).trigger("change");
 				
 				$(".miles-outer .btn-secondary").on("click",function(){
+					$(".miles-outer").html('Please wait ...');
 					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),miles:miles_to_add},function(){
 						$(".miles-outer").html('Miles added successfully');
 						setTimeout(function(){$(".miles-outer").remove()},2000);
@@ -183,8 +184,8 @@ $(document).ready(function(){
 	d.setHours(4);
 	d.setDate(d.getDate() - 1);
 	
-	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-03-04','2019-04-19','2019-04-22','2019-05-01','2019-05-30','2019-05-31','2019-06-10','2019-11-01','2019-12-24','2019-12-25','2019-12-26'];
-	knownHolidays_titles = ['New Year','New Year','Carnival','Good Friday','Easter Monday','Labour Day','Ascension','Ascension','Whit Monday','All Saints Day','Christmas Eve','Christmas','Boxing Day'];
+	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27'];
+	knownHolidays_titles = ['New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas','Boxing Day','Year-end Closure'];
 	
 	var template = $("#dutyCalendarTemplate").html();
 	

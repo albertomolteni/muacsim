@@ -27,7 +27,6 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../MyDuties/views/MyDuties.html">My duties</a></li>
-			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../MyDuties/views/MiniPlanner.html">MiniPlanner</a></li>
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../MyDuties/views/Request.html">Request duty</a></li>
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../LeaveAbsences/views/Sick.html">Report sick</a></li>
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="pilotSummaryTrigger">Pilot hours</a></li>
@@ -132,79 +131,12 @@ hr {
 </style>
 
 <div class="row" style="margin:0;">
-	<div id="viewSelector">
-		<div class="btn-group" role="group" style="width:100%;">
-			<button type="button" class="btn btn-secondary" style="border-left: 0;">List</button>
-			<button type="button" class="btn btn-secondary" style="border-right:0;">Calendar</button>
-		</div>
-	</div>
 	<div id="calendar1"></div>
-	<div id="calendarContainer" class="col-sm-12">
-		<div id="swapCardTemplate" class="card swap-card">
-			<div class="row">
-				<div class="col-sm-3"><i class="fa fa-refresh"></i></div>
-				<div class="col-sm-9" style="padding:0;"><div class="card-block" style="padding:1.4rem 0;"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
-			</div>
-		</div>
-		<div id="dutyCalendarTemplate" class="row calendar-row">
-			<div class="col-sm-3">
-				<div style="font-size:0.8rem;">STR1</div>
-				<div style="font-size:1.8rem;">STR2</div>
-				<div style="font-size:0.8rem;">STR3</div>
-			</div>
-			<div class="col-sm-3" style="padding:0;"></div>
-			<div class="col-sm-3" style="padding:0;"></div>
-			<div class="col-sm-3" style="padding:0;"></div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="dutyModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" style="position:absolute;left:15px;">Swap duty</button>
-				<button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="swapModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" style="position:absolute;left:15px;">Decline</button>
-				<button type="button" class="btn btn-success">Accept</button>
-			</div>
-		</div>
-	</div>
 </div>
 <link rel="stylesheet" href="../../../lib/fullcalendar/fullcalendar.css">
 <script src="../../../lib/moment.min.js"></script>
 <script src="../../../lib/fullcalendar/fullcalendar.js"></script>
-<script src="../../../modules/MyDuties/js/MyDuties.js"></script>
-<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.7</p><p>Developed by<br>Alberto Molteni</p></div>
-			</div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="notamModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
-		</div>
-	</div>
-</div>
+<script src="../../../modules/MyDuties/js/MiniPlanner.js"></script>
 <div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
