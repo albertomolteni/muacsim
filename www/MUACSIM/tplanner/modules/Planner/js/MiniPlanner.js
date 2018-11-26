@@ -12,6 +12,7 @@ $(document).ready(function(){
 	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27'];
 	knownHolidays_titles = ['New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas','Boxing Day','Year-end Closure'];
 	
+	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading events, please wait</div>');
 	$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readSimEvents.php",null,function(resp){
 		ev1 = $.parseJSON(resp);
 		for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim>9) ev1.splice(evi,1);
@@ -57,5 +58,6 @@ $(document).ready(function(){
 		$(".fc-toolbar h2").css("font-size","1rem").css("margin-bottom","0.8rem").css("margin-top","0.5rem");
 		$(".fc-toolbar button").css("font-size","0.9em");
 		$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}.fc-agenda-view .fc-day-header span{font-size:0.8em}.fc button .fc-icon{top:0.1em!important}</style>");
+		$("#loadingOverlay").remove();
 	});
 });
