@@ -15,7 +15,7 @@ function insertSimCoreRoster()
 			console.log(c_width);
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
-			$(".fc-time-grid tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.7em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
+			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.6em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;">S</div>');
 		}
 	}
