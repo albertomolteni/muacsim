@@ -8,17 +8,27 @@ function requiredRolesHTML(s)
 	return '<br>Requires ' + o.join(', ');
 }
 
+function fillSimCoreRoster()
+{
+	var s = ['M','S','A','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
+	simcoreDuties.map(function(duty){
+		$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
+	});
+}
+
 function insertSimCoreRoster()
 {
 	var simcore = ['','BAS','','EMIL','VINCENT','','','ALBERTO','JEAN-YVES'];
-	var c_width = $(".fc-day-header").eq(0).width();
-			console.log(c_width);
+	var c_width = $(".fc-day-header").eq(0).width()+2;
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.6em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;">S</div>');
 		}
 	}
+			console.log($(".fc-slats tr").last().height());
+	$(".fc-scroller").css("height",(19*$(".fc-slats tr").last().height()+2)+"px");
+	fillSimCoreRoster();
 }
 
 $(document).ready(function(){
@@ -42,11 +52,17 @@ $(document).ready(function(){
 		ev2 = $.parseJSON(JSON.stringify(ev1));
 		for (var kh=0 ; kh<knownHolidays_dates.length ; kh++) ev2.push({id:9999000+kh,title:knownHolidays_titles[kh],start:knownHolidays_dates[kh],end:knownHolidays_dates[kh].replace(/\d\d$/,function(a){return (a/1>8?'':'0')+(a/1+1)}).replace(/05-32$/,'06-01'),color:'#e2c266',className:'holiday'});
 		
+		simcoreDuties = [];
+		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
+			simcoreDuties = $.parseJSON(resp);
+			fillSimCoreRoster();
+		});
+		
 		$("#calendar1").fullCalendar({
 			events              : ev2,
 			selectable          : true,
 			select              : false,
-			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});$(".fc-scroller").css("height","75vh");insertSimCoreRoster()},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});insertSimCoreRoster()},200)},
 			timeFormat          : 'HH:mm',
 			columnFormat        : 'ddd DD-MM',
 			defaultView         : 'miniView',
