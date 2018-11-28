@@ -8,6 +8,19 @@ function requiredRolesHTML(s)
 	return '<br>Requires ' + o.join(', ');
 }
 
+function insertSimCoreRoster()
+{
+	var simcore = ['','BAS','','EMIL','VINCENT','','','ALBERTO','JEAN-YVES'];
+	var c_width = $(".fc-day-header").eq(0).width();
+			console.log(c_width);
+	for (var jj=0;jj<simcore.length;jj++) {
+		if (simcore[jj].length) {
+			$(".fc-time-grid tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.7em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
+			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;">S</div>');
+		}
+	}
+}
+
 $(document).ready(function(){
 	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27'];
 	knownHolidays_titles = ['New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas','Boxing Day','Year-end Closure'];
@@ -33,7 +46,7 @@ $(document).ready(function(){
 			events              : ev2,
 			selectable          : true,
 			select              : false,
-			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});$(".fc-scroller").css("height","55vh")},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});$(".fc-scroller").css("height","75vh");insertSimCoreRoster()},200)},
 			timeFormat          : 'HH:mm',
 			columnFormat        : 'ddd DD-MM',
 			defaultView         : 'miniView',
