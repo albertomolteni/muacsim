@@ -12,7 +12,11 @@ function fillSimCoreRoster()
 {
 	var s = ['M','S','A','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
 	simcoreDuties.map(function(duty){
-		$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
+		try {
+			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
+		} catch(e) {
+			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html('?');
+		}
 	});
 }
 
@@ -23,10 +27,9 @@ function insertSimCoreRoster()
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.6em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
-			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;">S</div>');
+			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;"></div>');
 		}
 	}
-			console.log($(".fc-slats tr").last().height());
 	$(".fc-scroller").css("height",(19*$(".fc-slats tr").last().height()+2)+"px");
 	fillSimCoreRoster();
 }
