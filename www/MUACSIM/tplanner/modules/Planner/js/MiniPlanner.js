@@ -23,14 +23,14 @@ function fillSimCoreRoster()
 function insertSimCoreRoster()
 {
 	var simcore = ['','BAS','','EMIL','VINCENT','','','ALBERTO','JEAN-YVES'];
-	var c_width = $(".fc-day-header").eq(0).width()+2;
+	var c_width = $(".fc-day-header").eq(0).width()+1;
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.6em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+c_width+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(19*$(".fc-slats tr").last().height()+2)+"px");
+	$(".fc-scroller").css("height",(19*$(".fc-slats tr").last().height()+1)+"px");
 	fillSimCoreRoster();
 }
 
