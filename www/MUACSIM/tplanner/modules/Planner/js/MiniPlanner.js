@@ -22,7 +22,7 @@ function fillSimCoreRoster()
 
 function insertSimCoreRoster()
 {
-	var simcore = ['','BAS','','EMIL','VINCENT','','','ALBERTO','JEAN-YVES'];
+	var simcore = ['','BAS','','EMIL','VINCENT','CHOI','','ALBERTO','JEAN-YVES'];
 	var c_width = $(".fc-day-header").eq(0).width()+1;
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
@@ -30,18 +30,28 @@ function insertSimCoreRoster()
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(19*$(".fc-slats tr").last().height()+3)+"px");
+	$(".fc-scroller").css("height",(20*$(".fc-slats tr").last().height()+5)+"px");
 	fillSimCoreRoster();
 }
 
 $(document).ready(function(){
+	if (document.cookie.match(/authAppUserID=5;/)) {
+		$(".nav-item").eq(5).remove();
+		$(".nav-item").eq(4).remove();
+		$(".nav-item").eq(1).remove();
+	}
+	
 	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27'];
 	knownHolidays_titles = ['New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas','Boxing Day','Year-end Closure'];
 	
 	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading events, please wait</div>');
 	$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readSimEvents.php",null,function(resp){
 		ev1 = $.parseJSON(resp);
-		for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim>9) ev1.splice(evi,1);
+		if (document.cookie.match(/authAppUserID=5;/)) {
+			for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim<9) ev1.splice(evi,1);
+		} else {
+			for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim>9) ev1.splice(evi,1);
+		}
 		ev1.map(function(a){
 			a.id        = a.simeventID;
 			a.title     = a.name;
