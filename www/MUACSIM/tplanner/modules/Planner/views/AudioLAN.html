@@ -8,12 +8,10 @@
 <script>if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')</script>
 <link rel="stylesheet" href="../../../css/bootstrap.min.css">
 <link rel="stylesheet" href="../../../css/font-awesome.min.css">
-<script src="../../../../../cordova.js"></script>
 <script src="../../../lib/jquery-3.1.1.min.js"></script>
 <script src="../../../lib/tether.min.js"></script>
 <script src="../../../lib/bootstrap.min.js"></script>
 <script src="../../../lib/pg.js"></script>
-<script>$("head").append('<script src="http://albertomolteni.altervista.org/config.js?nocache='+Date.now()+'"><\/script>')</script>
 <style>.highlight{background:lightyellow}.carousel-control-prev,.carousel-control-next{opacity:0!important}</style>
 </head>
 <body>
@@ -36,175 +34,37 @@
 	</div>
 </nav>
 <div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
-
 <style>
 
-#dutyCalendarTemplate {
-	display: none;
-}
-
-.calendar-row {
-	border-bottom: 1px solid #aaa;
-	padding: 0.8rem 0;
-}
-
-.calendar-row div {
+.col-lg-4,
+.col-lg-6 {
+	margin-top: 2rem;
+	background: #fd7;
+	line-height: 4em;
 	text-align: center;
-}
-
-.month-start-banner {
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
-	margin: 1rem -15px;
-	height: 10rem;
-}
-
-.dutyBar {
-	width: 100%;
-	height: 2rem;
-	margin-top: 1.4rem;
-	background: #fea;
-	border: 1px solid #fa8;
-}
-
-.dutyBar.leave {
-	background: #def;
-	border: 1px solid #9cf;
-}
-
-.swapInProgress {
-	background: repeating-linear-gradient(45deg,transparent,transparent 10px,#fea 10px,#fea 20px);
-}
-
-.dutyBarText {
-	position: absolute;
-	white-space: nowrap;
-	z-index: 998;
-	top: 1.6rem;
-}
-
-
-hr {
-	border-top: 1px solid black;
-}
-
-.swapping {
-	background: repeating-linear-gradient(45deg,#eee,#eee 20px,#ddd 20px,#ddd 40px) !important;
-}
-
-#swapCardTemplate {
-	display: none;
-}
-@keyframes border-pulsate {
-	0%   { border-color: rgba(  0,   0,   0, .125); }
-	50%  { border-color: rgba(255,   0,   0, .990); }
-	100% { border-color: rgba(  0,   0,   0, .125); }
-}
-.swap-card {
-	margin: 0 -15px 30px -15px;
-	animation: border-pulsate 2s infinite;
-}
-.swap-card .col-sm-3 {
-	text-align: center;
-	font-size: 4em;
-}
-
-.fc-bg .fc-sat,
-.fc-bg .fc-sun {
-	background: #ebebeb;
-}
-
-#viewSelector {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	background: white;
-	width: 100vw;
-	z-index: 999;
-}
-#viewSelector .btn-secondary {
-	width: 50%;
-	border-radius: 0;
-	border-bottom: 0;
+	border-radius: .25rem;
+	cursor: pointer;
 }
 
 </style>
 
 <div class="row" style="margin:0;">
-	<div id="viewSelector">
-		<div class="btn-group" role="group" style="width:100%;">
-			<button type="button" class="btn btn-secondary" style="border-left: 0;">List</button>
-			<button type="button" class="btn btn-secondary" style="border-right:0;">Calendar</button>
+	<div class="col-sm-12">
+		<div class="card card-inverse" style="background:#666;color:white;font-size:18px;"><div class="card-block">Where is AudioLAN frozen?</div></div>
+		<div class="row container1" style="margin:0;">
+			<div class="col-lg-6">Suite A</div>
+			<div class="col-lg-6">Suite B</div>
+			<div class="col-lg-6">Suite C</div>
+			<div class="col-lg-6">Suite D</div>
 		</div>
-	</div>
-	<div id="calendar1"></div>
-	<div id="calendarContainer" class="col-sm-12">
-		<div id="swapCardTemplate" class="card swap-card">
-			<div class="row">
-				<div class="col-sm-3"><i class="fa fa-refresh"></i></div>
-				<div class="col-sm-9" style="padding:0;"><div class="card-block" style="padding:1.4rem 0;"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
-			</div>
-		</div>
-		<div id="dutyCalendarTemplate" class="row calendar-row">
-			<div class="col-sm-3">
-				<div style="font-size:0.8rem;">STR1</div>
-				<div style="font-size:1.8rem;">STR2</div>
-				<div style="font-size:0.8rem;">STR3</div>
-			</div>
-			<div class="col-sm-3" style="padding:0;"></div>
-			<div class="col-sm-3" style="padding:0;"></div>
-			<div class="col-sm-3" style="padding:0;"></div>
+		<div class="row container2" style="margin:0;display:none;">
+			<div class="col-lg-4" data="3">Pilot 1</div>
+			<div class="col-lg-4" data="5">Hybrid</div>
+			<div class="col-lg-4" data="4">Pilot 2</div>
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="dutyModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-warning" style="position:absolute;left:15px;">Swap duty</button>
-				<button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="swapModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" style="position:absolute;left:15px;">Decline</button>
-				<button type="button" class="btn btn-success">Accept</button>
-			</div>
-		</div>
-	</div>
-</div>
-<link rel="stylesheet" href="../../../lib/fullcalendar/fullcalendar.css">
-<script src="../../../lib/moment.min.js"></script>
-<script src="../../../lib/fullcalendar/fullcalendar.js"></script>
-<script src="../../../modules/MyDuties/js/MyDuties.js"></script>
-<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.9</p><p>Developed by<br>Alberto Molteni</p></div>
-			</div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="notamModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header"><h5 class="modal-title"></h5></div>
-			<div class="modal-body"></div>
-			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
-		</div>
-	</div>
-</div>
+<script src="../../../modules/Planner/js/AudioLAN.js"></script>
 <div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
