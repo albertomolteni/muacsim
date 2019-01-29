@@ -34,39 +34,29 @@
 	</div>
 </nav>
 <div class="row" style="margin:1em 0;"><div class="col-lg-12 col-xl-10 offset-xl-1">
+
 <style>
 
-.col-lg-4,
-.col-lg-6 {
-	margin-top: 1.2rem;
-	background: #fd7;
-	line-height: 3.6em;
-	text-align: center;
-	border-radius: .25rem;
+.bidding .btn {
+	width: 100%;
+	margin-top: 1em;
 	cursor: pointer;
 }
 
 </style>
 
-<div class="row" style="margin:0;">
-	<div class="col-sm-12">
-		<div class="card card-inverse" style="background:#666;color:white;font-size:18px;"><div class="card-block">Where is AudioLAN frozen?</div></div>
-		<div class="row container1" style="margin:0;">
-			<div class="col-lg-6">Suite A</div>
-			<div class="col-lg-6">Suite B</div>
-			<div class="col-lg-6">Suite C</div>
-			<div class="col-lg-6">Suite D</div>
-		</div>
-		<div class="row container2" style="margin:0;display:none;">
-			<div class="col-lg-4" data="1">EC</div>
-			<div class="col-lg-4" data="2">CC</div>
-			<div class="col-lg-4" data="3">Pilot 1</div>
-			<div class="col-lg-4" data="4">Pilot 2</div>
-			<div class="col-lg-4" data="5">Hybrid</div>
-		</div>
+<div id="template" style="display:none;">
+	<div class="col-md-12"><div style="text-align:center;font-size:22px;margin-top:1em;">STR1&nbsp;&nbsp;(STR2)</div></div>
+	<div class="col-md-12" style="text-align:center;padding:20px 15px;border-bottom:1px solid #ddd;">STR3</div>
+	<div class="col-md-12" style="text-align:center;padding:20px 15px;">STR4</div>
+	<div class="col-md-12">
+		<button type="button" data="1" class="btn btn-success">I want to bid for this duty</button>
+		<button type="button" data="0" class="btn btn-danger" >I'm not available</button>
+		<button type="button" data="x" class="btn btn-success bidding-yes" style="display:none;">Bidding - tap to revoke</button>
+		<button type="button" data="x" class="btn btn-danger  bidding-no"  style="display:none;">Not available - tap to revoke</button>
 	</div>
 </div>
-<script src="../../../modules/Planner/js/AudioLAN.js"></script>
+<script src="../../../modules/MyDuties/js/ExtraBidding.js"></script>
 <div class="modal fade" id="pilotSummaryModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">

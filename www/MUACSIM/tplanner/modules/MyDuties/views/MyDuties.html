@@ -146,6 +146,12 @@ hr {
 				<div class="col-sm-9" style="padding:0;"><div class="card-block" style="padding:1.4rem 0;"><h3>New swap request</h3><p class="card-text">STR1</p></div></div>
 			</div>
 		</div>
+		<div id="extraDutyCard" class="card" style="margin:0 -15px 30px -15px;animation:border-pulsate 2s infinite;display:none;">
+			<div class="row">
+				<div class="col-sm-3" style="text-align:center;font-size:4em;"><i class="fa fa-euro"></i></div>
+				<div class="col-sm-9" style="padding:0;"><div class="card-block" style="padding:2rem 0;"><h3>Extra duties available</h3></div></div>
+			</div>
+		</div>
 		<div id="dutyCalendarTemplate" class="row calendar-row">
 			<div class="col-sm-3">
 				<div style="font-size:0.8rem;">STR1</div>
@@ -190,7 +196,7 @@ hr {
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.4.9</p><p>Developed by<br>Alberto Molteni</p></div>
+				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.5.1</p><p>Developed by<br>Alberto Molteni</p></div>
 			</div>
 			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
 		</div>
@@ -243,8 +249,6 @@ $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
 	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 		var response = $.parseJSON(resp);
-if (response[response.length-1].surname=='Seron Luna') response.splice(13,0,{"userID":"22","surname":"Beulen","minutesWorked":[0,0,0,0,0,0,9660,5910,8520,0,0,5640],"pointsWeekend":null,"pointsEvening":"385.0","miles":26});
-if (response[response.length-1].surname=='Seron Luna') response.splice(22,1);
 		var i = 0;
 		$("#pilotSummaryModal table tbody").html('');
 		response.map(function(u){
@@ -301,8 +305,6 @@ $("#team_SummaryTrigger").on("click",function(){
 	if (!$("#carouselLegend").html()) {
 		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
 			var response = $.parseJSON(resp);
-if (response[response.length-1].surname=='Seron Luna') response.splice(13,0,{"userID":"22","surname":"Beulen","minutesWorked":[0,0,0,0,0,0,9660,5910,8520,0,0,5640],"pointsWeekend":null,"pointsEvening":"385.0","miles":26});
-if (response[response.length-1].surname=='Seron Luna') response.splice(22,1);
 			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
 				$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');

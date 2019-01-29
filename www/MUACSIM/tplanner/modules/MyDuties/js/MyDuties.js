@@ -271,6 +271,13 @@ $(document).ready(function(){
 			});
 		});
 		
+		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readExtraBidding.php",null,function(resp){
+			var response = $.parseJSON(resp);
+			if (response.length) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="./ExtraBidding.html">Extra offers</a></li>');
+			for (var i=0 ; i<response.length ; i++) if (['0','1'].indexOf(response[i].responseValue)+1) response.splice(i,1);
+			if (response.length) $("#extraDutyCard").show().on("click",function(){location.assign('./ExtraBidding.html')});
+		});
+		
 		ev2 = [];
 		for (var kh=0 ; kh<knownHolidays_dates.length ; kh++) ev2.push({id:9999000+kh,title:knownHolidays_titles[kh],start:knownHolidays_dates[kh],end:knownHolidays_dates[kh].replace(/\d\d$/,function(a){return (a/1>8?'':'0')+(a/1+1)}).replace(/05-32$/,'06-01'),color:'#e2c266',className:'holiday'});
 		response.map(function(a){
@@ -344,9 +351,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.4.9'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.1'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.4.9'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.1'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
