@@ -45,17 +45,19 @@ function respondToExtraBidding(extraBiddingID,responseValue)
 }
 
 $(document).ready(function(){
+	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading extra duties, please wait</div>');
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readExtraBidding.php",null,function(resp){
 		var response = $.parseJSON(resp);
 		var template = $("#template").html();
 		
 		response.map(function(x){
-			$("#template").parent().append('<div class="row bidding" data="'+x.extraBiddingID+'" style="border:1px solid #aaa;border-radius:4px;margin:2em 0 0;padding-bottom:1em;">'+template.replace(/STR1/,friendlyDate(new Date(x.dt_from))).replace(/STR2/,x.shiftName).replace(/STR3/,x.roles).replace(/STR4/,'Bidding closes '+friendlyDate(new Date(x.dt_close))+' '+x.dt_close.substring(11,16))+'</div>');
+			$("#template").parent().append('<div class="row bidding" data="'+x.extraBiddingID+'" style="border:1px solid #aaa;border-radius:4px;margin:2em 0 0;padding-bottom:1em;">'+template.replace(/STR1/,friendlyDate(new Date(x.dt_from))).replace(/STR2/,x.shiftName).replace(/STR3/,x.roles).replace(/STR4/,'Bidding closes<br>'+friendlyDate(new Date(x.dt_close))+' '+x.dt_close.substring(11,16))+'</div>');
 			if (['0','1'].indexOf(x.responseValue)+1) {
 				$(".bidding[data="+x.extraBiddingID+"] .btn").hide();
 				$(".bidding[data="+x.extraBiddingID+"] .btn").eq(3-x.responseValue).show();
 			}
 		});
+		$("#loadingOverlay").remove();
 		
 		$(".bidding .btn").on("click",function(){
 			$(this).parent().find(".btn").prop("disabled",true);
