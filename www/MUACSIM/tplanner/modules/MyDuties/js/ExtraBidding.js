@@ -21,7 +21,7 @@ function friendlyDate(d)
 			s = s.concat('<sup>th</sup> ');
 			break;
 	}
-	s = s.concat(m[d.getMonth()]) + ' ' + d.getFullYear();
+	s = s.concat(m[d.getMonth()]);
 	return s;
 }
 
