@@ -33,7 +33,7 @@ function setCookieAndRedirect(s)
 
 function readLoginResult()
 {
-	$.get("http://muacsim.eu/MUACSIM/tplanner/modules/SessionControl/server/readLoginResult.php",null,function(resp){
+	$.get("http://muacsim.nl/MUACSIM/tplanner/modules/SessionControl/server/readLoginResult.php",null,function(resp){
 		if (resp/1) {
 			if (resp == 1) {
 				$("#loginButton").prop("disabled",false);
@@ -59,7 +59,7 @@ $(document).ready(function(){
 	$("#loginButton").on("click",function(){
 		$(this).prop("disabled",true);
 		$("#username").val($("#username").val().toLowerCase().trim());
-		$.post("http://muacsim.eu/MUACSIM/tplanner/modules/SessionControl/server/writeLoginAttempt.php",{username:$("#username").val(),passwd:btoa($("#passwd").val())},function(){
+		$.post("http://muacsim.nl/MUACSIM/tplanner/modules/SessionControl/server/writeLoginAttempt.php",{username:$("#username").val(),passwd:btoa($("#passwd").val())},function(){
 			readLoginResult();
 		});
 	});
