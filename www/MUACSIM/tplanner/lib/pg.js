@@ -52,7 +52,7 @@ $.vPOST = function(URI,data,callback)
 	}
 	
 	if (retrieveFromCache(URI,data,callback)) return true;
-	$.post("http://muacsim.nl"+URI,data,callback).fail(function(){});
+	$.post("https://muacsim.nl"+URI,data,callback).fail(function(){});
 	
 	if (navigator.onLine) {
 		var lclm = window.localStorage.getItem("localCacheLastModified");
