@@ -274,7 +274,7 @@ $(document).ready(function(){
 		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readExtraBidding.php",null,function(resp){
 			var response = $.parseJSON(resp);
 			if (response.length) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="./ExtraBidding.html">Extra offers</a></li>');
-			for (var i=0 ; i<response.length ; i++) if (['0','1'].indexOf(response[i].responseValue)+1) response.splice(i,1);
+			for (var i=response.length-1 ; i>=0 ; i--) if (['0','1'].indexOf(response[i].responseValue)+1) response.splice(i,1);
 			if (response.length) $("#extraDutyCard").show().on("click",function(){location.assign('./ExtraBidding.html')});
 		});
 		
