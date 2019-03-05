@@ -104,12 +104,12 @@ $("#pilotSummaryTrigger").on("click",function(){
 	});
 });
 
-var sd = new Date(window.localStorage.getItem("rosterPublished")/1);
+rp__sd = new Date(window.localStorage.getItem("rosterPublished")/1);
 var bd = new Date();
 while (bd.getDay()!=1) bd.setDate(bd.getDate()-1);
 var _html = '';
 
-while (bd<sd) {
+while (bd<rp__sd) {
 	$(".carousel-inner").append('<div class="carousel-item"><table style="background:white;border-bottom:1px solid #666;width:100%;"><tbody></tbody></table></div>');
 	
 	_html = '<tr>';
@@ -159,29 +159,31 @@ $("#team_SummaryTrigger").on("click",function(){
 				var ushifts = $.parseJSON(resp);
 				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
 				ushifts.map(function(ushift){
-					try {
-						var l = '';
-						
-						if (ushift.shiftID == 14) {
-							l = ushift.dutyChange.split(';')[1];
-						} else {
-							if (!ushift.dutyChange.length) {
-								l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
+					if (ushift.day <= rp__sd.toISOString().substring(0,10)) {
+						try {
+							var l = '';
+							
+							if (ushift.shiftID == 14) {
+								l = ushift.dutyChange.split(';')[1];
 							} else {
-								if (ushift.dutyChange.split(';')[1].length) {
-									l = 'd' + shifts[ushift.shiftID-1];
+								if (!ushift.dutyChange.length) {
+									l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
 								} else {
-									l = 'E' + shifts[ushift.shiftID-1];
+									if (ushift.dutyChange.split(';')[1].length) {
+										l = 'd' + shifts[ushift.shiftID-1];
+									} else {
+										l = 'E' + shifts[ushift.shiftID-1];
+									}
 								}
 							}
+							
+							$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html(l);
+							
+							if (ushift.shiftID <  14  &&  ushift.shiftID > 9) $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","red" ).css("font-weight","bold");
+							if (ushift.shiftID == 14)                         $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","blue").css("font-weight","bold");
+						} catch(e) {
+							$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html('?');
 						}
-						
-						$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html(l);
-						
-						if (ushift.shiftID <  14  &&  ushift.shiftID > 9) $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","red" ).css("font-weight","bold");
-						if (ushift.shiftID == 14)                         $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","blue").css("font-weight","bold");
-					} catch(e) {
-						$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html('?');
 					}
 				});
 				setTimeout(function(){$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1)},500);
