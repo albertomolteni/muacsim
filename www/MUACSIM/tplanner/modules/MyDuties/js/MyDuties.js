@@ -72,6 +72,15 @@ function friendlyDate(d)
 	return s;
 }
 
+function hexToL(hex)
+{
+	if (!hex.match(/^#[0-9a-f]{6}$/i)) return 1;
+	var r = parseInt(hex.substring(1,3),16)/255;
+	var g = parseInt(hex.substring(3,5),16)/255;
+	var b = parseInt(hex.substring(5,7),16)/255;
+	return (Math.max(r,g,b)+Math.min(r,g,b))/2;
+}
+
 function showDutyDetails(ds,swapInProgress)
 {
 	$("#dutyModal .modal-title").html(friendlyDate(new Date(ds)));
@@ -87,7 +96,7 @@ function showDutyDetails(ds,swapInProgress)
 		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
-			$("#dutyModal .modal-body").append('<div style="background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
+			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#ddd;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
@@ -351,9 +360,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.2'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.3'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.2'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.3'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
