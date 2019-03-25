@@ -222,9 +222,9 @@ $(document).ready(function(){
 		response.map(function(duty){
 			$targets = $(".calendar-row[data="+duty.day+"] .col-sm-3");
 			
-			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                                ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(1).append(dutyBar);
-			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'sR'  ||  duty.name == 'X'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(2).append(dutyBar);
-			if (duty.name == 'sa'                                                                      ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(3).append(dutyBar);
+			if (duty.name == 'sm'  ||  duty.name == 'lm'  ||  duty.name == 'm'  ||  duty.name == 'sR'  ||  duty.name == 'X'                         ||  duty.name == 'Morning'  ||  duty.name == 'Swing'                                ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(1).append(dutyBar);
+			if (duty.name == 's'   ||  duty.name == 'lm'  ||  duty.name == 'm'  ||  duty.name == 'sR'  ||  duty.name == 'X'  ||  duty.name == 'la'                              ||  duty.name == 'Swing'  ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(2).append(dutyBar);
+			if (duty.name == 'sa'                                                                                            ||  duty.name == 'la'                                                        ||  duty.name == 'Afternoon'  ||  duty.name.match(/^C(S|P)?$/)) $targets.eq(3).append(dutyBar);
 			
 			$targets.find(".dutyBar").first().css("border-top-left-radius", "6px").css("border-bottom-left-radius", "6px");
 			$targets.find(".dutyBar").last( ).css("border-top-right-radius","6px").css("border-bottom-right-radius","6px");
