@@ -11,7 +11,7 @@ function readSwapPartnerDuties(inputGroupIndex,partner,partnerID)
 {
 	$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/readSwapPartnerDuties.php",{partnerID:partnerID,day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
 		var responseP = $.parseJSON(resp);
-		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",      {                    day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
+		$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/dutyDetails.php",  {                    day:$(".input-group.date input").eq(inputGroupIndex).val().substring(6,10)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(3,5)+'-'+$(".input-group.date input").eq(inputGroupIndex).val().substring(0,2)},function(resp){
 			var responseS = $.parseJSON(resp);
 			$(".partner-view[data="+inputGroupIndex+"]").remove();
 			$(".input-group.date").eq(inputGroupIndex).after('<div data="'+inputGroupIndex+'" class="row partner-view" style="margin-top:15px;"><div class="col-sm-5"></div><div class="col-sm-2" style="padding:0;"></div><div class="col-sm-5"></div></div>');
@@ -295,7 +295,18 @@ $(document).ready(function(){
 			a.start     = a.day + 'T' + a.t_from;
 			a.end       = a.day + 'T' + a.t_to;
 			a.color     = '#fea';
-			if (a.name.match(/^C(S|P)?$/)) {a.color='#def';a.className='holiday'}
+			if (a.name.match(/^C(S|P)?$/)) {
+				a.color     = '#def';
+				a.className = 'holiday';
+			} else {
+				if (a.dutyChange.length) {
+					if (a.dutyChange.split(';')[1].length) {
+						a.title = 'd' + a.title;
+					} else {
+						a.title = 'E' + a.title;
+					}
+				}
+			}
 			ev2.push(a);
 		});
 		if (window.innerWidth < 768) {} else $(".offset-xl-1").removeClass("col-xl-10").removeClass("offset-xl-1").addClass("col-xl-8").addClass("offset-xl-2");
