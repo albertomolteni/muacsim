@@ -22,11 +22,11 @@ function fillSimCoreRoster()
 
 function insertSimCoreRoster()
 {
-	var simcore = ['','BAS','','EMIL','VINCENT','CHOI','','ALBERTO','JEAN-YVES'];
+	var simcore = ['','BAS','FEDERICO','EMIL','VINCENT','CHOI','','ALBERTO','JEAN-YVES'];
 	var c_width = $(".fc-day-header").eq(0).width()+1;
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
-			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.6em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
+			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.5em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
