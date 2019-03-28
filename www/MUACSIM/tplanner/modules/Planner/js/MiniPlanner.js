@@ -30,7 +30,7 @@ function insertSimCoreRoster()
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(20*$(".fc-slats tr").last().height()+6)+"px");
+	$(".fc-scroller").css("height",(21*$(".fc-slats tr").last().height()+6)+"px");
 	fillSimCoreRoster();
 }
 
