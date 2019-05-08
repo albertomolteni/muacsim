@@ -96,7 +96,7 @@ function showDutyDetails(ds,swapInProgress)
 		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
-			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#eee;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
+			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#f6f6f6;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
@@ -372,9 +372,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.3'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.4'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.3'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.4'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
