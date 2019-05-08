@@ -103,7 +103,6 @@ function showDutyDetails(ds,swapInProgress)
 		if (swapInProgress) $("#dutyModal .modal-body").append('<div class="card card-inverse" style="background:#666;color:white;"><div class="card-block">Swap request pending</div></div>');
 		
 		if (!userIsPilot) {
-			if (document.cookie.match(/authAppUserID=(2|7)/)) $(".nav-item:last").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 			$("#dutyModal .modal-body").unbind("click").on("click",function(){$(".miles-outer").remove()});
 			$("#dutyModal .modal-body div").on("dblclick",function(){
 				var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>/)[1];
@@ -255,6 +254,7 @@ $(document).ready(function(){
 			
 			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
+			if (!userIsPilot && document.cookie.match(/authAppUserID=(2|7)/)) $(".nav-item:last").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 		});
 		
 		$(".dutyBarText").on("click",function(){
