@@ -96,7 +96,7 @@ function showDutyDetails(ds,swapInProgress)
 		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
-			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#f6f6f6;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
+			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#fafafa;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
@@ -254,8 +254,8 @@ $(document).ready(function(){
 			
 			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
-			if (!userIsPilot && document.cookie.match(/authAppUserID=(2|7)/)) $(".nav-item:last").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 		});
+		if (!userIsPilot && document.cookie.match(/authAppUserID=(2|7)/)) $(".nav-item:last").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 		
 		$(".dutyBarText").on("click",function(){
 			if (!$(this).prevAll(".dutyBar").hasClass("leave")) showDutyDetails($(this).parent().parent().attr("data"),$(this).parent().parent().find(".swapInProgress").length);
