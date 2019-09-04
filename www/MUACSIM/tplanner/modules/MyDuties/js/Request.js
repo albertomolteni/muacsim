@@ -20,7 +20,7 @@ $(document).ready(function(){
 		format                : "dd-mm-yyyy",
 		daysOfWeekHighlighted : "0",
 		startDate             : "today",
-		endDate               : "31-12-2019"
+		endDate               : "31-12-2021"
 	});
 	
 	$("#frequency").on("change",function(){
