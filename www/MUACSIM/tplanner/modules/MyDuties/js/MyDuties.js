@@ -186,7 +186,6 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 
 $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/))     $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
-	if (document.cookie.match(/authAppUserID=(1|3|4|8);/)) $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 	if (document.cookie.match(/authAppUserID=5;/)) {
 		$(".nav-item").eq(5).remove();
 		$(".nav-item").eq(4).remove();
@@ -255,7 +254,6 @@ $(document).ready(function(){
 			$(".calendar-row[data="+duty.day+"] .dutyBar").first().parent().append('<div class="dutyBarText" style="width:'+textDIVwidth+'px;">'+l+'</div>');
 			if (duty.name.length>2) userIsPilot = false;
 		});
-		if (!userIsPilot && document.cookie.match(/authAppUserID=(2|7)/)) $(".nav-item:last").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/AudioLAN.html">AudioLAN</a></li>');
 		
 		$(".dutyBarText").on("click",function(){
 			if (!$(this).prevAll(".dutyBar").hasClass("leave")) showDutyDetails($(this).parent().parent().attr("data"),$(this).parent().parent().find(".swapInProgress").length);
