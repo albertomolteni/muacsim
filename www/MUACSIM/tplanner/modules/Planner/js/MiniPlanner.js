@@ -8,6 +8,23 @@ function requiredRolesHTML(s)
 	return '<br>Requires ' + o.join(', ');
 }
 
+function getwx()
+{
+	$.getJSON("https://muacsim.nl/wx.json",function(data){wx=data;showwx()});
+}
+
+function showwx()
+{
+	$(".fc-day-grid .fc-day").not(".fc-past").each(function(){
+		for (var wxi=0;wxi<wx.list.length;wxi++) {
+			if (wx.list[wxi].dt_txt == $(this).attr("data-date")+' 09:00:00') {
+				$(this).html(wx.list[wxi].weather[0].icon);
+				break;
+			}
+		}
+	});
+}
+
 function fillSimCoreRoster()
 {
 	var s = ['M','S','A','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
@@ -45,6 +62,8 @@ $(document).ready(function(){
 	knownHolidays_titles = ['New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas','Boxing Day','Year-end Closure','New Year','New Year','Good Friday','Easter Monday','Ascension','Ascension','Whit Monday','Christmas Eve','Christmas'];
 	
 	$("body").append('<div id="loadingOverlay" style="position:fixed;left:0;top:0;z-index:999999;width:100vw;height:100vh;background:rgba(0,0,0,0.8);color:white;text-align:center;padding-top:40vh;"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><br><br>Loading events, please wait</div>');
+	wx = {list:[]};
+	getwx();
 	$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readSimEvents.php",null,function(resp){
 		ev1 = $.parseJSON(resp);
 		if (document.cookie.match(/authAppUserID=5;/)) {
@@ -75,7 +94,7 @@ $(document).ready(function(){
 			events              : ev2,
 			selectable          : true,
 			select              : false,
-			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});insertSimCoreRoster()},200)},
+			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});showwx();insertSimCoreRoster()},200)},
 			timeFormat          : 'HH:mm',
 			columnFormat        : 'ddd DD-MM',
 			defaultView         : 'miniView',
