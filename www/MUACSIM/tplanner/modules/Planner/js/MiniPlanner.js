@@ -77,7 +77,7 @@ $(document).ready(function(){
 			a.start     = a['dt_from'].replace(/ /,'T');
 			a.end       = a['dt_to'  ].replace(/ /,'T');
 			a.color     = a.bgcolor;
-			a.className = 2-a.sim ? 'simulator-escape' : a.mfs/1 ? 'simulator-trg needs-mfs' : 'simulator-trg';
+			a.className = 'simeventID-'+a.simeventID;
 			a.tooltip   = '<b>' + a.name + '</b><br>' + a.dt_from.substring(11,16) + ' - ' + a.dt_to.substring(11,16) + requiredRolesHTML(a.requiredRoles) + (a.notes ? '<div style=\'width:24em;height:0.8em;margin-bottom:0.4em;border-bottom:1px solid white;\'></div>'+a.notes : '');
 		});
 		
