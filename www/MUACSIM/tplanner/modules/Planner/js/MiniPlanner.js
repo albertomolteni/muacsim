@@ -47,7 +47,7 @@ function insertSimCoreRoster()
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+7)+"px");
+	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
 	fillSimCoreRoster();
 }
 
@@ -123,7 +123,7 @@ $(document).ready(function(){
 			$("#getInfoModal .modal-body").html('');
 			$("#getInfoModal .modal-title").html($(this).find(".fc-title").html());
 			$("#getInfoModal").modal("show");
-			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",{simeventID:$(this).attr("class").match(/simeventID-(\d+)/)[1]},function(resp){
+			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/getInfo.php",{simeventID:$(this).attr("class").match(/simeventID-(\d+)/)[1]},function(resp){
 				$("#getInfoModal .modal-body").html(resp);
 			});
 		});
