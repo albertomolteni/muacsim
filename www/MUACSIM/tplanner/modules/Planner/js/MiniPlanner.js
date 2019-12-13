@@ -119,6 +119,14 @@ $(document).ready(function(){
 		$(".fc-toolbar h2").css("font-size","1rem").css("margin-bottom","0.8rem").css("margin-top","0.5rem");
 		$(".fc-toolbar button").css("font-size","0.9em");
 		$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}.fc-agenda-view .fc-day-header span{font-size:0.8em}.fc button .fc-icon{top:0.1em!important}</style>");
+		$(".fc-view-container").on("contextmenu",".fc-v-event",function(){
+			$("#getInfoModal .modal-body").html('');
+			$("#getInfoModal .modal-title").html($(this).find(".fc-title").html());
+			$("#getInfoModal").modal("show");
+			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",{simeventID:$(this).attr("class").match(/simeventID-(\d+)/)[1]},function(resp){
+				$("#getInfoModal .modal-body").html(resp);
+			});
+		});
 		$("#loadingOverlay").remove();
 	});
 });
