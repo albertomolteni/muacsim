@@ -39,7 +39,7 @@ function fillSimCoreRoster()
 
 function insertSimCoreRoster()
 {
-	var simcore = ['','BAS','FEDERICO','EMIL','VINCENT','CHOI','JEAN-PETER','ALBERTO','JEAN-YVES'];
+	var simcore = ['','BAS','FEDERICO','EMIL','VINCENT','FRED','JEAN-PETER','ALBERTO','JEAN-YVES'];
 	var c_width = $(".fc-day-header").eq(0).width()+1;
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
@@ -47,7 +47,7 @@ function insertSimCoreRoster()
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
+	$(".fc-scroller").css("height",(23*$(".fc-slats tr").last().height()+12)+"px");
 	fillSimCoreRoster();
 }
 
