@@ -47,7 +47,7 @@ function insertSimCoreRoster()
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
 		}
 	}
-	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+9)+"px");
+	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
 	fillSimCoreRoster();
 }
 
@@ -128,5 +128,32 @@ $(document).ready(function(){
 			});
 		});
 		$("#loadingOverlay").remove();
+	});
+	
+	document.addEventListener("resume",          function(){                                       if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
+	document.addEventListener("visibilitychange",function(){if(document.visibilityState=="visible")if(!document.cookie.match(/authAppUserID=\d+/))location.assign('../../SessionControl/views/SessionControl.html')});
+	document.addEventListener("deviceready",function(){
+		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
+		pn.on("registration",function(data){
+			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.8'},function(){});
+			} else {
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.8'},function(){});
+			}
+		});
+		pn.on("notification",function(data){
+			if (data.additionalData.notamText.split(' ').length-1) {
+				$("#notamModal .modal-title").html(data.message);
+				$("#notamModal .modal-body" ).html(data.additionalData.notamText);
+				$("#notamModal").modal("show");
+			} else {
+				if (data.additionalData.notamText == 'triggerSwapDetails') {
+					triggerSwapDetails();
+				} else {
+					location.assign('../../'+data.additionalData.notamText+'.html');
+				}
+			}
+		});
+		pn.on("error",function(e){alert(e.message)});
 	});
 });

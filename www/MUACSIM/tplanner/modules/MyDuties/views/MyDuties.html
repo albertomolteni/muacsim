@@ -196,7 +196,7 @@ hr {
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.5.6</p><p>Developed by<br>Alberto Molteni</p></div>
+				<img src="../../../img/homer.png" style="float:left;width:35vw;"><div style="margin-left:35vw;padding-top:5vh;"><h5 style="border-bottom:2px solid navy;padding-bottom:2vh;margin-bottom:4vh;">muacsim app</h5><p>Version 1.5.8</p><p>Developed by<br>Alberto Molteni</p></div>
 			</div>
 			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
 		</div>
@@ -310,7 +310,9 @@ $("#team_SummaryTrigger").on("click",function(){
 			var response = $.parseJSON(resp);
 			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
-				$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
+				if (window.localStorage.getItem("exPilots").split(',').indexOf((response[u].userID-9)+'')<0) {
+					$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
+				}
 			}
 			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+($("#carouselLegend tr:not(:first)").length-window.localStorage.getItem("exPilots").split(',').length)+")").remove()});
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){

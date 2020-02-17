@@ -132,13 +132,15 @@ while (bd<rp__sd) {
 	bd.setDate(bd.getDate()-7);
 	
 	for (var i=0;i<=maxPilots;i++) {
-		_html = _html.concat('<tr data-userID="'+(i+9)+'"'+(i%2?' style="background:#eee;"':'')+'>');
-		for (var j=0;j<7;j++) {
-			_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">'+(i-maxPilots?'&nbsp;':'xiiix')+'</td>');
-			bd.setDate(bd.getDate()+1);
+		if (window.localStorage.getItem("exPilots").split(',').indexOf(i+'')<0) {
+			_html = _html.concat('<tr data-userID="'+(i+9)+'"'+((i+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<i}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'>');
+			for (var j=0;j<7;j++) {
+				_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">'+(i-maxPilots?'&nbsp;':'xiiix')+'</td>');
+				bd.setDate(bd.getDate()+1);
+			}
+			_html = _html.concat('</tr>');
+			bd.setDate(bd.getDate()-7);
 		}
-		_html = _html.concat('</tr>');
-		bd.setDate(bd.getDate()-7);
 	}
 	
 	$(".carousel-item table tbody").last().append(_html);
@@ -164,9 +166,11 @@ $("#team_SummaryTrigger").on("click",function(){
 			var response = $.parseJSON(resp);
 			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
-				$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
+				if (window.localStorage.getItem("exPilots").split(',').indexOf((response[u].userID-9)+'')<0) {
+					$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
+				}
 			}
-			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+($("#carouselLegend tr:not(:first)").length)+")").remove()});
+			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+($("#carouselLegend tr:not(:first)").length-window.localStorage.getItem("exPilots").split(',').length)+")").remove()});
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
 				var ushifts = $.parseJSON(resp);
 				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
