@@ -167,10 +167,10 @@ $("#team_SummaryTrigger").on("click",function(){
 			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
 			for (var u=0;u<response.length;u++) {
 				if (window.localStorage.getItem("exPilots").split(',').indexOf((response[u].userID-9)+'')<0) {
-					$("#carouselLegend").append('<tr'+(u%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
+					$("#carouselLegend").append('<tr'+((u+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<u}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
 				}
 			}
-			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+($("#carouselLegend tr:not(:first)").length-window.localStorage.getItem("exPilots").split(',').length)+")").remove()});
+			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+$("#carouselLegend tr:not(:first)").length+")").remove()});
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
 				var ushifts = $.parseJSON(resp);
 				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
