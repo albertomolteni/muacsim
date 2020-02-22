@@ -28,11 +28,11 @@ function showwx()
 function fillSimCoreRoster()
 {
 	var s = ['M','S','A','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
+	var z = document.cookie.match(/authAppUserID=(\d+)/)[1];
 	simcoreDuties.map(function(duty){
 		try {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
-			var cmr = new RegExp('authAppUserID='+duty.userID+'(?!\\d)');
-			if (document.cookie.match(cmr)) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){alert('ciupa')});
+			if (duty.userID==z) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){alert('ciupa')});
 		} catch(e) {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html('?');
 		}
