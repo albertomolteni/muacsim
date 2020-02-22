@@ -31,6 +31,8 @@ function fillSimCoreRoster()
 	simcoreDuties.map(function(duty){
 		try {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
+			var cmr = new RegExp('authAppUserID='+duty.userID+'(?!\\d)');
+			if (document.cookie.match(cmr)) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){alert('ciupa')});
 		} catch(e) {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html('?');
 		}
@@ -148,7 +150,7 @@ $(document).ready(function(){
 				$("#notamModal").modal("show");
 			} else {
 				if (data.additionalData.notamText == 'triggerSwapDetails') {
-					triggerSwapDetails();
+					location.assign('../../MyDuties/views/MyDuties.html');
 				} else {
 					location.assign('../../'+data.additionalData.notamText+'.html');
 				}
