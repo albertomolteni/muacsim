@@ -97,10 +97,7 @@ function showDutyDetails(ds,swapInProgress)
 		
 		response.map(function(duty){
 			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#fafafa;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
-			if (duty.milesIn||duty.milesOut) {
-				asd; (hexToL(duty.bgcolor)<0.36?'color:#fafafa;':'') ;
-				$("#dutyModal .modal-body div").last().prepend('<img src="../../../img/hasMiles'+(duty.milesIn?1:0)+(duty.milesOut?1:0)+'.png" style="8vw">');
-			}
+			if (duty.milesIn||duty.milesOut) $("#dutyModal .modal-body div").last().prepend('<img src="../../../img/hasMiles'+(duty.milesIn?1:0)+(duty.milesOut?1:0)+'.png" style="float:right;width:6vw;height:6vw;'+(hexToL(duty.bgcolor)<0.36?'filter:invert(100%);':'')+'">');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
 		
