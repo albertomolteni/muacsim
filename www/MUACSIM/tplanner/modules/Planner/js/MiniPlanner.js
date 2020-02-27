@@ -32,7 +32,7 @@ function fillSimCoreRoster()
 	simcoreDuties.map(function(duty){
 		try {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
-			if (duty.userID==z) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){alert('ciupa')});
+			if (duty.userID==z) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html()+"]").addClass("active");$("#dutyPickerModal").modal("show")});
 		} catch(e) {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html('?');
 		}
