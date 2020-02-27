@@ -131,8 +131,9 @@ function showDutyDetails(ds,swapInProgress)
 				}).trigger("change");
 				
 				$(".miles-outer .btn-secondary").on("click",function(){
+					var t_from = $(".miles-outer input").val();
 					$(".miles-outer").html('Please wait ...');
-					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),qty:miles_to_add,t_from:$(".miles-outer input").val()},function(){
+					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),qty:miles_to_add,t_from:t_from},function(){
 						$(".miles-outer").html('Miles added successfully');
 						setTimeout(function(){$(".miles-outer").remove()},2000);
 					});
