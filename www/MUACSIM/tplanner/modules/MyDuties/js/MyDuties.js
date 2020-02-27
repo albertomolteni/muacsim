@@ -132,7 +132,7 @@ function showDutyDetails(ds,swapInProgress)
 				
 				$(".miles-outer .btn-secondary").on("click",function(){
 					$(".miles-outer").html('Please wait ...');
-					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),miles:miles_to_add},function(){
+					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),qty:miles_to_add,t_from:$(".miles-outer input").val()},function(){
 						$(".miles-outer").html('Miles added successfully');
 						setTimeout(function(){$(".miles-outer").remove()},2000);
 					});
