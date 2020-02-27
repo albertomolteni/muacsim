@@ -32,7 +32,7 @@ function fillSimCoreRoster()
 	simcoreDuties.map(function(duty){
 		try {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html(s[duty.shiftID-1]);
-			if (duty.userID==z) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html()+"]").addClass("active");$("#dutyPickerModal").modal("show")});
+			if (duty.userID==z) $(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html()+"]").addClass("active");$("#dutyPickerModal").modal("show")});
 		} catch(e) {
 			$(".simcore-roster[data-userID="+duty.userID+"][data-day="+duty.day+"]").html('?');
 		}
@@ -64,6 +64,14 @@ $(document).ready(function(){
 	$("#dutyPickerModal .duty-picker").on("click",function(){
 		$("#dutyPickerModal .duty-picker").removeClass("active");
 		$(this).addClass("active");
+	});
+	$("#dutyPickerModal .btn-success").on("click",function(){
+		$("#dutyPickerModal .btn-success").prop("disabled",true);
+		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/quickaddshift.php",{day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").attr("data-shiftID")},function(){
+			$("#dutyPickerModal .btn-success").prop("disabled",false);
+			$(".duty-picking").html($(".duty-picker.active").attr("data-tag"));
+			$("#dutyPickerModal").modal("hide");
+		});
 	});
 	
 	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27','2020-01-01','2020-01-02','2020-04-10','2020-04-13','2020-05-21','2020-05-22','2020-06-01','2020-12-24','2020-12-25'];
