@@ -106,7 +106,7 @@ function showDutyDetails(ds,swapInProgress)
 		if (!userIsPilot) {
 			$("#dutyModal .modal-body").unbind("click").on("click",function(){$(".miles-outer").remove()});
 			$("#dutyModal .modal-body div").on("dblclick",function(){
-				var tstr_end = $(this).html().match(/(\d\d:\d\d)<br>/)[1];
+				var tstr_end = $(this).html().match(/(\d\d:\d\d) - \d\d:\d\d<br>/)[1];
 				var time_now = new Date();
 				time_end     = new Date();
 				time_now.setMinutes(time_now.getMinutes()-time_now.getTimezoneOffset());
@@ -114,7 +114,7 @@ function showDutyDetails(ds,swapInProgress)
 				time_end.setMinutes(tstr_end.substring(3,5)/1);
 				
 				$(".miles-outer").remove();
-				$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;" data-eID="'+$(this).attr("data-eID")+'"><p>What time did this simulation finish?</p><div class="row">\
+				$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;" data-eID="'+$(this).attr("data-eID")+'"><p>What time will this simulation start?</p><div class="row">\
 									<div class="col-sm-5"><input type="time" class="form-control" value="'+time_now.toISOString().substring(11,16)+'"></div>\
 									<div class="col-sm-4" style="text-align:center;padding-top:8px;"></div>\
 									<div class="col-sm-3" style="padding:0;"><button class="btn btn-secondary" style="background:white;height:100%;">OK</button></div>\
@@ -125,7 +125,7 @@ function showDutyDetails(ds,swapInProgress)
 						var time_set = new Date(time_end.getTime());
 						time_set.setHours(  $(this).val().substring(0,2)/1);
 						time_set.setMinutes($(this).val().substring(3,5)/1);
-						miles_to_add = Math.floor((time_end-time_set)/1800000);
+						miles_to_add = Math.floor((time_set-time_end)/1800000);
 						$(".miles-outer .col-sm-4").html('miles: '+miles_to_add);
 					}
 				}).trigger("change");
