@@ -96,7 +96,7 @@ function showDutyDetails(ds,swapInProgress)
 		$(".fa-spinner").remove();
 		
 		response.map(function(duty){
-			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#fafafa;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
+			$("#dutyModal .modal-body").append('<div style="'+(hexToL(duty.bgcolor)<0.36?'color:#fafafa;':'')+'background:'+duty.bgcolor+';border-radius:6px;padding:1em;margin-bottom:2em;" data-eID="'+duty.simeventID+'"'+(duty.eta?' data-eta="'+duty.eta.substring(0,5)+'"':'')+'><h5>'+duty.name+'</h5>'+duty.dt_from.substring(11,16)+' - '+duty.dt_to.substring(11,16)+'<br>'+duty.role+(duty.eta ? '<br>Expected start '+duty.eta.substring(0,5) : '')+'</div>');
 			if (duty.milesIn||duty.milesOut) $("#dutyModal .modal-body div").last().prepend('<img src="../../../img/hasMiles'+(duty.milesIn?1:0)+(duty.milesOut?1:0)+'.png" style="float:right;width:6vw;height:6vw;'+(hexToL(duty.bgcolor)<0.36?'filter:invert(100%);':'')+'">');
 		});
 		if (!response.length) $("#dutyModal .modal-body").append('<p>No simulations scheduled.</p>');
@@ -106,35 +106,51 @@ function showDutyDetails(ds,swapInProgress)
 		if (!userIsPilot) {
 			$("#dutyModal .modal-body").unbind("click").on("click",function(){$(".miles-outer").remove()});
 			$("#dutyModal .modal-body div").on("dblclick",function(){
-				var tstr_end = $(this).html().match(/(\d\d:\d\d) - \d\d:\d\d<br>/)[1];
-				var time_now = new Date();
-				time_end     = new Date();
-				time_now.setMinutes(time_now.getMinutes()-time_now.getTimezoneOffset());
-				time_end.setHours(  tstr_end.substring(0,2)/1);
-				time_end.setMinutes(tstr_end.substring(3,5)/1);
+				var tstr_start = $(this).html().match(/(\d\d:\d\d) - \d\d:\d\d<br>/)[1];
+				var tstr_eta   = $(this).attr("data-eta");
+				time_start     = new Date();
+				time_start.setHours(  tstr_start.substring(0,2)/1);
+				time_start.setMinutes(tstr_start.substring(3,5)/1);
 				
 				$(".miles-outer").remove();
 				$(this).after('<div class="miles-outer" style="border:1px solid #ccc;border-radius:6px;padding:1em;margin-bottom:2em;margin-top:-1.6em;" data-eID="'+$(this).attr("data-eID")+'"><p>What time will this simulation start?</p><div class="row">\
-									<div class="col-sm-5"><input type="time" class="form-control" value="'+time_now.toISOString().substring(11,16)+'"></div>\
+									<div class="col-sm-5"><input type="time" class="form-control" value="'+(tstr_eta||tstr_start)+'"></div>\
 									<div class="col-sm-4" style="text-align:center;padding-top:8px;"></div>\
 									<div class="col-sm-3" style="padding:0;"><button class="btn btn-secondary" style="background:white;height:100%;">OK</button></div>\
 								</div></div>');
 				
 				$(".miles-outer input").on("change",function(){
 					if ($(this).val().match(/^\d\d:\d\d$/)) {
-						var time_set = new Date(time_end.getTime());
+						var time_set = new Date(time_start.getTime());
 						time_set.setHours(  $(this).val().substring(0,2)/1);
 						time_set.setMinutes($(this).val().substring(3,5)/1);
-						miles_to_add = Math.floor((time_set-time_end)/1800000);
+						miles_to_add = Math.floor((time_set-time_start)/1800000);
 						$(".miles-outer .col-sm-4").html('miles: '+miles_to_add);
 					}
 				}).trigger("change");
 				
 				$(".miles-outer .btn-secondary").on("click",function(){
-					var t_from = $(".miles-outer input").val();
+					ttt_from = $(".miles-outer input").val();
 					$(".miles-outer").html('Please wait ...');
-					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),qty:miles_to_add,t_from:t_from},function(){
+					$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/addMiles.php",{simeventID:$(".miles-outer").attr("data-eID"),qty:miles_to_add,t_from:ttt_from},function(){
 						$(".miles-outer").html('Miles added successfully');
+						$(".miles-outer").prevAll("div").eq(0).attr("data-eta",ttt_from);
+						$(".miles-outer").prevAll("div").eq(0).find("img").remove();
+						$(".miles-outer").prevAll("div").eq(0).prepend('<img src="../../../img/hasMiles10.png" style="float:right;width:6vw;height:6vw;">');
+						var lsKeys = Object.keys(window.localStorage);
+						for (var keyi=0;keyi<lsKeys.length;keyi++) {
+							if (lsKeys[keyi].substring(0,41)=='MyDuties/dutyDetails__{"day":"'+ds+'"') {
+								var j = $.parseJSON(window.localStorage.getItem(lsKeys[keyi]));
+								for (var ji=0;ji<j.length;ji++) {
+									if (j[ji].simeventID==$(".miles-outer").attr("data-eID")) {
+										j[ji].eta     = ttt_from;
+										j[ji].milesIn = miles_to_add;
+									}
+								}
+								window.localStorage.setItem(lsKeys[keyi],JSON.stringify(j));
+								alert( window.localStorage.getItem(lsKeys[keyi]) );
+							}
+						}
 						setTimeout(function(){$(".miles-outer").remove()},2000);
 					});
 				});
