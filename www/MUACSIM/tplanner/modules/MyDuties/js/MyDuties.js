@@ -136,6 +136,7 @@ function showDutyDetails(ds,swapInProgress)
 						$(".miles-outer").html('Miles added successfully');
 						$(".miles-outer").prevAll("div").eq(0).attr("data-eta",ttt_from);
 						$(".miles-outer").prevAll("div").eq(0).find("img").remove();
+						$(".miles-outer").prevAll("div").eq(0).html($(".miles-outer").prevAll("div").eq(0).html().replace(/Expected start \d\d:\d\d/,'Expected start '+ttt_from));
 						$(".miles-outer").prevAll("div").eq(0).prepend('<img src="../../../img/hasMiles10.png" style="float:right;width:6vw;height:6vw;">');
 						var lsKeys = Object.keys(window.localStorage);
 						for (var keyi=0;keyi<lsKeys.length;keyi++) {
@@ -148,7 +149,6 @@ function showDutyDetails(ds,swapInProgress)
 									}
 								}
 								window.localStorage.setItem(lsKeys[keyi],JSON.stringify(j));
-								alert( window.localStorage.getItem(lsKeys[keyi]) );
 							}
 						}
 						setTimeout(function(){$(".miles-outer").remove()},2000);
