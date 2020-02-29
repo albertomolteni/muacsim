@@ -42,6 +42,7 @@ $(document).ready(function(){
 		dr[x] = 0;
 	});
 	setInterval(readTRGstate,12000);
+	readTRGstate();
 	$("body").on("dblclick",".fa-play",function(){
 		var $t = $(this).parent().parent().parent();
 		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'pause'},function(){});
@@ -57,4 +58,5 @@ $(document).ready(function(){
 		dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 	});
 	$(".col-md-3[id^=simker0]").on("contextmenu",function(){ });
+	document.addEventListener("resume",function(){location.reload()});
 });
