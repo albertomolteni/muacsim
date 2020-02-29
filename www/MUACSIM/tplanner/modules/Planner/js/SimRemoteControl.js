@@ -44,14 +44,14 @@ $(document).ready(function(){
 	setInterval(readTRGstate,12000);
 	$("body").on("dblclick",".fa-play",function(){
 		var $t = $(this).parent().parent().parent();
-		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6),c:'pause'},function(){});
+		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'pause'},function(){});
 		$t.find("div").eq(1).html('<i class="fa fa-pause"></i>');
 		$t.find("div").eq(3).html('paused');
 		dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 	});
 	$("body").on("dblclick",".fa-pause",function(){
 		var $t = $(this).parent().parent().parent();
-		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6),c:'speed100'},function(){});
+		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'speed100'},function(){});
 		$t.find("div").eq(1).html('<i class="fa fa-play"></i>');
 		$t.find("div").eq(3).html('running&nbsp;&nbsp;1x');
 		dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
