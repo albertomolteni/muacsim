@@ -35,7 +35,7 @@ function readTRGstate()
 }
 
 $(document).ready(function(){
-	s  = ['1.tra','2.tra','3.tra','4.tra','1','2','3','4','5','6','7','8'];
+	s  = ['1.tra','2.tra','3.tra','4.tra','5.tra','6.tra','7.tra','8.tra','1','2','3','4','5','6','7','8'];
 	dr = {};
 	s.map(function(x){
 		$(".content-main").append('<div id="simker0'+x.replace(/\./,'_')+'" class="col-md-3" style="padding:0.4em;margin-bottom:2em;"><div style="border:1px solid #ddd;border-radius:0.4em;text-align:center;padding:1vh;"><div style="font-size:10vh;"></div><div style="font-size:4vh;">simker0'+x+'</div><div style="font-size:2.6vh;"></div><div style="display:none;"></div></div></div>');
