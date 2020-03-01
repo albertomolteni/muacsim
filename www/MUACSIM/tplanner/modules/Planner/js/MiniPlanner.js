@@ -46,7 +46,7 @@ function insertSimCoreRoster()
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.5em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;</div>');
-			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/&nbsp;/,'x')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
+			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/&nbsp;/g,'x')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
 		}
 	}
 	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
