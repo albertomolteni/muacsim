@@ -46,7 +46,7 @@ function insertSimCoreRoster()
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.5em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
-			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
+			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;">&nbsp;</div>');
 		}
 	}
 	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
@@ -54,26 +54,19 @@ function insertSimCoreRoster()
 }
 
 $(document).ready(function(){
-	if (document.cookie.match(/authAppUserID=5;/)) {
-		$(".nav-item").eq(5).remove();
-		$(".nav-item").eq(4).remove();
-		$(".nav-item").eq(1).remove();
-	}
-	if (document.cookie.match(/authAppUserID=(1|7);/)) $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
-	
+	if (document.cookie.match(/authAppUserID=(1|7);/))       $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
+	if (document.cookie.match(/authAppUserID=[1-8](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
 	$("#dutyPickerModal .duty-picker").on("click",function(){
-		$("#dutyPickerModal .duty-picker").removeClass("active");
-		$(this).addClass("active");
+		$("#dutyPickerModal .duty-picker").not(this).removeClass("active");
+		$(this).toggleClass("active");
 	});
 	$("#dutyPickerModal .btn-success").on("click",function(){
-		if ($(".duty-picker.active").length) {
-			$("#dutyPickerModal .btn-success").prop("disabled",true);
-			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/quickaddshift.php",{day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").attr("data-shiftID")},function(){
-				$("#dutyPickerModal .btn-success").prop("disabled",false);
-				$(".duty-picking").html($(".duty-picker.active").attr("data-tag"));
-				$("#dutyPickerModal").modal("hide");
-			});
-		}
+		$("#dutyPickerModal .btn-success").prop("disabled",true);
+		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/quickaddshift.php",{day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").length?$(".duty-picker.active").attr("data-shiftID"):0},function(){
+			$("#dutyPickerModal .btn-success").prop("disabled",false);
+			$(".duty-picking").html($(".duty-picker.active").length?$(".duty-picker.active").attr("data-tag"):'&nbsp;');
+			$("#dutyPickerModal").modal("hide");
+		});
 	});
 	
 	knownHolidays_dates  = ['2019-01-01','2019-01-02','2019-04-19','2019-04-22','2019-05-30','2019-05-31','2019-06-10','2019-12-24','2019-12-25','2019-12-26','2019-12-27','2020-01-01','2020-01-02','2020-04-10','2020-04-13','2020-05-21','2020-05-22','2020-06-01','2020-12-24','2020-12-25'];
@@ -84,11 +77,7 @@ $(document).ready(function(){
 	getwx();
 	$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readSimEvents.php",null,function(resp){
 		ev1 = $.parseJSON(resp);
-		if (document.cookie.match(/authAppUserID=5;/)) {
-			for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim<9) ev1.splice(evi,1);
-		} else {
-			for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim>9) ev1.splice(evi,1);
-		}
+		for (var evi=ev1.length-1;evi>=0;evi--) if (ev1[evi].sim>9) ev1.splice(evi,1);
 		ev1.map(function(a){
 			a.id        = a.simeventID;
 			a.title     = a.name;
@@ -154,9 +143,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.8'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.8'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9'},function(){});
 			}
 		});
 		pn.on("notification",function(data){

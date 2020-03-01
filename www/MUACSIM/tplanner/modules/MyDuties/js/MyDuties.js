@@ -205,11 +205,6 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 $(document).ready(function(){
 	if (document.cookie.match(/authAppUserID=(1|7);/))       $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
 	if (document.cookie.match(/authAppUserID=[1-8](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
-	if (document.cookie.match(/authAppUserID=5;/)) {
-		$(".nav-item").eq(5).remove();
-		$(".nav-item").eq(4).remove();
-		$(".nav-item").eq(1).remove();
-	}
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
 	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
@@ -389,9 +384,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.8'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.8'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9'},function(){});
 			}
 		});
 		pn.on("notification",function(data){

@@ -41,7 +41,7 @@ $(document).ready(function(){
 		$(".content-main").append('<div id="simker0'+x.replace(/\./,'_')+'" class="col-md-3" style="padding:0.4em;margin-bottom:2em;"><div style="border:1px solid #ddd;border-radius:0.4em;text-align:center;padding:1vh;"><div style="font-size:10vh;"></div><div style="font-size:4vh;">simker0'+x+'</div><div style="font-size:2.6vh;"></div><div style="display:none;"></div></div></div>');
 		dr[x] = 0;
 	});
-	setInterval(readTRGstate,12000);
+	setInterval(readTRGstate,20000);
 	readTRGstate();
 	$("body").on("dblclick",".fa-play",function(){
 			var $t = $(this).parent().parent().parent();
@@ -72,6 +72,5 @@ $(document).ready(function(){
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 		}
 	});
-	$(".col-md-3[id^=simker0]").on("contextmenu",function(){ });
 	document.addEventListener("resume",function(){location.reload()});
 });
