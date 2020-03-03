@@ -62,7 +62,7 @@ $(document).ready(function(){
 			var $t = $(this).parent().parent().parent();
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'speed800'},function(){});
 			$t.find("div").eq(1).html('<i class="fa fa-play"></i>');
-			$t.find("div").eq(3).html('running&nbsp;&nbsp;1x');
+			$t.find("div").eq(3).html('running&nbsp;&nbsp;8x');
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 		} else {
 			var $t = $(this).parent().parent().parent();
