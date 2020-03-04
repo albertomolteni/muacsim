@@ -45,8 +45,8 @@ function insertSimCoreRoster()
 	for (var jj=0;jj<simcore.length;jj++) {
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.5em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
-			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;"></div>');
-			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/^$/,'o')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
+			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;">&nbsp;</div>');
+			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/&nbsp;/,'o')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
 		}
 	}
 	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
@@ -64,7 +64,7 @@ $(document).ready(function(){
 		$("#dutyPickerModal .btn-success").prop("disabled",true);
 		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/quickaddshift.php",{day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").length?$(".duty-picker.active").attr("data-shiftID"):0},function(){
 			$("#dutyPickerModal .btn-success").prop("disabled",false);
-			$(".duty-picking").html($(".duty-picker.active").length?$(".duty-picker.active").attr("data-tag"):'');
+			$(".duty-picking").html($(".duty-picker.active").length?$(".duty-picker.active").attr("data-tag"):'&nbsp;');
 			$("#dutyPickerModal").modal("hide");
 		});
 	});
