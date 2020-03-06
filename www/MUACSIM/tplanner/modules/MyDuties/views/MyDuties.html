@@ -32,6 +32,7 @@
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../LeaveAbsences/views/Sick.html">Report sick</a></li>
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="pilotSummaryTrigger">Pilot hours</a></li>
 			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="team_SummaryTrigger">Team roster</a></li>
+			<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="#" id="albronMenuTrigger">Albron menu</a></li>
 		</ul>
 	</div>
 </nav>
@@ -202,6 +203,14 @@ hr {
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="albronMenuModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body" style="text-align:center;"></div>
+			<div class="modal-footer"><button type="button" class="btn btn-secondary" style="background:#ddd;" data-dismiss="modal">Close</button></div>
+		</div>
+	</div>
+</div>
 <div class="modal fade" id="notamModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -245,6 +254,7 @@ hr {
 	</div>
 </div>
 <script>
+$.getJSON("https://muacsim.nl/MUACSIM/tplanner/modules/MyDuties/server/menu2json.php",function(o){$("#albronMenuTrigger").on("click",function(){$("#albronMenuModal").modal("show")});if(void 0!==o.notAvailable)$("#albronMenuModal .modal-body").html("No information available.");else{var a=((new Date).getDay()+6)%7;for(var l in o)o.hasOwnProperty(l)&&o[l][a]&&$("#albronMenuModal .modal-body").append('<p style="font-style:italic;font-weight:bold;font-size:18px;color:darkgreen;">'+l+"</p><p>"+o[l][a]+"</p><hr>");$("#albronMenuModal .modal-body hr").last().remove()}});
 $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
 	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
