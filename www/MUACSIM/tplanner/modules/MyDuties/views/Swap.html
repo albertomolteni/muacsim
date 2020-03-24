@@ -233,13 +233,14 @@ $("#team_SummaryTrigger").on("click",function(){
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
 				var ushifts = $.parseJSON(resp);
 				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
+				var       y = document.cookie.match(/authAppUserID=(\d+)/)[1];
 				ushifts.map(function(ushift){
 					if (ushift.day <= rp__sd.toISOString().substring(0,10)) {
 						try {
 							var l = '';
 							
 							if (ushift.shiftID == 14) {
-								l = ushift.dutyChange.split(';')[1];
+								if (y<9) l = ushift.dutyChange.split(';')[1];
 							} else {
 								if (!ushift.dutyChange.length) {
 									l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
