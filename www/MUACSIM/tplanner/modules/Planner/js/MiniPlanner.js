@@ -61,6 +61,15 @@ $(document).ready(function(){
 		$(this).toggleClass("active");
 	});
 	$("#dutyPickerModal .btn-success").on("click",function(){
+		if ($(".duty-picker.active").length) {
+			if ($(".duty-picking").html()!='&nbsp;') {
+				for (var scd=0;scd<simcoreDuties.length;scd++) if (simcoreDuties[scd].userID==document.cookie.match(/authAppUserID=(\d+)/)[1]&&simcoreDuties[scd].day==$(".duty-picking").attr("data-day")) simcoreDuties[scd].shiftID = $(".duty-picker.active").attr("data-shiftID");
+			} else {
+				simcoreDuties.push({userID:document.cookie.match(/authAppUserID=(\d+)/)[1],day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").attr("data-shiftID")});
+			}
+		} else {
+				for (var scd=0;scd<simcoreDuties.length;scd++) if (simcoreDuties[scd].userID==document.cookie.match(/authAppUserID=(\d+)/)[1]&&simcoreDuties[scd].day==$(".duty-picking").attr("data-day")) simcoreDuties.splice(scd,1);
+		}
 		$("#dutyPickerModal .btn-success").prop("disabled",true);
 		$.vPOST("/MUACSIM/tplanner/modules/Planner/server/quickaddshift.php",{day:$(".duty-picking").attr("data-day"),shiftID:$(".duty-picker.active").length?$(".duty-picker.active").attr("data-shiftID"):0},function(){
 			$("#dutyPickerModal .btn-success").prop("disabled",false);
