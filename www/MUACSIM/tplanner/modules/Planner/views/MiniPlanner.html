@@ -293,7 +293,7 @@ $("#team_SummaryTrigger").on("click",function(){
 							var l = '';
 							
 							if (ushift.shiftID == 14) {
-								if (y<9) l = ushift.dutyChange.split(';')[1];
+								if (y<9||y==ushift.userID) l = ushift.dutyChange.split(';')[1];
 							} else {
 								if (!ushift.dutyChange.length) {
 									l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
