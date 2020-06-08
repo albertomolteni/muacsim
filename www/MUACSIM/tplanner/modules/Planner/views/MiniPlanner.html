@@ -220,8 +220,10 @@ $("#pilotSummaryTrigger").on("click",function(){
 		var i = 0;
 		$("#pilotSummaryModal table tbody").html('');
 		response.map(function(u){
-			$("#pilotSummaryModal table tbody").append('<tr'+(i%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+u.pointsEvening/1).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
-			i++;
+			if (window.localStorage.getItem("exPilots").split(',').indexOf((u.userID-9)+'')<0) {
+				$("#pilotSummaryModal table tbody").append('<tr'+((i+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<i}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+u.pointsEvening/1).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
+				i++;
+			}
 		});
 	});
 });
