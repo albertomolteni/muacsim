@@ -39,7 +39,7 @@ function fillSimCoreRoster()
 
 function insertSimCoreRoster()
 {
-	var simcore = ['','BAS','FEDERICO','EMIL','VINCENT','MIKE','JEAN-PETER','ALBERTO','JEAN-YVES'];
+	var simcore = ['','BAS','FEDERICO','EMIL','CARLOS','MIKE','JEAN-PETER','ALBERTO','JEAN-YVES'];
 	var c_width = $(".fc-day-header").eq(0).width()+1;
 	var zzzzzzz = document.cookie.match(/authAppUserID=(\d+)/)[1];
 	for (var jj=0;jj<simcore.length;jj++) {
