@@ -15,11 +15,11 @@ function readTRGstate()
 							$("#simker0"+s).find("div").eq(3).html('initialising');
 							break;
 						case 'star':
-							$("#simker0"+s).find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+							$("#simker0"+s).find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 							$("#simker0"+s).find("div").eq(3).html('running&nbsp;&nbsp;'+o.speed+'x');
 							break;
 						case 'paus':
-							$("#simker0"+s).find("div").eq(1).html('<i class="fa fa-pause" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+							$("#simker0"+s).find("div").eq(1).html('<i class="fa fa-pause" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 							$("#simker0"+s).find("div").eq(3).html('paused');
 							break;
 						default:
@@ -46,14 +46,14 @@ $(document).ready(function(){
 	$("body").on("dblclick",".fa-play",function(){
 			var $t = $(this).parent().parent().parent();
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'pause'},function(){});
-			$t.find("div").eq(1).html('<i class="fa fa-pause" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+			$t.find("div").eq(1).html('<i class="fa fa-pause" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 			$t.find("div").eq(3).html('paused');
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 	});
 	$("body").on("dblclick",".fa-pause",function(){
 			var $t = $(this).parent().parent().parent();
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'speed100'},function(){});
-			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 			$t.find("div").eq(3).html('running&nbsp;&nbsp;1x');
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 	});
@@ -61,13 +61,13 @@ $(document).ready(function(){
 		if ($(this).parent().parent().parent().find("div").eq(3).html().match(/1x$/)) {
 			var $t = $(this).parent().parent().parent();
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'speed800'},function(){});
-			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 			$t.find("div").eq(3).html('running&nbsp;&nbsp;8x');
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 		} else {
 			var $t = $(this).parent().parent().parent();
 			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/TRGsendXml.php",{s:$t.attr("id").substring(6).replace(/_/,'.'),c:'speed100'},function(){});
-			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" style="cursor:pointer"></i>');
+			$t.find("div").eq(1).html('<i class="fa fa-play" oncontextmenu="console.log(1)" ondblclick="console.log(1)" style="cursor:pointer"></i>');
 			$t.find("div").eq(3).html('running&nbsp;&nbsp;1x');
 			dr[$t.attr("id").substring(7).replace(/_/,'.')] = 1;
 		}
