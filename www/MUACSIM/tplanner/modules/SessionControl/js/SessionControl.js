@@ -1,4 +1,4 @@
-fastLogins = {bbrands:"1,manager",fpetrocc:"2,manager",jkarlsso:"3,manager",cmoreno:"4,manager",amolteni:"7,manager",jsaibou:"8,manager",avaesen:"9,pilot",sotte:"10,pilot",ddeuss:"11,pilot",bvdveeke:"12,pilot",aleander:"13,pilot",kmotmans:"14,pilot",dkoene:"15,pilot",wstevens:"16,pilot",feijnde:"17,pilot",rnijssen:"18,pilot",sritzen:"19,pilot",khaagman:"20,pilot",ggerrits:"21,pilot",mbeulen:"22,pilot",jwijnhol:"23,pilot",acremers:"24,pilot",jadams:"6,manager",kaalten:"26,pilot",therberi:"27,pilot",rvstaver:"28,pilot",rvdkar:"29,pilot",switberg:"30,pilot",mshaheen:"31,pilot",jarpot:"34,pilot",cmajoor:"35,pilot",tcommand:"36,pilot",jvissers:"37,pilot",svbuuren:"38,pilot",dstoimen:"39,pilot",cgrew:"40,pilot",mvdrunen:"5,manager",mdmesmae:"42,pilot",nkehr:"43,pilot",tboegle:"44,pilot",jmustapa:"45,pilot",amohyla:"46,pilot",avdamme:"47,pilot",lgundela:"48,pilot",sjegelev:"49,pilot",cjohnson:"50,pilot",fmeister:"51,pilot"};
+fastLogins = {bbrands:"1,manager",fpetrocc:"2,manager",jkarlsso:"3,manager",cmoreno:"4,manager",mvdrunen:"5,manager",jadams:"6,manager",amolteni:"7,manager",jsaibou:"8,manager"};
 
 function enableFingerprintAuth()
 {
@@ -39,6 +39,7 @@ function readLoginResult()
 				$("#loginButton").prop("disabled",false);
 				alert('Sorry, wrong username or password.');
 			} else {
+				if (typeof(fastLogins[$("#username").val()])=='undefined') fastLogins[$("#username").val()]=(resp-1)+',pilot';
 				if (navigator.userAgent.match(/i(Phone|Pad)/)) {
 					window.plugins.touchid.isAvailable(function(){$("#fastLoginModal").modal("show")},function(){setCookieAndRedirect(fastLogins[$("#username").val()])});
 				} else {
