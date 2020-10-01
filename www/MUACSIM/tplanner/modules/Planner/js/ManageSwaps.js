@@ -111,10 +111,28 @@ $(document).ready(function(){
 					});
 					$("div[data="+swap.dutyswapID+"] .partner-view[data="+event.type.substring(16).split(',')[1]+"] .swappable").unbind();
 					days_done['swap'+swap.dutyswapID]++;
-					if (days_done['swap'+swap.dutyswapID] == days['swap'+swap.dutyswapID].length) $("div[data="+swap.dutyswapID+"] .input-group").each(function(){
-						$(this).replaceWith('<div style="text-align:center;font-size:20px;">'+friendlyDate(new Date($(this).find("input").val().substring(6,10)/1,$(this).find("input").val().substring(3,5)-1,$(this).find("input").val().substring(0,2)/1,8,0,0))+'</div>');
-						if (!$(".input-group").length) $("#loadingOverlay").remove();
-					});
+					if (days_done['swap'+swap.dutyswapID] == days['swap'+swap.dutyswapID].length) {
+						$("div[data="+swap.dutyswapID+"] .input-group").each(function(){
+							$(this).replaceWith('<div style="text-align:center;font-size:20px;">'+friendlyDate(new Date($(this).find("input").val().substring(6,10)/1,$(this).find("input").val().substring(3,5)-1,$(this).find("input").val().substring(0,2)/1,8,0,0))+'</div>');
+							if (!$(".input-group").length) $("#loadingOverlay").remove();
+						});
+						$("div[data="+swap.dutyswapID+"] .partner-view").each(function(){
+							pilotModeA = 0;
+							if ($(this).find(".col-sm-5").eq(0).find(".swappable").length) {
+								pilotModeA = 1;
+								if ($(this).find(".col-sm-5").eq(0).find(".swappable").filter(function(){return $(this).html().match(/\[REMOTE\]/)}).length) pilotModeA = 2;
+							}
+							pilotModeB = 0;
+							if ($(this).find(".col-sm-5").eq(1).find(".swappable").length) {
+								pilotModeB = 1;
+								if ($(this).find(".col-sm-5").eq(1).find(".swappable").filter(function(){return $(this).html().match(/\[REMOTE\]/)}).length) pilotModeB = 2;
+							}
+							if (pilotModeA+pilotModeB==3) {
+								$("div[data="+swap.dutyswapID+"] .btn-success").css("opacity",.1);
+								$("div[data="+swap.dutyswapID+"] .btn-success").before('<div class="alert alert-warning">You should not approve a mix of in-house and remote!</div>');
+							}
+						});
+					}
 				});
 				readSwapPartnerDuties(swap.dutyswapID,i,swap.requesting,swap.target);
 			});
