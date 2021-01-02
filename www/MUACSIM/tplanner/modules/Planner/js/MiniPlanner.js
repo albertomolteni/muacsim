@@ -46,7 +46,7 @@ function insertSimCoreRoster()
 		if (simcore[jj].length) {
 			$(".fc-time-grid .fc-slats tbody").append('<tr><td class="fc-axis fc-time fc-widget-content" style="font-size:0.5em;font-style:italic;"><span>'+simcore[jj]+'</span></td><td class="fc-widget-content"></td></tr>');
 			for (var ii=0;ii<3;ii++) $(".fc-widget-content").last().append('<div class="simcore-roster" data-userID="'+jj+'" data-day="'+$(".fc-day-header").eq(ii).attr("data-date")+'" style="display:inline-block;width:'+(ii?c_width+1:c_width)+'px;text-align:center;">&nbsp;</div>');
-			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("contextmenu",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/&nbsp;/,'o')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
+			if (jj==zzzzzzz) $(".simcore-roster[data-userID="+jj+"]").on("long-press",function(){$(".duty-picking").removeClass("duty-picking");$(this).addClass("duty-picking");$("#dutyPickerModal .duty-picker").removeClass("active");$("#dutyPickerModal .duty-picker[data-tag="+$(this).html().replace(/&nbsp;/,'o')+"]").addClass("active");$("#dutyPickerModal").modal("show")});
 		}
 	}
 	$(".fc-scroller").css("height",(22*$(".fc-slats tr").last().height()+8)+"px");
@@ -135,7 +135,7 @@ $(document).ready(function(){
 		$(".fc-toolbar h2").css("font-size","1rem").css("margin-bottom","0.8rem").css("margin-top","0.5rem");
 		$(".fc-toolbar button").css("font-size","0.9em");
 		$("head").append("<style>.fc-month-view .fc-time{display:none}.fc-day-grid-event{text-align:center}.fc-agenda-view .fc-day-header span{font-size:0.8em}.fc button .fc-icon{top:0.1em!important}</style>");
-		$(".fc-view-container").on("contextmenu",".fc-v-event",function(){
+		$(".fc-view-container").on("long-press",".fc-v-event",function(){
 			$("#getInfoModal .modal-body").html('');
 			$("#getInfoModal .modal-title").html($(this).find(".fc-title").html());
 			$("#getInfoModal").modal("show");
