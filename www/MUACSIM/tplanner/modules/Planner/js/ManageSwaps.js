@@ -116,7 +116,7 @@ $(document).ready(function(){
 							$(this).replaceWith('<div style="text-align:center;font-size:20px;">'+friendlyDate(new Date($(this).find("input").val().substring(6,10)/1,$(this).find("input").val().substring(3,5)-1,$(this).find("input").val().substring(0,2)/1,8,0,0))+'</div>');
 							if (!$(".input-group").length) $("#loadingOverlay").remove();
 						});
-						$("div[data="+swap.dutyswapID+"] .partner-view").each(function(){
+					/*	$("div[data="+swap.dutyswapID+"] .partner-view").each(function(){
 							pilotModeA = 0;
 							if ($(this).find(".col-sm-5").eq(0).find(".swappable").length) {
 								pilotModeA = 1;
@@ -131,7 +131,7 @@ $(document).ready(function(){
 								$("div[data="+swap.dutyswapID+"] .btn-success").css("opacity",.1);
 								$("div[data="+swap.dutyswapID+"] .btn-success").before('<div class="alert alert-warning">You should not approve a mix of in-house and remote!</div>');
 							}
-						});
+						});*/
 					}
 				});
 				readSwapPartnerDuties(swap.dutyswapID,i,swap.requesting,swap.target);
