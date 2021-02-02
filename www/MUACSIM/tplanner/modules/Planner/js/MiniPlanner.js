@@ -18,7 +18,7 @@ function showwx()
 	$(".fc-day-grid .fc-day").not(".fc-past").each(function(){
 		for (var wxi=0;wxi<wx.list.length;wxi++) {
 			if (wx.list[wxi].dt_txt == $(this).attr("data-date")+' 09:00:00') {
-				$(this).html('<div style="text-align:right;padding:10% 15%;background-position:30% center;background-repeat:no-repeat;background-image:url(../../../img/'+wx.list[wxi].weather[0].icon+'@2x.png);background-size:contain;height:80%;font-size:11px;">'+Math.round(wx.list[wxi].main.temp-273.15)+'&#176;</div>');
+				$(this).html('<div style="text-align:right;padding:10% 15%;background-position:30% center;background-repeat:no-repeat;background-image:url(../../../img/'+wx.list[wxi].weather[0].icon+'@2x.png);background-size:contain;height:65%;font-size:11px;">'+Math.round(wx.list[wxi].main.temp-273.15)+'&#176;</div>');
 				break;
 			}
 		}
