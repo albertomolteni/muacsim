@@ -1,4 +1,4 @@
-fastLogins = {bbrands:"1,manager",fpetrocc:"2,manager",jkarlsso:"3,manager",cmoreno:"4,manager",mvdrunen:"5,manager",jadams:"6,manager",fdecock:"7,manager",jsaibou:"8,manager",amolteni:"58,manager"};
+fastLogins = {bbrands:"1,manager",fpetrocc:"2,manager",jkarlsso:"3,manager",cmoreno:"4,manager",mvdrunen:"5,manager",jadams:"6,manager",fdcock:"7,manager",jsaibou:"8,manager",amolteni:"58,manager"};
 
 function enableFingerprintAuth()
 {
