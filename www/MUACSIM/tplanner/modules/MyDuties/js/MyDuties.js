@@ -326,7 +326,7 @@ $(document).ready(function(){
 		$("#calendar1").fullCalendar({
 			events              : ev2,
 			selectable          : false,
-			eventClick          : function(calEvent){showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
+			eventClick          : function(calEvent){if(calEvent.className!='holiday'||!userIsPilot)showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
 			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if($(".fc-month-button").hasClass("fc-state-active")){$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")}else{$(".fc-scroller").css("height","55vh")}},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',
