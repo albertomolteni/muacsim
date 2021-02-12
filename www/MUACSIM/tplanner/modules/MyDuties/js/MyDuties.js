@@ -203,9 +203,8 @@ function showSwapDetails(dutyswapID,requester,requesterID,json,comments)
 }
 
 $(document).ready(function(){
-	if (document.cookie.match(/authAppUserID=(1|58);/))      $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
-	if (document.cookie.match(/authAppUserID=58;/))          $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
-	if (document.cookie.match(/authAppUserID=[1-8](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
+	if (document.cookie.match(/authAppUserID=(1|9);/))       $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
+	if (document.cookie.match(/authAppUserID=[1-9](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
 	if (window.localStorage.getItem("localCacheLastModified")==="0") window.localStorage.removeItem("localCacheLastModified");
 	$("img").first().on("click",function(){$("#aboutModal").modal("show")});
 	rpdo  = new Date(window.localStorage.getItem("rosterPublished")/1);
@@ -309,7 +308,7 @@ $(document).ready(function(){
 			a.start     = a.day + 'T' + a.t_from;
 			a.end       = a.day + 'T' + a.t_to;
 			a.color     = '#fea';
-			if (a.name.match(/^C(S|P)?$/)) {
+			if (a.name.match(/^(C|CS|CP|P)$/)) {
 				a.color     = '#def';
 				a.className = 'holiday';
 			} else {
@@ -327,7 +326,7 @@ $(document).ready(function(){
 		$("#calendar1").fullCalendar({
 			events              : ev2,
 			selectable          : false,
-			eventClick          : function(calEvent){if(calEvent.className!='holiday')showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
+			eventClick          : function(calEvent){showDutyDetails(calEvent.day,$(".calendar-row[data="+calEvent.day+"]").find(".swapInProgress").length)},
 			viewRender          : function(){setTimeout(function(){knownHolidays_dates.map(function(khd){$(".fc-bg .fc-day[data-date="+khd+"]").addClass("fc-sun")});if($(".fc-month-button").hasClass("fc-state-active")){$(".fc-scroller").css("height",$(".fc-day-grid").height()+"px")}else{$(".fc-scroller").css("height","55vh")}},200)},
 			timeFormat          : 'HH:mm',
 			defaultView         : 'month',
@@ -385,9 +384,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9g'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9h'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9g'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9h'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
