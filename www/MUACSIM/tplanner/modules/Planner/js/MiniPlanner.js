@@ -18,7 +18,7 @@ function showwx()
 	$(".fc-day-grid .fc-day").not(".fc-past").each(function(){
 		for (var wxi=0;wxi<wx.list.length;wxi++) {
 			if (wx.list[wxi].dt_txt == $(this).attr("data-date")+' 09:00:00') {
-				$(this).html('<div style="text-align:right;background-position:30% center;background-repeat:no-repeat;background-image:url(../../../img/'+wx.list[wxi].weather[0].icon+'@2x.png);background-size:contain;'+(navigator.userAgent.match(/i(Phone|Pad)/)?'padding:10% 15% 0;height:100%;':'padding:15% 15% 0;height:80%;margin-top:-5%;')+'font-size:11px;">'+Math.round(wx.list[wxi].main.temp-273.15)+'&#176;</div>');
+				$(this).html('<div style="text-align:right;background-position:30% center;background-repeat:no-repeat;background-image:url(../../../img/'+wx.list[wxi].weather[0].icon+'@2x.png);background-size:contain;padding:15% 15% 0;height:80%;margin-top:-4%;font-size:11px;">'+Math.round(wx.list[wxi].main.temp-273.15)+'&#176;</div>');
 				break;
 			}
 		}
@@ -152,9 +152,9 @@ $(document).ready(function(){
 		pn = PushNotification.init({android:{senderID:"690910508250"},browser:{},ios:{alert:true,badge:true,sound:true},windows:{}});
 		pn.on("registration",function(data){
 			if (navigator.userAgent.match(/i(Phone|Pad)/)) {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9g'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveAPNS.php",{apnsID:data.registrationId,appVersion:'1.5.9h'},function(){});
 			} else {
-				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9g'},function(){});
+				$.vPOST("/MUACSIM/tplanner/modules/MyDuties/server/saveFCM.php", { fcmID:data.registrationId,appVersion:'1.5.9h'},function(){});
 			}
 		});
 		pn.on("notification",function(data){
