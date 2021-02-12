@@ -54,8 +54,8 @@ function insertSimCoreRoster()
 }
 
 $(document).ready(function(){
-	if (document.cookie.match(/authAppUserID=(1|58);/))      $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
-	if (document.cookie.match(/authAppUserID=[1-8](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
+	if (document.cookie.match(/authAppUserID=(1|9);/))       $(".nav-item:first").after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/ManageSwaps.html">Manage swaps</a></li>');
+	if (document.cookie.match(/authAppUserID=[1-9](?!\d)/))  $(".nav-item:last" ).after('<li class="nav-item"><a class="nav-link" style="padding:0.5em 2em;" href="../../Planner/views/SimRemoteControl.html">TRG remote control</a></li>');
 	$("#dutyPickerModal .duty-picker").on("click",function(){
 		$("#dutyPickerModal .duty-picker").not(this).removeClass("active");
 		$(this).toggleClass("active");
