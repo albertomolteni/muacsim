@@ -265,11 +265,10 @@ $("#pilotSummaryTrigger").on("click",function(){
 		});
 	});
 });
-$.vPOST("/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),null,function(o){
+$.getJSON("https://muacsim.nl/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),function(o){
 	$("#carouselLegend").html(atob(o.legend));
 	$(".carousel-inner").html(atob(o.grid));
 	$("#pilotSummaryModal table tbody").html(atob(o.phours));
-	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-"+document.cookie.match(/authAppUserID=(\d+)/)[1]).html("");
 	$(".carousel-item").first().addClass("active");
 	$("#team_SummaryTrigger").on("click",function(){
 		$("#team_SummaryModal").modal("show");
@@ -278,6 +277,7 @@ $.vPOST("/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),null,function(o){
 			$("#team_SummaryModal").scrollTop(40);
 		},400);
 	});
+	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-"+document.cookie.match(/authAppUserID=(\d+)/)[1]).html("");
 });
 </script>
 </div></div></body></html>
