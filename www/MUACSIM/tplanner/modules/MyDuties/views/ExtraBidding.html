@@ -94,111 +94,26 @@
 $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
 	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
-		var response = $.parseJSON(resp);
-		var i = 0;
-		$("#pilotSummaryModal table tbody").html('');
-		response.map(function(u){
-			if (window.localStorage.getItem("exPilots").split(',').indexOf((u.userID-9)+'')<0) {
-				$("#pilotSummaryModal table tbody").append('<tr'+((i+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<i}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+u.pointsEvening/1).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
-			}
-			i++;
+		$.parseJSON(resp).map(function(u){
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(0).html(u.minutesWorked.reduce(function(a,b){return a+b},0)/60);
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(1).html(u.pointsSince2014);
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(2).html(u.miles);
 		});
 	});
 });
-
-rp__sd = new Date(window.localStorage.getItem("rosterPublished")/1);
-var bd = new Date();
-while (bd.getDay()!=1) bd.setDate(bd.getDate()-1);
-maxPilots = 55;
-var _html = '';
-
-while (bd<rp__sd) {
-	$(".carousel-inner").append('<div class="carousel-item"><table style="background:white;border-bottom:1px solid #666;width:100%;"><tbody></tbody></table></div>');
-	
-	_html = '<tr>';
-	for (var j=0;j<7;j++) {
-		_html = _html.concat('<td style="border:1px solid #666;text-align:center;background:#ccc;font-size:10px;">'+bd.toISOString().substring(8,10)+'<br>'+bd.toDateString().substring(4,7).toUpperCase()+'</td>');
-		bd.setDate(bd.getDate()+1);
-	}
-	_html = _html.concat('</tr>');
-	bd.setDate(bd.getDate()-7);
-	
-	for (var i=0;i<=maxPilots;i++) {
-		if (window.localStorage.getItem("exPilots").split(',').indexOf(i+'')<0) {
-			_html = _html.concat('<tr data-userID="'+(i+9)+'"'+((i+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<i}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'>');
-			for (var j=0;j<7;j++) {
-				_html = _html.concat('<td data-day="'+bd.toISOString().substring(0,10)+'" style="border:1px solid #666;text-align:center;">'+(i-maxPilots?'&nbsp;':'xiiix')+'</td>');
-				bd.setDate(bd.getDate()+1);
-			}
-			_html = _html.concat('</tr>');
-			bd.setDate(bd.getDate()-7);
-		}
-	}
-	
-	$(".carousel-item table tbody").last().append(_html);
-	$(".carousel-item table tbody tr").last().css("visibility","hidden");
-	bd.setDate(bd.getDate()+7);
-}
-
-$("#team_SummaryTrigger").on("click",function(){
-	$(".carousel-item").removeClass("active");
-	$(".carousel-item .highlight").removeClass("highlight");
-	if ($(".input-group.date").length && $(".input-group.date input").last().val()) {
-		$("td[data-day="+$(".input-group.date input").last().val().replace(/(\d{2})-(\d{2})-(\d{4})/,'$3-$2-$1')+"]").addClass("highlight");
-		$("td[data-day="+$(".input-group.date input").last().val().replace(/(\d{2})-(\d{2})-(\d{4})/,'$3-$2-$1')+"]").first().parent().parent().parent().parent().addClass("active");
-	} else {
-		$(".carousel-item").first().addClass("active");
-	}
-	
-	$("#team_SummaryModal").modal("show");
-	setTimeout(function(){$("#team_SummaryModal").scrollTop(40)},400);
-	
-	if (!$("#carouselLegend").html()) {
-		$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
-			var response = $.parseJSON(resp);
-			$("#carouselLegend").html('<tr><td style="border-top:1px solid #666;font-size:10px;">&nbsp;<br>&nbsp;</td></tr>');
-			for (var u=0;u<response.length;u++) {
-				if (window.localStorage.getItem("exPilots").split(',').indexOf((response[u].userID-9)+'')<0) {
-					$("#carouselLegend").append('<tr'+((u+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<u}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'><td style="border-top:1px solid #666;white-space:nowrap;">'+response[u].surname+'</td></tr>');
-				}
-			}
-			$(".carousel-item tbody").each(function(){$(this).find("tr:not(:last-child):gt("+$("#carouselLegend tr:not(:first)").length+")").remove()});
-			$.vPOST("/MUACSIM/tplanner/modules/Planner/server/readUserShifts.php",null,function(resp){
-				var ushifts = $.parseJSON(resp);
-				var  shifts = ['','','','sR','sm','s','sa','lm','la','C','P','CP','CS','AM','m','a','X'];
-				var       y = document.cookie.match(/authAppUserID=(\d+)/)[1];
-				ushifts.map(function(ushift){
-					if (ushift.day <= rp__sd.toISOString().substring(0,10)) {
-						try {
-							var l = '';
-							
-							if (ushift.shiftID == 14) {
-								if (y<9||y==ushift.userID) l = ushift.dutyChange.split(';')[1];
-							} else {
-								if (!ushift.dutyChange.length) {
-									l = shifts[ushift.shiftID-1].replace(/^C$/,'c').replace(/^CP$/,'cp').replace(/^CS$/,'cs');
-								} else {
-									if (ushift.dutyChange.split(';')[1].length) {
-										l = 'd' + shifts[ushift.shiftID-1];
-									} else {
-										l = 'E' + shifts[ushift.shiftID-1];
-									}
-								}
-							}
-							
-							$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html(l);
-							
-							if (ushift.shiftID <  14  &&  ushift.shiftID > 9) $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","red" ).css("font-weight","bold");
-							if (ushift.shiftID == 14)                         $("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").css("color","blue").css("font-weight","bold");
-						} catch(e) {
-							$("tr[data-userID="+ushift.userID+"] td[data-day="+ushift.day+"]").html('?');
-						}
-					}
-				});
-				setTimeout(function(){$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1)},500);
-			});
-		});
-	}
+$.getJSON("https://muacsim.nl/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),function(o){
+	$("#carouselLegend").html(atob(o.legend));
+	$(".carousel-inner").html(atob(o.grid));
+	$("#pilotSummaryModal table tbody").html(atob(o.phours));
+	$(".carousel-item").first().addClass("active");
+	$("#team_SummaryTrigger").on("click",function(){
+		$("#team_SummaryModal").modal("show");
+		setTimeout(function(){
+			$("#carouselLegend td").first().height($(".carousel-item.active td").first().height()+1);
+			$("#team_SummaryModal").scrollTop(40);
+		},400);
+	});
+	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-"+document.cookie.match(/authAppUserID=(\d+)/)[1]).html("");
 });
 </script>
 </div></div></body></html>
