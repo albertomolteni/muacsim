@@ -265,8 +265,7 @@ $("#pilotSummaryTrigger").on("click",function(){
 		});
 	});
 });
-$.vPOST("/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),null,function(resp){
-	var o=$.parseJSON(resp);
+$.vPOST("/MUACSIM/tplanner/rgrid.json?nocache="+Date.now(),null,function(o){
 	$("#carouselLegend").html(atob(o.legend));
 	$(".carousel-inner").html(atob(o.grid));
 	$("#pilotSummaryModal table tbody").html(atob(o.phours));
