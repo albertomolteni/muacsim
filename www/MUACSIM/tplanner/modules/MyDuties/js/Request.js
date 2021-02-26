@@ -83,7 +83,7 @@ $(document).ready(function(){
 		format                : "dd-mm-yyyy",
 		daysOfWeekHighlighted : "0",
 		startDate             : "today",
-		endDate               : "31-12-2021"
+		endDate               : "31-12-2022"
 	});
 	
 	$("#frequency").on("change",function(){
