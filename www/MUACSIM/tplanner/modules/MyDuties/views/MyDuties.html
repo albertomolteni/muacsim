@@ -258,14 +258,10 @@ $.getJSON("https://muacsim.nl/MUACSIM/tplanner/modules/MyDuties/server/menu2json
 $("#pilotSummaryTrigger").on("click",function(){
 	$("#pilotSummaryModal").modal("show");
 	$.vPOST("/MUACSIM/tplanner/modules/ManageUsers/server/readPilotTotalHours.php",null,function(resp){
-		var response = $.parseJSON(resp);
-		var i = 0;
-		$("#pilotSummaryModal table tbody").html('');
-		response.map(function(u){
-			if (window.localStorage.getItem("exPilots").split(',').indexOf((u.userID-9)+'')<0) {
-				$("#pilotSummaryModal table tbody").append('<tr'+((i+window.localStorage.getItem("exPilots").split(',').map(function(x){return x<i}).reduce(function(a,b){return a+b},0))%2?' style="background:#eee;"':'')+'><th>'+u.surname+'</th><td>'+(u.minutesWorked.reduce(function(a,b){return a+b},0)/60)+'</td><td>'+(u.pointsWeekend/1+u.pointsEvening/1).toFixed(2)+'</td><td>'+u.miles+'</td></tr>');
-			}
-			i++;
+		$.parseJSON(resp).map(function(u){
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(0).html(u.minutesWorked.reduce(function(a,b){return a+b},0)/60);
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(1).html(u.pointsSince2014);
+			$("#pilotSummaryModal table tr[data="+u.userID+"] td").eq(2).html(u.miles);
 		});
 	});
 });
@@ -273,7 +269,8 @@ $.vPOST("/MUACSIM/tplanner/rgrid.json",null,function(resp){
 	var o=$.parseJSON(resp);
 	$("#carouselLegend").html(atob(o.legend));
 	$(".carousel-inner").html(atob(o.grid));
-	$(".hide-sick").not(".hide-sick-<?php echo(isset($_SESSION['userID'])?$_SESSION['userID']:0)?>").html("");
+	$("#pilotSummaryModal table tbody").html(atob(o.phours));
+	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-<?php echo(isset($_SESSION['userID'])?$_SESSION['userID']:0)?>").html("");
 	$(".carousel-item").first().addClass("active");
 	$("#team_SummaryTrigger").on("click",function(){
 		$("#team_SummaryModal").modal("show");
