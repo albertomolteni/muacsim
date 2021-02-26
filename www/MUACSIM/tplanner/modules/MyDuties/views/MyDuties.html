@@ -270,7 +270,7 @@ $.vPOST("/MUACSIM/tplanner/rgrid.json",null,function(resp){
 	$("#carouselLegend").html(atob(o.legend));
 	$(".carousel-inner").html(atob(o.grid));
 	$("#pilotSummaryModal table tbody").html(atob(o.phours));
-	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-<?php echo(isset($_SESSION['userID'])?$_SESSION['userID']:0)?>").html("");
+	if(document.cookie.match(/authAppUserID=\d\d/))$(".hide-sick").not(".hide-sick-"+document.cookie.match(/authAppUserID=(\d+)/)[1]).html("");
 	$(".carousel-item").first().addClass("active");
 	$("#team_SummaryTrigger").on("click",function(){
 		$("#team_SummaryModal").modal("show");
